@@ -1,0 +1,47 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1.05in]{geometry}
+\usepackage[hidelinks]{hyperref}
+
+\title{Stage 3 Proposal: A Constructed Regime-Switching Task\\
+\large Vanilla Policy versus Oracle-Signaled Policy on a Task We Control}
+\author{Aryan Goyal}
+\date{July 22, 2026}
+
+\begin{document}
+\maketitle
+
+\noindent
+Stage 2 tests the chunk-length switch on natural long-horizon tasks, but it
+cannot control how much of each episode is stable transport and how much is
+unstable contact, and that mix is exactly what decides how much room the
+switch has to win. Stage 3 removes that limitation by constructing the task
+ourselves: a repeated transport-and-insert task in robosuite, with $N$ pegs
+or sockets spaced far apart on a large table, so that each cycle is a long
+free-space transport (open-loop stable, wants a long chunk) followed by a
+tight insertion (open-loop unstable, wants per-step feedback), repeated $N$
+times. The two quantities the theory cares about become experimental knobs:
+the number of regime alternations $N$ (swept over 1, 2, 4) and the ratio of
+stable to unstable segment length (set by peg spacing and insertion
+tolerance). The prediction is specific: the gap between the oracle-switched
+policy and the best fixed chunk length should grow with $N$, because every
+added alternation forces any fixed $k$ into one more compromise. The
+comparison is vanilla policy at its best fixed $k$ (found by a full sweep,
+same protocol as Stage 1a, never a strawman) against the same policy with
+oracle switching, and then with predictor switching. Because we define the
+task, the regime boundaries are known by construction, which gives three
+things the earlier stages had to pay heavily for: a perfect and free oracle
+signal (no perturbation labeling), a ground-truth check of the perturbation
+labeler (the measured $\lambda$ bands should line up with the designed
+segment boundaries), and clean predictor training labels. Demonstrations
+come from MimicGen: author the task, record about ten source demonstrations,
+and generate one thousand automatically; the estimated cost is one to two
+days of task authoring plus a few GPU-days of generation and training per
+$N$. The known weakness is that a bespoke task invites the criticism that it
+was engineered for the method to win, so Stage 3 is positioned as the
+mechanism experiment that explains and quantifies the effect, while Stage 2
+remains the naturalistic evidence; the pairing is stronger than either
+alone. Stage 3 starts after the Stage 2 results are in, since those results
+determine whether it quantifies how the win scales or diagnoses which
+regime mix the hypothesis needs.
+
+\end{document}
