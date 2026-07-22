@@ -8,7 +8,7 @@
 \title{Stage 2: Long-Horizon MimicGen Tasks\\
 \large Why These Tasks, the Two-Simulator Problem, the Training Setup, and Current Status}
 \author{Aryan Goyal}
-\date{July 20, 2026}
+\date{July 20, 2026 (updated July 22)}
 
 \begin{document}
 \maketitle
@@ -27,8 +27,9 @@ fixed-$k$ versus predictor-switch comparison as Stage 1c. This document records
 the design decisions, the two-simulator version problem and how it was solved,
 the exact conversion and training pipeline, the status log (including the
 July 21 scratch-disk event that killed the first training runs at 80 to 86
-percent, what survived, and the restart), and the open decisions for the
-evaluation phase.
+percent, the relaunch fault that then deleted the surviving checkpoints, and
+the hardened restart that now carries the pipeline), and the open decisions
+for the evaluation phase.
 \end{abstract}
 
 \tableofcontents
@@ -320,7 +321,7 @@ tasks, so the rollout comparison itself remains the real test. Relabeling
 stays available as the follow-up if the zero-shot switch underperforms.
 
 %=====================================================================
-\section{Status as of July 20, 2026}
+\section{Status log, July 20 to 22, 2026}
 \label{sec:status}
 
 \begin{itemize}[leftmargin=2em]
@@ -410,6 +411,39 @@ than serialize them.
         than a day despite the incident.
 \end{itemize}
 
+\subsection{July 21, afternoon: the relaunch destroyed the surviving
+checkpoints}
+\label{sec:incident2}
+
+The parallel-tracks plan failed in its first hour, through the relaunch
+script rather than the disk. robomimic's training entry point prompts for
+confirmation when its experiment directory already exists, and answering yes
+makes it delete that directory, checkpoints included. The relaunch command
+piped an automatic yes into that prompt. The result: the surviving checkpoint
+grids for all four tasks (epochs up to 1,700 / 1,650 / 1,600 / 1,550) were
+deleted at relaunch, and the checkpoint selection pass that then ran found no
+checkpoint files and completed vacuously. The loss is permanent, because the
+same-day document backup had deliberately excluded the training outputs for
+size.
+
+The fresh 2,000-epoch reruns, launched 13:39 to 14:19 UTC on the same
+datasets and configs, went from completion insurance to the pipeline itself.
+Three process changes came out of the failure. First, the launch script now
+refuses to start a training when the experiment directory exists, instead of
+answering the overwrite prompt; a human has to delete the directory
+deliberately. Second, checkpoint selection was rewritten to wait for each
+training to report success and then copy that task's full checkpoint grid to
+the OS disk before evaluating anything, so no future fault can destroy the
+only copy. Third, the vacuous selection marker was cleared so the automatic
+shutdown watchdog (armed at the user's request) cannot fire on it.
+
+Net cost of the second incident: about one day. As of 06:30 UTC July 22 the
+four fresh runs are healthy at epochs 1,425 to 1,643 of 2,000, on pace to
+finish between roughly 10:00 and 13:00 UTC. Selection (epochs 600, 1,000,
+1,400, 1,700, 2,000 per task, 25 episodes each) starts per task as its
+training lands, and the switch-versus-fixed-$k$ experiment follows on the
+selected checkpoints.
+
 %=====================================================================
 \section{Risks and open items}
 \label{sec:risks}
@@ -452,12 +486,14 @@ The two-simulator conflict between MimicGen (robosuite 1.4, no Diffusion
 Policy) and our training stack (robosuite 1.5) is solved by a strict
 conversion-in-mg, training-in-lh split, at the cost of moving all evaluation
 post hoc. The first training runs were killed at 80 to 86 percent by the
-July 21 scratch-disk event (Section \ref{sec:incident}); their surviving
-checkpoint grids end at epochs 1,550 to 1,700, past the quality plateau, so
-checkpoint selection runs on those while fresh full-length reruns provide
-completion insurance in parallel. The evaluation bridge is built and
-smoke-tested, the zero-shot decision for the predictor head is taken, and the
-remaining sequence is: selection (evening of July 21), then the fixed-$k$
-sweep plus predictor cells (July 22).
+July 21 scratch-disk event (Section \ref{sec:incident}), and the surviving
+checkpoint grids were then deleted by a fault in the relaunch script itself
+(Section \ref{sec:incident2}), so the fresh full-length reruns launched on
+July 21 now carry the whole pipeline. They are healthy and finish around
+midday July 22 UTC. The evaluation bridge is built and smoke-tested, the
+zero-shot decision for the predictor head is taken, and the remaining
+sequence is: per-task checkpoint backup and selection as each training
+finishes (July 22), then the fixed-$k$ sweep plus predictor cells (July 22
+to 23), then automatic shutdown.
 
 \end{document}

@@ -14,7 +14,7 @@
 \title{Segment-Dependent Action Chunk Length via a Video Stability Predictor\\
 \large Complete Implementation Document, v0.2}
 \author{Aryan Goyal}
-\date{July 2026 (status and results section added July 20)}
+\date{July 2026 (status and results updated July 22)}
 
 \begin{document}
 \maketitle
@@ -675,7 +675,7 @@ wall-clock.
 \end{itemize}
 
 %=====================================================================
-\section{Status and results as of July 20, 2026}
+\section{Status and results as of July 22, 2026}
 \label{sec:status}
 
 This plan was written before execution. Everything through Stage 1 has now run,
@@ -775,14 +775,19 @@ nut\_assembly, kitchen, coffee\_preparation, D0, 1{,}000 demonstrations each,
 mean episode lengths 337 to 689 steps), followed by the same fixed-$k$ versus
 predictor-switch comparison. The first training runs were killed at 80 to 86
 percent of their 2,000-epoch budget by a scratch-disk failure early on
-July 21; checkpoints saved every 50 epochs to persistent storage, so
-selection proceeds on the surviving grids (which end past the quality
-plateau) while fresh full-length reruns provide insurance in parallel. The
-experiment timeline moved by less than a day: checkpoint selection the
-evening of July 21, the switch-versus-fixed-$k$ rollouts on July 22. The
-design, the simulator version conflict that shapes the infrastructure, the
-disk incident, and the zero-shot decision for the head are documented in the
-Stage 2 companion document.
+July 21, and the surviving checkpoint grids were then deleted by a fault in
+the relaunch script, which auto-answered robomimic's overwrite prompt. The
+fresh full-length reruns launched that afternoon therefore carry the whole
+pipeline; as of the morning of July 22 they are healthy at epochs 1,425 to
+1,643 of 2,000 and finish around midday UTC. The launch script now refuses
+to start over an existing experiment directory, and checkpoint selection
+backs up each grid to a second disk before evaluating it. Total slip from
+both incidents: about one day. Remaining sequence: per-task checkpoint
+selection as trainings finish (July 22), the switch-versus-fixed-$k$
+rollouts (July 22 to 23), then automatic shutdown. The design, the simulator
+version conflict that shapes the infrastructure, both incidents, and the
+zero-shot decision for the head are documented in the Stage 2 companion
+document.
 
 \subsection{Deviations and still-open items}
 
