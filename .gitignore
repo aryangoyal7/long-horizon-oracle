@@ -1,0 +1,33 @@
+# Large data and outputs stay off GitHub.
+# results/training is ~515 GB (checkpoints, datasets are on scratch),
+# artifacts/ is ~88 GB (feature mirror), rescue/ holds >100 MB hdf5 files.
+artifacts/
+rescue/
+results/training/
+results/predictor/
+results/label_videos/
+*.hdf5
+*.pth
+*.npz.tmp
+
+# LaTeX build files (source .tex, figures, and final PDFs are kept)
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.blg
+*.toc
+*.nav
+*.snm
+
+# Runtime junk
+MUJOCO_LOG.TXT
+nohup.out
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Stray file created by an accidental paste in the file browser (Jul 21)
+Are all LaTeX*

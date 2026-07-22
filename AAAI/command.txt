@@ -1,0 +1,4 @@
+  cd /home/azureuser/cloudfiles/code/Users/garyan18/long-horizon/AAAI
+  latexmk -pdf -bibtex AnonymousSubmission2027.tex
+
+  

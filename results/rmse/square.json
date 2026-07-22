@@ -1,0 +1,7 @@
+{
+  "ckpt": "/home/azureuser/cloudfiles/code/Users/garyan18/long-horizon/results/training/dp_square/dp_square_image/20260712190622/models/model_epoch_950_image_v15_success_0.9.pth",
+  "dataset": "/mnt/scratch/lh/data/robomimic/square/ph/image_v15.hdf5",
+  "n_points": 8994,
+  "arm_action_rmse": 0.16098384148225656,
+  "pos_action_rmse": 0.2201207372473281
+}

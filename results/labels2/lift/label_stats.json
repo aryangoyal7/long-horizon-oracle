@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "dataset": "/mnt/scratch/lh/data/robomimic/lift/ph/low_dim_v15.hdf5",
+    "K": 24,
+    "N": 8,
+    "pos_only": true,
+    "stride": 2,
+    "sigma_u": 0.1651,
+    "sigma_u_source": "policy_rmse",
+    "seed": 0,
+    "metric": "eef_pos+object (task), full sim state ex-time (full)"
+  },
+  "n_stamps": 2485,
+  "frac_free_space": 0.5561368209255533,
+  "mean_lambda_free": 0.006949153988797444,
+  "mean_lambda_gripper_contact": 0.07316600901465488,
+  "mean_lambda_fixture_contact": null,
+  "suggested_deadband_delta_p95_free": 0.024650162352377315,
+  "auroc_lambda_predicts_window_contact": 0.859244554713956,
+  "label_fracs_after_filter": {
+    "unstable": 0.3062374245472837,
+    "stable": 0.0,
+    "deadband": 0.6937625754527162
+  },
+  "frac_contact_labeled_unstable": 0.6799637352674524,
+  "frac_free_labeled_unstable": 0.007959479015918957
+}

@@ -1,0 +1,7 @@
+{
+  "ckpt": "results/training/dp_tool_hang/dp_tool_hang_image/20260712190622/models/model_epoch_1200_image_v15_success_0.9.pth",
+  "dataset": "/mnt/scratch/lh/data/robomimic/tool_hang/ph/image_v15.hdf5",
+  "n_points": 28914,
+  "arm_action_rmse": 0.1190050610756106,
+  "pos_action_rmse": 0.1638119651855696
+}

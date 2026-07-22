@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "dataset": "/mnt/scratch/lh/data/robomimic/can/ph/low_dim_v15.hdf5",
+    "K": 24,
+    "N": 8,
+    "pos_only": true,
+    "stride": 2,
+    "sigma_u": 0.2251,
+    "sigma_u_source": "policy_rmse",
+    "seed": 0,
+    "metric": "eef_pos+object (task), full sim state ex-time (full)"
+  },
+  "n_stamps": 9254,
+  "frac_free_space": 0.0,
+  "mean_lambda_free": null,
+  "mean_lambda_gripper_contact": 0.02448375950555892,
+  "mean_lambda_fixture_contact": 0.023252363069682463,
+  "suggested_deadband_delta_p95_free": 0.05,
+  "auroc_lambda_predicts_window_contact": NaN,
+  "label_fracs_after_filter": {
+    "unstable": 0.1252431381024422,
+    "stable": 0.011238383401772207,
+    "deadband": 0.8635184784957856
+  },
+  "frac_contact_labeled_unstable": 0.1252431381024422,
+  "frac_free_labeled_unstable": null
+}

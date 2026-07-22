@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "dataset": "/mnt/scratch/lh/data/libero/libero_10/KITCHEN_SCENE8_put_both_moka_pots_on_the_stove_demo.hdf5",
+    "bddl": "/mnt/scratch/lh/repos/LIBERO/libero/libero/./bddl_files/libero_10/KITCHEN_SCENE8_put_both_moka_pots_on_the_stove.bddl",
+    "K": 24,
+    "N": 8,
+    "pos_only": true,
+    "stride": 2,
+    "sigma_u": 0.203,
+    "sigma_u_source": "policy_rmse_robomimic_mean_interim",
+    "seed": 0,
+    "protocol": "libero-native set_init_state + warm-up rollout discard",
+    "metric": "eef site + free-joint object qpos (task), full state (full)"
+  },
+  "n_stamps": 9812,
+  "frac_free_space": 0.20892784345699145,
+  "mean_lambda_free": 0.014136966272358659,
+  "mean_lambda_gripper_contact": 0.030536574865043287,
+  "mean_lambda_fixture_contact": 0.026035842300685855,
+  "suggested_deadband_delta_p95_free": 0.019157360310449494,
+  "auroc_lambda_predicts_window_contact": 0.5379961790084276,
+  "label_fracs_after_filter": {
+    "unstable": 0.27751732572360377,
+    "stable": 0.014370158988993069,
+    "deadband": 0.7081125152874032
+  },
+  "frac_contact_labeled_unstable": 0.3421798505539809,
+  "frac_free_labeled_unstable": 0.032682926829268294
+}

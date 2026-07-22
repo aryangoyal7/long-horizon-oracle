@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "dataset": "/mnt/scratch/lh/data/libero/libero_10/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy_demo.hdf5",
+    "bddl": "/mnt/scratch/lh/repos/LIBERO/libero/libero/./bddl_files/libero_10/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy.bddl",
+    "K": 24,
+    "N": 8,
+    "pos_only": true,
+    "stride": 2,
+    "sigma_u": 0.203,
+    "sigma_u_source": "policy_rmse_robomimic_mean_interim",
+    "seed": 0,
+    "protocol": "libero-native set_init_state + warm-up rollout discard",
+    "metric": "eef site + free-joint object qpos (task), full state (full)"
+  },
+  "n_stamps": 4146,
+  "frac_free_space": 0.0,
+  "mean_lambda_free": null,
+  "mean_lambda_gripper_contact": 0.021153631094836128,
+  "mean_lambda_fixture_contact": 0.023655070878020934,
+  "suggested_deadband_delta_p95_free": 0.05,
+  "auroc_lambda_predicts_window_contact": NaN,
+  "label_fracs_after_filter": {
+    "unstable": 0.10636758321273516,
+    "stable": 0.001688374336710082,
+    "deadband": 0.8919440424505547
+  },
+  "frac_contact_labeled_unstable": 0.10636758321273516,
+  "frac_free_labeled_unstable": null
+}

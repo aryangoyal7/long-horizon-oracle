@@ -1,0 +1,315 @@
+{
+  "ckpt": "/home/azureuser/cloudfiles/code/Users/garyan18/long-horizon/results/training/dp_tool_hang/dp_tool_hang_image/20260712190622/models/model_epoch_1200_image_v15_success_0.9.pth",
+  "mode": "oracle_seg",
+  "k": 0,
+  "k_stable": 16,
+  "k_unstable": 1,
+  "pred_head": null,
+  "pred_delta": null,
+  "seed": 2,
+  "n_episodes": 50,
+  "success_rate": 0.68,
+  "elapsed_s": 18415.77032136917,
+  "episodes": [
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.607142857142857,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 396,
+      "mean_k": 4.409090909090909,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 357,
+      "mean_k": 5.411764705882353,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.9285714285714284,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.607142857142857,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 496,
+      "mean_k": 4.175403225806452,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.607142857142857,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 478,
+      "mean_k": 4.7656903765690375,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.9285714285714284,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 461,
+      "mean_k": 3.4403470715835143,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.607142857142857,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 505,
+      "mean_k": 3.227722772277228,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 3.25,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 511,
+      "mean_k": 3.2015655577299413,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 3.25,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 505,
+      "mean_k": 3.227722772277228,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 3.25,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 407,
+      "mean_k": 4.8697788697788695,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 669,
+      "mean_k": 3.3542600896860986,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 506,
+      "mean_k": 2.7786561264822134,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 461,
+      "mean_k": 4.4164859002169194,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 390,
+      "mean_k": 5.615384615384615,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 586,
+      "mean_k": 2.919795221843003,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 450,
+      "mean_k": 3.5,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 408,
+      "mean_k": 3.7573529411764706,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 650,
+      "mean_k": 3.423076923076923,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 413,
+      "mean_k": 4.813559322033898,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 589,
+      "mean_k": 3.67402376910017,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.607142857142857,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 424,
+      "mean_k": 4.714622641509434,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 680,
+      "mean_k": 2.6544117647058822,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 403,
+      "mean_k": 4.908188585607941,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 378,
+      "mean_k": 3.380952380952381,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.607142857142857,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 530,
+      "mean_k": 4.39622641509434,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 480,
+      "mean_k": 3.34375,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.607142857142857,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 435,
+      "mean_k": 4.620689655172414,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 452,
+      "mean_k": 4.484513274336283,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 626,
+      "mean_k": 3.515974440894569,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.607142857142857,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 400,
+      "mean_k": 3.25,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.607142857142857,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 492,
+      "mean_k": 2.8292682926829267,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 438,
+      "mean_k": 3.5684931506849313,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 467,
+      "mean_k": 3.4089935760171306,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 600,
+      "mean_k": 3.625,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.9285714285714284,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.607142857142857,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 383,
+      "mean_k": 3.93733681462141,
+      "probe_lambdas": null
+    }
+  ]
+}

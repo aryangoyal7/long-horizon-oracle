@@ -1,0 +1,315 @@
+{
+  "ckpt": "/home/azureuser/cloudfiles/code/Users/garyan18/long-horizon/results/training/dp_tool_hang/dp_tool_hang_image/20260712190622/models/model_epoch_1200_image_v15_success_0.9.pth",
+  "mode": "fixed",
+  "k": 2,
+  "k_stable": 0,
+  "k_unstable": 0,
+  "pred_head": null,
+  "pred_delta": null,
+  "seed": 1,
+  "n_episodes": 50,
+  "success_rate": 0.82,
+  "elapsed_s": 10149.179348230362,
+  "episodes": [
+    {
+      "success": true,
+      "steps": 369,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 385,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 370,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 420,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 668,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 402,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 528,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 543,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 457,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 443,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 460,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 582,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 502,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 457,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 496,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 503,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 566,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 497,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 399,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 483,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 356,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 555,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 391,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 421,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 563,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 412,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 474,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 455,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 544,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 568,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 462,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 472,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 437,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 350,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 574,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 486,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 451,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 516,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 519,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 369,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": false,
+      "steps": 700,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    },
+    {
+      "success": true,
+      "steps": 470,
+      "mean_k": 2.0,
+      "probe_lambdas": null
+    }
+  ]
+}

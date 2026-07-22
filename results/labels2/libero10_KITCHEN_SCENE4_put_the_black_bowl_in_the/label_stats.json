@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "dataset": "/mnt/scratch/lh/data/libero/libero_10/KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it_demo.hdf5",
+    "bddl": "/mnt/scratch/lh/repos/LIBERO/libero/libero/./bddl_files/libero_10/KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it.bddl",
+    "K": 24,
+    "N": 8,
+    "pos_only": true,
+    "stride": 2,
+    "sigma_u": 0.203,
+    "sigma_u_source": "policy_rmse_robomimic_mean_interim",
+    "seed": 0,
+    "protocol": "libero-native set_init_state + warm-up rollout discard",
+    "metric": "eef site + free-joint object qpos (task), full state (full)"
+  },
+  "n_stamps": 5632,
+  "frac_free_space": 0.267578125,
+  "mean_lambda_free": 0.013923912206627235,
+  "mean_lambda_gripper_contact": 0.036011670715990485,
+  "mean_lambda_fixture_contact": 0.03161400697535571,
+  "suggested_deadband_delta_p95_free": 0.017435060388834366,
+  "auroc_lambda_predicts_window_contact": 0.6032962940620539,
+  "label_fracs_after_filter": {
+    "unstable": 0.3622159090909091,
+    "stable": 0.029651988636363636,
+    "deadband": 0.6081321022727273
+  },
+  "frac_contact_labeled_unstable": 0.4816969696969697,
+  "frac_free_labeled_unstable": 0.035169210351692105
+}

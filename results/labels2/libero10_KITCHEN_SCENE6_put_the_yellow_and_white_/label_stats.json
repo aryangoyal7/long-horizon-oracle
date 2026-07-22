@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "dataset": "/mnt/scratch/lh/data/libero/libero_10/KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it_demo.hdf5",
+    "bddl": "/mnt/scratch/lh/repos/LIBERO/libero/libero/./bddl_files/libero_10/KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it.bddl",
+    "K": 24,
+    "N": 8,
+    "pos_only": true,
+    "stride": 2,
+    "sigma_u": 0.203,
+    "sigma_u_source": "policy_rmse_robomimic_mean_interim",
+    "seed": 0,
+    "protocol": "libero-native set_init_state + warm-up rollout discard",
+    "metric": "eef site + free-joint object qpos (task), full state (full)"
+  },
+  "n_stamps": 7031,
+  "frac_free_space": 0.23680841985492818,
+  "mean_lambda_free": 0.014702570988188566,
+  "mean_lambda_gripper_contact": 0.04134515548380307,
+  "mean_lambda_fixture_contact": 0.035005551164536824,
+  "suggested_deadband_delta_p95_free": 0.01938513070500951,
+  "auroc_lambda_predicts_window_contact": 0.6269960232315804,
+  "label_fracs_after_filter": {
+    "unstable": 0.3626795619399801,
+    "stable": 0.006684682122031006,
+    "deadband": 0.6306357559379889
+  },
+  "frac_contact_labeled_unstable": 0.4634737234439061,
+  "frac_free_labeled_unstable": 0.03783783783783784
+}

@@ -1,0 +1,463 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1.05in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\title{Stage 2: Long-Horizon MimicGen Tasks\\
+\large Why These Tasks, the Two-Simulator Problem, the Training Setup, and Current Status}
+\author{Aryan Goyal}
+\date{July 20, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+Stage 1 ended with a precise open question. On short, contact-dominated tasks the
+predictor-driven chunk switch ties the best fixed chunk length but does not beat
+it. The theory says the win should appear on long tasks that alternate between
+free-space transport and contact-rich stages, because there no single fixed
+chunk length can be right everywhere. Stage 2 tests exactly that. It trains
+Diffusion Policy on four long-horizon MimicGen tasks (three\_piece\_assembly,
+nut\_assembly, kitchen, coffee\_preparation, all D0, 1{,}000 demonstrations
+each, mean episode lengths 337 to 689 steps) and will then run the same
+fixed-$k$ versus predictor-switch comparison as Stage 1c. This document records
+the design decisions, the two-simulator version problem and how it was solved,
+the exact conversion and training pipeline, the status log (including the
+July 21 scratch-disk event that killed the first training runs at 80 to 86
+percent, what survived, and the restart), and the open decisions for the
+evaluation phase.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%=====================================================================
+\section{Why Stage 2 exists}
+\label{sec:why}
+
+Stage 1c's pooled result is the starting point. On tool\_hang the predictor
+switch reached 0.800 over three seeds, which statistically ties both the best
+fixed chunk length (0.807) and the best contact-oracle cell (0.807), while
+avoiding the 0.60 to 0.67 failure of per-step replanning in contact. That is a
+tie, not a win, and the Stage 1a analysis explains why a tie may be the best
+possible outcome on such tasks: square and tool\_hang rollouts spend 65 to 88
+percent of their steps in contact, so a single well-chosen fixed $k$ is nearly
+optimal and an adaptive switch has almost nothing to modulate.
+
+The hypothesis makes a sharper prediction for tasks where no single $k$ can be
+right. A long task that alternates several times between free-space transport
+(stable, wants long chunks) and contact-rich manipulation (unstable, wants
+short chunks) forces every fixed $k$ into a compromise: short $k$ pays the
+per-step replanning cost through the long stable stretches, long $k$ carries
+open-loop error through the contact stages. An adaptive switch pays neither
+cost. Stage 2 is the fair test of that prediction.
+
+Two properties matter when picking the tasks:
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{Length and structure.} Episodes should be several hundred steps
+        with multiple distinct manipulation stages separated by transport, so
+        the stable and unstable segments both occupy meaningful fractions of
+        the episode.
+  \item \textbf{Headroom.} Base-policy success should sit well below 1.0, so an
+        execution-rule improvement is measurable. Stage 1a's square result
+        showed what happens without headroom: everything lands in a flat band.
+\end{enumerate}
+
+%=====================================================================
+\section{The four tasks}
+\label{sec:tasks}
+
+MimicGen (Mandlekar et al., 2023) provides 1{,}000-demonstration datasets for
+multi-stage robosuite tasks, generated automatically from small sets of human
+source demonstrations. We use the D0 variant of four core tasks, which is the
+default object-initialization distribution. The datasets ship as state-only
+trajectories (simulator states plus actions), which is why the conversion step
+in Section \ref{sec:convert} exists.
+
+\begin{center}
+\small
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Task & Demos & Transitions & Mean length & Length range \\
+\midrule
+three\_piece\_assembly\_d0 & 1{,}000 & 336{,}695 & 337 & 308 to 375 \\
+nut\_assembly\_d0          & 1{,}000 & 358{,}907 & 359 & 293 to 435 \\
+kitchen\_d0                & 1{,}000 & 616{,}751 & 617 & 585 to 654 \\
+coffee\_preparation\_d0    & 1{,}000 & 689{,}273 & 689 & 591 to 760 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+In plain terms: three\_piece\_assembly inserts two pieces onto a base in
+sequence; nut\_assembly places both a square and a round nut onto their pegs;
+kitchen runs a multi-stage cooking sequence involving a stove, a pot, and
+bread; coffee\_preparation loads a mug and prepares the coffee machine across
+several steps. Each task chains grasp, transport, and precise-placement stages,
+which is exactly the alternating structure Section \ref{sec:why} asks for. For
+scale, the Stage 1 tasks were one-stage or two-stage tasks with 200
+demonstrations each; these are two to five times longer per episode, have five
+times the demonstrations, and published imitation-learning success rates on
+them sit well below ceiling.
+
+%=====================================================================
+\section{The two-simulator problem}
+\label{sec:venv}
+
+Stage 2 has one structural complication that shaped everything else, so it gets
+its own section.
+
+MimicGen environments require robosuite 1.4 (they are registered by the
+\texttt{mimicgen} package, which pins the older simulator API). Our Stage 1
+policy-training stack lives on the current robomimic main branch, which is the
+only branch with the Diffusion Policy implementation, and it runs against
+robosuite 1.5. The two requirements cannot coexist in one Python environment.
+Additionally, the robomimic v0.3 release that matches the MimicGen ecosystem
+has no Diffusion Policy at all (its template set stops at BC, BCQ, CQL, HBC,
+IQL, IRIS, TD3-BC).
+
+The resolution is two virtual environments with a strict division of labor:
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{The mg venv} (robosuite 1.4.1, mujoco 2.3.2, robomimic v0.3,
+        mimicgen): everything that must instantiate a MimicGen environment.
+        Today that is dataset conversion; later it is policy evaluation.
+  \item \textbf{The lh venv} (robosuite 1.5, robomimic main): everything that
+        touches Diffusion Policy. Today that is training; it can never create a
+        MimicGen environment.
+\end{itemize}
+
+The immediate casualty is in-training rollout evaluation. Stage 1 trainings
+rolled out the policy every 50 epochs to track success; Stage 2 trainings
+cannot, because the training process (lh venv) cannot build the environment.
+Training therefore runs with rollouts disabled, and success is measured post
+hoc from saved checkpoints through the mg venv (Section \ref{sec:eval}). This
+was validated up front with a one-epoch smoke test of the full training
+pipeline on a converted MimicGen dataset, which completed cleanly.
+
+%=====================================================================
+\section{Step 1: dataset conversion}
+\label{sec:convert}
+
+The MimicGen hdf5 files store simulator states, not observations. The robomimic
+v0.3 script \texttt{dataset\_states\_to\_obs.py} replays each demonstration
+inside the environment and renders the observations the policy will train on.
+Per task we render:
+
+\begin{itemize}[leftmargin=2em]
+  \item Two cameras, \texttt{agentview} and \texttt{robot0\_eye\_in\_hand}, at
+        84 by 84 pixels. This matches the robomimic image recipe the Stage 1
+        policies used.
+  \item The standard low-dimensional states (end-effector pose, gripper).
+  \item \texttt{--exclude-next-obs}, which roughly halves the file size;
+        behavior cloning never reads next-observations.
+  \item \texttt{--done\_mode 2}, the convention used by the released robomimic
+        image datasets.
+\end{itemize}
+
+Two mechanical details worth recording. First, the script only works on
+MimicGen data if \texttt{import mimicgen} runs before the environment is
+created, because that import registers the environment classes; the script has
+no hook for this, so we invoke it through a small \texttt{runpy} wrapper that
+performs the import, sets \texttt{sys.argv}, and then executes the script as
+\texttt{\_\_main\_\_}. Second, rendering is headless EGL, pinned per GPU with
+\texttt{MUJOCO\_GL=egl} and \texttt{MUJOCO\_EGL\_DEVICE\_ID}; EGL processes do
+not appear in \texttt{nvidia-smi}'s compute-apps listing, so the reliable
+liveness check is output-file growth, not GPU process tables.
+
+Each of the four conversions ran on its own GPU (0 through 3), writing
+\texttt{<task>\_image.hdf5} next to the source file and logging to
+\texttt{<task>\_img\_gen.log}. Measured durations and output sizes:
+
+\begin{center}
+\small
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Task & Conversion time & Output size \\
+\midrule
+nut\_assembly\_d0          & 78 min  & 14.9 GB \\
+kitchen\_d0                & 92 min  & 25.7 GB \\
+three\_piece\_assembly\_d0 & 104 min & 14.1 GB \\
+coffee\_preparation\_d0    & 119 min & 29.0 GB \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Sizes track transition count times the uncompressed two-camera image payload
+(about 42 KB per step); the full set is 84 GB against 2.4 TB free on the
+scratch disk.
+
+%=====================================================================
+\section{Step 2: policy training}
+\label{sec:train}
+
+Each GPU chain launches its Diffusion Policy training automatically the moment
+its conversion finishes, so no idle time sits between the steps. The training
+configuration is generated by \texttt{impl/configs/gen\_mg\_configs.py} from
+the robomimic \texttt{diffusion\_policy.json} template, and it deliberately
+changes as little as possible from the Stage 1 Panda trainings:
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Identical budget.} The template sets
+        \texttt{epoch\_every\_n\_steps} to 100, so 2{,}000 epochs is 200{,}000
+        gradient steps regardless of dataset size. This is the same budget the
+        Panda policies got, which keeps later comparisons about the tasks, not
+        the training length.
+  \item \textbf{Same observation recipe.} RGB \texttt{agentview} plus
+        \texttt{robot0\_eye\_in\_hand} through a 76 by 76 CropRandomizer;
+        low-dimensional end-effector position, quaternion, and gripper state.
+  \item \textbf{Rollouts and validation disabled.} Rollouts for the reason in
+        Section \ref{sec:venv}. Validation because the MimicGen hdf5s ship
+        without train/valid mask groups, so the filter keys are set to none and
+        all 1{,}000 demonstrations train.
+  \item \textbf{Checkpoints every 50 epochs}, giving 40 checkpoints per task
+        for the post-hoc evaluation to scan.
+  \item \textbf{Dataset cached in RAM} (\texttt{hdf5\_cache\_mode: all}); the
+        converted files fit comfortably in this machine's memory.
+\end{itemize}
+
+The measured pace is much faster than the Stage 1 trainings, and the reason is
+instructive. The Stage 1 wall-clock (days per task) was dominated by
+in-training rollout evaluation; with rollouts disabled and the dataset cached
+in RAM, an epoch here is just 100 gradient steps at about 8 steps per second
+plus bookkeeping, or 30 to 45 wall seconds. At that pace 2{,}000 epochs is 17
+to 24 hours per task, and since all four run concurrently, the whole training
+phase fits in a day. The venv constraint that forced rollouts off, in other
+words, also collapsed the schedule.
+
+%=====================================================================
+\section{Step 3, pending: post-hoc evaluation}
+\label{sec:eval}
+
+Measuring success requires rolling out lh-venv-trained checkpoints inside
+mg-venv environments, and no single process can do both. Two candidate designs,
+not yet decided:
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{Policy server.} The policy loads in an lh-venv process; an
+        mg-venv process owns the environment and exchanges observations and
+        actions with the policy process over a local socket or pipe. This is
+        the same pattern Stage 1c used to run the predictor (which needs a
+        newer transformers stack) next to the rollout process, so the
+        infrastructure precedent exists in this codebase.
+  \item \textbf{Backport.} Install a Diffusion-Policy-capable robomimic into
+        the mg venv if its torch and robosuite pins allow it. Cleaner if it
+        works, but the dependency solve is unverified and the policy-server
+        pattern is known-good.
+\end{enumerate}
+
+The bridge is the immediate next work item: with the measured training pace
+(Section \ref{sec:train}) the full checkpoint sets exist by the morning of
+July 21, so the bridge, not the trainings, is the critical path. Its first use
+is checkpoint selection (success rate at a subsample of the 40 checkpoints),
+mirroring how the Stage 1 policies were selected.
+
+%=====================================================================
+\section{Step 4, pending: the Stage 2 experiment}
+\label{sec:experiment}
+
+Once each task has a selected checkpoint, the experiment repeats the Stage 1c
+protocol on the long-horizon tasks: fixed $k \in \{1, 4, 8, 16\}$ and the
+predictor-driven $(16, 4)$ switch, same policy weights across all cells, 50
+episodes per seed, horizons set per task from the demonstration lengths. The
+prediction being tested: on these tasks the adaptive switch beats every fixed
+$k$, because the alternating stable/unstable structure makes every fixed choice
+pay one of the two costs from Section \ref{sec:why}.
+
+One decision is still open and it is the main scientific choice left in Stage
+2: what the predictor head is at evaluation time.
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{Zero-shot.} Use the frozen Stage 1 head as-is. The DINOv2
+        ablation showed the head reads scene configuration, and the MimicGen
+        scenes are robosuite scenes visually adjacent to the training tasks, so
+        transfer is plausible. This is the cheap default and the more
+        impressive result if it works.
+  \item \textbf{Relabel and fine-tune.} Run the FTLE labeler over the MimicGen
+        demonstrations (through the mg venv) and train a head that has seen
+        these tasks. This is days of labeling compute and requires adapting the
+        labeler to the mg environments, but it separates ``the switch idea
+        works on long-horizon tasks'' from ``the head transfers zero-shot,''
+        which are different claims.
+  \end{enumerate}
+
+The honest sequencing is to run zero-shot first, since it needs nothing new,
+and to decide on relabeling based on what the zero-shot head's predictions look
+like on MimicGen frames (sane $\hat\lambda$ distributions and plausible
+switching would justify skipping the relabel; degenerate always-long or
+always-short output would force it).
+
+That check has now run (July 20, 320 stamps per task sampled from 40
+demonstrations each, agentview clips plus proprioception exactly as in
+training):
+
+\begin{center}
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+ & mean $\hat\lambda$ & p5 to p95 & frac $> \delta$ & corr with episode time \\
+\midrule
+three\_piece\_assembly & 0.022 & $-0.008$ to $0.046$ & 0.19 & $-0.04$ \\
+nut\_assembly          & 0.017 & $-0.016$ to $0.050$ & 0.22 & $0.00$ \\
+kitchen                & 0.019 & $-0.009$ to $0.038$ & 0.11 & $0.16$ \\
+coffee\_preparation    & 0.035 & $0.002$ to $0.058$  & 0.55 & $0.26$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The distributions are varied, span the training threshold $\delta = 0.0355$ on
+every task, and would drive real switching (11 to 55 percent of stamps land
+above $\delta$). They are also ordered plausibly: coffee\_preparation, the most
+contact-heavy manipulation sequence, reads most unstable, while kitchen, which
+is dominated by transport between fixtures, reads most stable. The decision is
+therefore zero-shot first. Two limits of this check are worth keeping in mind:
+it ran on demonstration frames, not on frames under policy control, and it
+verifies non-degeneracy, not accuracy; no ground-truth labels exist on these
+tasks, so the rollout comparison itself remains the real test. Relabeling
+stays available as the follow-up if the zero-shot switch underperforms.
+
+%=====================================================================
+\section{Status as of July 20, 2026}
+\label{sec:status}
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{09:05 UTC.} All four conversions launched, one per GPU, after
+        the pipeline smoke test passed.
+  \item \textbf{10:23 to 11:04 UTC.} Conversions completed in launch order of
+        their durations (nut\_assembly 10:23, kitchen 10:37,
+        three\_piece\_assembly 10:49, coffee\_preparation 11:05), and each
+        Diffusion Policy training auto-launched within a second of its
+        conversion finishing. No failures.
+  \item \textbf{11:25 UTC.} All four trainings verified stepping: epoch
+        progress at about 8 gradient steps per second on every GPU, roughly
+        4 GB of GPU memory each, 21 to 95 epochs completed, and the first
+        periodic checkpoint (epoch 50) already on disk for nut\_assembly.
+  \item \textbf{Projection.} At the measured 30 to 45 seconds per epoch, the
+        four trainings complete the morning of July 21 UTC, staggered in
+        launch order.
+  \item \textbf{12:15 UTC.} The evaluation bridge (Section \ref{sec:eval})
+        built and smoke-tested end to end on a partially trained
+        nut\_assembly checkpoint: full protocol round trip at about 7.7
+        environment steps per second, which prices a 50-episode cell at
+        roughly 70 minutes on one GPU. Three cross-venv format mismatches
+        were found and fixed in the process (stdout noise in the protocol
+        stream, v0.3-processed images versus main-branch raw-image
+        expectations, and the checkpoint's frame stacking, which the client
+        now reproduces).
+  \item \textbf{12:50 UTC.} The zero-shot distribution check (Section
+        \ref{sec:experiment}) ran and passed; the head is not degenerate on
+        MimicGen frames and the zero-shot-first decision is taken.
+  \item \textbf{Remaining before the experiment.} Checkpoint selection once
+        trainings finish (morning of July 21), then the fixed-$k$ sweep plus
+        predictor cells.
+\end{itemize}
+
+%=====================================================================
+\section{July 21: the disk event and the restart}
+\label{sec:incident}
+
+Overnight between July 20 and 21 the scratch disk was largely wiped: the
+source and converted datasets, the three Python environments, the cloned
+repositories, and the extracted feature files were deleted. The four training
+processes died at 05:01 UTC, at epochs 1,721 (nut\_assembly), 1,653 (kitchen),
+1,637 (three\_piece\_assembly), and 1,596 (coffee\_preparation) of 2,000. They
+had survived the deletion itself for several hours (their code and RAM-cached
+data were held as open file handles) and then went down without a Python
+traceback, consistent with the disk being reprovisioned under them.
+
+What survived, and why the damage is small:
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{All checkpoints and results} live on persistent storage and
+        were untouched. Checkpoints saved every 50 epochs, so the surviving
+        grids end at epoch 1,700 / 1,650 / 1,600 / 1,550 per task. All four
+        are far past the epoch 950 to 1,200 region where Stage 1's best
+        checkpoints lived, so these are almost certainly at-plateau policies.
+  \item \textbf{The labels} (31 npz files, days of GPU compute) survived on
+        scratch and were immediately copied to persistent storage, along with
+        the lift and can rollout datasets. The square and tool\_hang rollout
+        datasets were lost; they are only needed for future feature work, not
+        for Stage 2.
+  \item \textbf{Code and documents} live on persistent storage; nothing was
+        lost.
+\end{itemize}
+
+The rebuild (venvs, repositories, dataset re-downloads, image reconversion)
+hit two reproducible faults worth recording. First, the fresh mg venv resolved
+a torchvision wheel that did not match its CUDA torch build; the fix is to
+install torch and torchvision together from the same CUDA index. Second, the
+fresh robomimic v0.3 clone restored an unconditional \texttt{import mujoco\_py}
+in its robosuite environment wrapper; the original clone had carried a local
+try/except patch that was wiped with it. The patch is now written into the
+setup script so the next rebuild applies it automatically.
+
+The restart decision, made at 12:21 UTC: run both tracks in parallel rather
+than serialize them.
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{GPUs 0 to 3}: reconvert the datasets (about two hours), then
+        fresh 2,000-epoch training runs, completing around midday July 22.
+        These reruns are completion insurance; nothing on the critical path
+        waits for them.
+  \item \textbf{GPUs 4 to 7}: checkpoint selection over the surviving
+        checkpoint grids (epochs 600, 1,000, 1,400, and the last saved
+        checkpoint per task), starting per task as its reconversion lands and
+        finishing the evening of July 21. The Stage 2 experiment launches on
+        the selected checkpoints, so the experiment timeline moves by less
+        than a day despite the incident.
+\end{itemize}
+
+%=====================================================================
+\section{Risks and open items}
+\label{sec:risks}
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Zero-shot head accuracy is unverified.} The planned
+        degeneracy check has run and passed (Section \ref{sec:experiment}),
+        so the switch will actually switch; whether it switches at the right
+        moments is untested, because no ground-truth labels exist on these
+        tasks. The distribution check also used demonstration frames, and
+        frames under policy control may differ. Fallback if the switch
+        underperforms: relabel and fine-tune.
+  \item \textbf{Base-policy success is unknown until the bridge exists.} If a
+        task trains to very low success, the switch comparison on it loses
+        power. Four tasks were chosen partly so that one weak task does not
+        sink the stage.
+  \item \textbf{No in-training signal.} With rollouts and validation disabled,
+        training health is only visible through the loss curve until the bridge
+        runs. The losses are being watched; divergence would be caught within a
+        checkpoint interval.
+  \item \textbf{Horizon choices for evaluation.} Rollout horizons must be long
+        enough that slow-but-successful episodes are not truncated; they will
+        be set from the demonstration length maxima with margin, per task.
+  \item \textbf{Deferred relative to the original plan.} The original Stage 2
+        (ACT on ALOHA, execution-rule ablations) is deferred, not dropped; the
+        long-horizon test was promoted because Stage 1c identified it as the
+        decisive missing experiment. FurnitureSim remains parked on a manual
+        download. LIBERO-Long policy training remains an open option for the
+        idle GPUs.
+\end{itemize}
+
+%=====================================================================
+\section{Summary}
+
+Stage 1 showed the switch matches the best fixed chunk length on short
+contact-dominated tasks and explained why it cannot beat it there. Stage 2 asks
+the question the theory actually cares about, on four MimicGen tasks whose
+episodes are long, multi-stage, and alternate between transport and contact.
+The two-simulator conflict between MimicGen (robosuite 1.4, no Diffusion
+Policy) and our training stack (robosuite 1.5) is solved by a strict
+conversion-in-mg, training-in-lh split, at the cost of moving all evaluation
+post hoc. The first training runs were killed at 80 to 86 percent by the
+July 21 scratch-disk event (Section \ref{sec:incident}); their surviving
+checkpoint grids end at epochs 1,550 to 1,700, past the quality plateau, so
+checkpoint selection runs on those while fresh full-length reruns provide
+completion insurance in parallel. The evaluation bridge is built and
+smoke-tested, the zero-shot decision for the predictor head is taken, and the
+remaining sequence is: selection (evening of July 21), then the fixed-$k$
+sweep plus predictor cells (July 22).
+
+\end{document}

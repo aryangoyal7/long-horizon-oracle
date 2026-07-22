@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "dataset": "/mnt/scratch/lh/data/libero/libero_10/LIVING_ROOM_SCENE5_put_the_white_mug_on_the_left_plate_and_put_the_yellow_and_white_mug_on_the_right_plate_demo.hdf5",
+    "bddl": "/mnt/scratch/lh/repos/LIBERO/libero/libero/./bddl_files/libero_10/LIVING_ROOM_SCENE5_put_the_white_mug_on_the_left_plate_and_put_the_yellow_and_white_mug_on_the_right_plate.bddl",
+    "K": 24,
+    "N": 8,
+    "pos_only": true,
+    "stride": 2,
+    "sigma_u": 0.203,
+    "sigma_u_source": "policy_rmse_robomimic_mean_interim",
+    "seed": 0,
+    "protocol": "libero-native set_init_state + warm-up rollout discard",
+    "metric": "eef site + free-joint object qpos (task), full state (full)"
+  },
+  "n_stamps": 5868,
+  "frac_free_space": 0.0,
+  "mean_lambda_free": null,
+  "mean_lambda_gripper_contact": 0.04690623556602633,
+  "mean_lambda_fixture_contact": 0.03711285098082467,
+  "suggested_deadband_delta_p95_free": 0.05,
+  "auroc_lambda_predicts_window_contact": NaN,
+  "label_fracs_after_filter": {
+    "unstable": 0.2791411042944785,
+    "stable": 0.0005112474437627812,
+    "deadband": 0.7203476482617587
+  },
+  "frac_contact_labeled_unstable": 0.2791411042944785,
+  "frac_free_labeled_unstable": null
+}

@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "dataset": "/mnt/scratch/lh/data/mimicgen/square_d0.hdf5",
+    "K": 24,
+    "N": 8,
+    "pos_only": true,
+    "stride": 2,
+    "sigma_u": 0.2201,
+    "sigma_u_source": "policy_rmse_square_ph",
+    "seed": 0,
+    "metric": "eef_pos+object (task), full sim state ex-time (full)"
+  },
+  "n_stamps": 12874,
+  "frac_free_space": 0.3092279011962094,
+  "mean_lambda_free": 0.0052298044824224624,
+  "mean_lambda_gripper_contact": 0.043434977427279114,
+  "mean_lambda_fixture_contact": 0.05538143951052957,
+  "suggested_deadband_delta_p95_free": 0.05239633496798736,
+  "auroc_lambda_predicts_window_contact": 0.7522673551726486,
+  "label_fracs_after_filter": {
+    "unstable": 0.2551654497436694,
+    "stable": 0.0031070374398011495,
+    "deadband": 0.7417275128165295
+  },
+  "frac_contact_labeled_unstable": 0.3610705048914877,
+  "frac_free_labeled_unstable": 0.018588294398392362
+}

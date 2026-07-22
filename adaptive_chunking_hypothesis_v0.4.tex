@@ -1,0 +1,100 @@
+This is my idea PDA. \documentclass[11pt]{article}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{amsmath,amssymb}
+
+\newcommand{\Jtraj}{\mathbf{J}_{\mathrm{TRAJ}}}
+\newcommand{\Jdemo}{\mathbf{J}_{\mathrm{DEMO}}}
+\newcommand{\Ciss}{C_{\mathrm{ISS}}}
+
+\title{Segment-Dependent Chunk Length in Long-Horizon Imitation\\ \large Research note, v0.4}
+\author{Aryan Goyal}
+\date{July 2026}
+
+\begin{document}
+\maketitle
+
+\noindent\textbf{Claim.} Open-loop stable segments require a chunk length above a threshold $k^\star$. Open-loop unstable segments require a chunk length below a threshold $\bar k$. A long-horizon task contains both segment types, so no constant chunk length satisfies both constraints. Epistemic labels: [E] established, [X] mechanism-consistent extrapolation, [N] novel.
+
+\section*{1. The error-bound dichotomy [E]}
+
+Sources: Simchowitz et al.\ (arXiv:2503.09722) and Zhang, Pfrommer, Pan, Matni, Simchowitz (arXiv:2507.09061).
+
+Let $\Jtraj$ denote the trajectory error of the learned policy at execution time, and $\Jdemo$ its regression error on the demonstration distribution. An instance suffers exponential compounding error when
+\begin{equation}
+\Jtraj \;\gtrsim\; C^{T}\,\Jdemo, \qquad C>1.
+\end{equation}
+The relevant stability notion is exponential incremental input-to-state stability: a system is $(\Ciss,\rho)$-EISS, $\rho\in(0,1)$, if trajectory perturbations contract geometrically,
+\begin{equation}
+\|\mathbf{x}_t-\mathbf{x}_t'\| \;\leq\; \Ciss\,\rho^{t-1}\|\mathbf{x}_1-\mathbf{x}_1'\| + \Ciss\sum_{k=1}^{t-1}\rho^{t-1-k}\|\mathbf{u}_k-\mathbf{u}_k'\|.
+\end{equation}
+The lower bounds split into two cases. \textbf{Open-loop stable dynamics:} a smooth Markovian learned policy still suffers exponential compounding. The mechanism is the feedback channel: the learned policy carries estimation error, and closing the loop at every step injects that error at every step. The dynamics contract, but the feedback destabilizes. \textbf{Open-loop unstable dynamics:} exponential compounding is unavoidable for any policy class trained only on expert data. No execution-side intervention is sufficient; the demonstration distribution itself must be altered.
+
+\section*{2. The stable case requires a minimum chunk length [E]}
+
+Action chunking resolves the stable case by executing $k$ actions open-loop. Error is then injected once per chunk rather than once per step, and the contraction of the dynamics absorbs it between injections. This works only when the chunk is long enough for contraction to dominate the injection:
+\begin{equation}
+k \;>\; k^\star \;=\; \log(1/\rho)^{-1}\cdot\log\bigl(\mathrm{poly}(L_\pi,\Ciss)\bigr),
+\end{equation}
+where $L_\pi$ is the policy Lipschitz constant. Above $k^\star$, Theorem 1 of Zhang et al.\ gives $\Jtraj \leq O_\star(1)\,\Jdemo$: compounding is horizon-free. Below $k^\star$, the exponential lower bound still applies. Short chunks in stable segments are therefore not merely inefficient; they fail.
+
+For the unstable case the admissible intervention is data-side. Noise injection into the demonstrations (their Theorem 2) yields
+\begin{equation}
+\Jtraj \;\lesssim\; O_\star(T)\,\sigma_{\mathbf{u}}^{-2}\,\Jdemo,
+\end{equation}
+polynomial rather than exponential in $T$. Their experiments additionally show that chunking in open-loop unstable MuJoCo tasks degrades performance.
+
+\section*{3. Hypothesis: segments impose opposite constraints [X, N]}
+
+The theorems above assume a single global stability regime. A long-horizon manipulation task instead decomposes into segments with heterogeneous local stability [X]. Free-space reaching and transport under end-effector control are locally contracting: the low-level tracking controller renders them open-loop stable, which is the regime the chunking guarantee covers. Contact segments such as grasping and insertion are locally expansive, with local expansion rate $\lambda > 0$.
+
+Applied segment-wise, the two results impose constraints of opposite sign:
+\begin{equation}
+\underbrace{k \geq k^\star_i}_{\text{contracting segment } i} \qquad \text{versus} \qquad \underbrace{k \lesssim 1/\lambda_j}_{\text{expansive segment } j}.
+\end{equation}
+A constant $k$ generically violates the lower bound in some segment or the upper bound in another. The failure is not a smooth degradation: the intervention that is required in one regime is the one that is harmful in the other. Expansive segments additionally require the data-side intervention (noise injection concentrated in the expanding directions) rather than any choice of chunk length. [X]
+
+\textbf{Novel claim [N].} The chunk length should be set per segment from the local contraction rate of the environment. This quantity is estimable offline from demonstrations (local Jacobian linearizations, contact events) or online from the divergence of world-model rollouts started from perturbed initial states. Existing adaptive-chunking methods instead condition on policy-side uncertainty signals: action entropy, denoising variance, or $Q$-values. These correlate with expansiveness but are not equivalent to it. A policy can be confident yet wrong in a contact segment, or uncertain in a benign free-space segment. Cases where the two signals disagree are the natural test of whether the environment-side rule adds value.
+
+\newpage
+\section*{4. Survey: chunk-length selection in the literature [E]}
+
+Claim under test: the literature selects executed chunk length as a reactivity--efficiency tradeoff. Short execution is the presumed-safe default. Long execution is desired for inference cost, temporal consistency, credit assignment, and latency. Adaptive methods extend commitment as far as a policy-side reliability signal permits. No method derives a minimum executed length, and none reasons from open-loop or closed-loop stability of the plant. Verified against the methods below as of 2026-07-12.
+
+\textbf{Why long chunks are wanted.} Four pressures, none dynamical. Inference cost: ACH (arXiv:2605.10044) calls length one ideal for responsiveness and discards it for forfeiting the efficiency of chunking; the dual-branch framework (Biomimetics 11(5):316, 2026) states small chunks buy contact-phase precision at high computational load and large chunks buy smooth long-range motion at reduced computation frequency. Temporal consistency: ACT (arXiv:2304.13705) chunks to shorten the effective decision horizon and commit to coherent multimodal predictions; Diffusion Policy (arXiv:2303.04137) executes chunks receding-horizon for trajectory coherence; BID (Liu et al., ICLR 2025) formalizes the axis as long-term consistency against short-term reactivity. Credit assignment: Q-Chunking and Decoupled Q-Chunking (refs.\ [28], [29] in arXiv:2605.05544) back up values over action sequences, so longer chunks propagate value further per update. Latency: the introduction of Zhang et al.\ records the folk motivation that chunking permits larger policy latency.
+
+\textbf{Why short is presumed safe.} The shared rule: when reliability is in doubt, shorten. AAC (arXiv:2604.04161) executes the low-entropy prefix of each chunk and truncates when entropy rises. DVAC (arXiv:2606.03847) executes the low-variance prefix of the final denoising estimates and replans when the predicted future turns unreliable; its own measurements show variance low in moving phases and rising at contact. HiPolicy (arXiv:2604.06067) sets execution frequency by action entropy, trading robustness against efficiency. The competency-adaptive execution-horizon line (arXiv:2602.21445) replaces the fixed horizon with a policy-competency signal. ACH selects by learned value estimates; the dual-branch network predicts length from visual context. The pattern is longest reliable prefix: commitment extends until a policy-side signal objects, and $k=1$ is everywhere the reactive ideal sacrificed only for efficiency.
+
+\textbf{What is absent.} (i) No dynamics-side signal: entropy, denoising variance, value spread, and learned visual predictors are properties of the policy, not of the closed-loop transition map. (ii) No necessity direction: no method claims that short execution can itself be harmful. (iii) No stability vocabulary: none cites the $k^\star$ threshold or states its operating conditions in stability terms.
+
+\textbf{Information asymmetry [X].} Policy-side confidence can only license commitment, never require it. Low entropy or low variance says that committing is permissible. The harm of not committing in a stable segment arises in the feedback channel (Section 1), a quantity absent from the policy's output distribution. No confidence-derived rule can therefore produce the minimum-length constraint of Section 2, even in principle. The literature's safe direction inverts in contracting segments.
+
+\textbf{Exceptions.} AQC (arXiv:2605.05544) comes closest: chunk size is state-dependent within a single trajectory, long open-loop execution is safe and effective in free space and harmful near contact, a globally fixed size is always a compromise, and the naive per-state $Q^k$ selection rule is shown to be broken. The justification is credit-assignment speed against contact risk; safe-and-effective is not required-for-stability, and no minimum-length claim appears. BID carries the only other theoretical treatment, on the consistency--reactivity axis, and its remedy is per-step closed-loop resampling: the safe-short direction made rigorous on its own terms. Zhang et al.\ (arXiv:2507.09061) is the true exception and the source of Section 2. The treatment is global: one $(\Ciss,\rho)$ pair for the whole system, the stable and unstable regimes handled as separate settings, no within-task composition, no adaptive prescription, no state-dependent constants. Their discussion names the tension, beyond-threshold lengths give marginal benefit and clash with prolonged open-loop execution, without resolving it.
+
+\textbf{Verdict.} Confirmed. The field maximizes commitment subject to policy-side reliability and treats $k=1$ as universally safe. The minimum-length direction exists globally in Zhang et al.\ and locally nowhere, so the sign prediction of Section 3, that performance degrades as $k \to 1$ in contracting segments, is not merely untested: it is unreachable from the literature's signals. DVAC's phase-dependent variance and AQC's free-space/contact dichotomy independently corroborate the segment phenomenology through proxies, and both convert directly into baselines for the dissociation experiments.
+
+\medskip
+\noindent\begin{footnotesize}
+\begin{tabular}{@{}p{0.22\linewidth}p{0.21\linewidth}p{0.22\linewidth}p{0.25\linewidth}@{}}
+\hline
+Method & Signal for $k$ & Direction of safety & Stability reasoning \\
+\hline
+ACT / Diffusion Policy & fixed, tuned & short = reactive & none \\
+BID (ICLR 2025) & resampling coherence & short = reactive & consistency axis only \\
+Q-Chunking / DQC & value backup span & short = reactive & none \\
+ACH (2605.10044) & learned $Q$ per $k$ & short = reactive & none \\
+Dual-branch (Biomim.\ 2026) & learned, visual & short = precise & none \\
+AAC (2604.04161) & action entropy & short = reliable & none \\
+DVAC (2606.03847) & denoising variance & short = reliable & none \\
+HiPolicy (2604.06067) & action entropy & short = robust & none \\
+Comp.-adaptive (2602.21445) & competency & short = reliable & none \\
+AQC (2605.05544) & $Q$-based, repaired & short near contact & phenomenology only \\
+Zhang et al.\ (2507.09061) & n/a (theory) & long required if stable & global EISS, not local \\
+\hline
+\end{tabular}
+\end{footnotesize}
+
+\section*{Caveat and test}
+
+The chunking guarantee is proven for globally EISS dynamics. Applying it per segment assumes local contraction data are well defined and that the chaining argument survives segment boundaries. This is the same unproven condition as C2 (basin containment) in the funnel-reset hypothesis; the two claims stand or fall together. Test on the Stage 0 synthetic system: three piecewise-linear segments, chunk length swept per segment. Prediction: the optimal chunk-length profile tracks the contraction profile, with floor $k^\star_i$ in contracting segments and ceiling near $1/\lambda_j$ in expansive segments.
+
+\end{document}
