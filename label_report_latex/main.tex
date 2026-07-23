@@ -44,6 +44,81 @@ completed LIBERO-Long suite (all ten files) and the finished closed-loop sets fo
 all four robomimic tasks, tool\_hang included.
 
 %=====================================================================
+\section{The two stability measures at a glance}
+\label{sec:glance}
+
+Before the full detail, three questions that decide how to read everything
+below: what exactly is perturbed, what differs between the two channels, and
+whether the channels are measured on the same places.
+
+\textbf{What is perturbed: an action, never the state.} Neither channel
+teleports the simulator state. The perturbation is Gaussian noise on the
+position dimensions of the \emph{first commanded action} only (never rotation,
+never the gripper), with standard deviation $\sigma_u$ set to the trained
+policy's validation action RMSE. The error therefore enters through the
+actuation channel, exactly the way a real policy error enters, and becomes a
+state deviation only by passing through the plant. What is then \emph{measured}
+is in state space: the distance between the perturbed and unperturbed
+trajectories in task space over the following 1.2 seconds. So the injection is
+in action space, the readout is in state space, and this is identical for both
+channels. The channels differ only in what happens after the injection.
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{0.24\linewidth}p{0.34\linewidth}p{0.34\linewidth}@{}}
+\toprule
+ & \textbf{Open loop} $\lambda_{ol}$ & \textbf{Closed loop} $\lambda_{cl}$ \\
+\midrule
+Perturbation & \multicolumn{2}{c}{identical: noise ($\sigma_u$, policy's action
+RMSE) on the first action's position dims} \\
+\addlinespace
+Nominal branch & replays the recorded demo actions & replays the recorded demo
+actions \\
+\addlinespace
+Perturbed branch & replays the same recorded actions; nobody reacts & driven by
+the trained policy from its own camera observations, replanning every step \\
+\addlinespace
+What it isolates & the plant alone: does the task's physics absorb or amplify a
+one-time actuation error & the plant plus the policy's feedback loop: does
+reacting contain the error or feed it \\
+\addlinespace
+Readout & \multicolumn{2}{c}{$\lambda$ = OLS slope of branch-averaged log
+task-space distance over $K=24$ steps} \\
+\addlinespace
+Classes & \multicolumn{2}{c}{unstable ($\lambda > +\delta$), stable
+($\lambda < -\delta$), deadband ($|\lambda| \leq \delta$)} \\
+\addlinespace
+Coverage & 200 demos, every 2nd step, $N=8$ branches & 50 demos, every 10th
+step, $N=4$ branches \\
+\addlinespace
+Cost per probe step & one simulator step & one diffusion inference plus one
+simulator step (GPU) \\
+\addlinespace
+Needs a trained policy & no & yes \\
+\addlinespace
+Role & primary label; the predictor trains on it & diagnostic overlay on the
+primary label \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Is closed-loop stability checked where open-loop stability is found?}
+Yes, but by construction rather than by conditioning. The closed-loop grid
+(demos 0 to 49, every 10th step) is a strict subset of the open-loop grid
+(demos 0 to 199, every 2nd step), so every closed-loop stamp has an open-loop
+label at the same demonstration and timestep, and the two can be compared
+pairwise. The closed-loop probe is run at \emph{every} stamp of its subgrid,
+not only where the open-loop label came out stable; gating it on the open-loop
+result would have biased the comparison and hidden two of the four scenarios
+of Section \ref{sec:scenarios}. The subgrid is a subsample, not the full grid,
+purely for cost: every closed-loop probe step is a diffusion-policy inference,
+which makes the closed-loop channel roughly two orders of magnitude more
+expensive per stamp than the open-loop channel. The reverse containment
+therefore does not hold: most open-loop stamps, stable ones included, have no
+closed-loop measurement, and the closed-loop claims in this report are claims
+about the subsample.
+
+%=====================================================================
 \section{The labeling algorithm, in full detail}
 
 \subsection{The quantity being measured}
