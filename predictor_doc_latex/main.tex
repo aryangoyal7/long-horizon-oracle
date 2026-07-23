@@ -8,7 +8,7 @@
 \title{The Stability Predictor:\\ \large What the Video Model Is, How It Was Pretrained,
 What We Train on Top of It, and the Training Plan on Our Labeled Data}
 \author{Aryan Goyal}
-\date{July 18, 2026 (updated July 20)}
+\date{July 18, 2026 (updated July 23)}
 
 \begin{document}
 \maketitle
@@ -159,14 +159,17 @@ The head has three stages, all small:
   \item \textbf{Output MLP.} A two-layer MLP maps the concatenation to four
         outputs:
         \begin{itemize}[leftmargin=1.5em]
-          \item $p_{ol}$: probability the current moment is open-loop unstable
-                (a sigmoid; this is the decision output),
+          \item $p_{ol}$: probability that the current moment is open-loop
+                \emph{unstable} (a sigmoid; this is the decision output; note
+                the convention, high $p_{ol}$ means unstable),
           \item $\hat\lambda_{ol}$: predicted open-loop divergence rate
-                (a regression; calibrates the head and enables a continuous-$k$
-                rule as an ablation),
+                (a regression; calibrates the head and is what the runtime
+                switch thresholds),
           \item $p_{cl}$, $\hat\lambda_{cl}$: the same pair for the closed-loop
-                channel (trained from the start, used by the full three-case
-                runtime rule and the mechanism analysis).
+                channel. As run, the deployed head (run 1) trains only the two
+                open-loop outputs; the closed-loop pair was trained separately
+                as run 5, a diagnostic head on the closed-loop labels
+                (Section \ref{sec:clhead}), and no runtime rule uses it.
         \end{itemize}
 \end{enumerate}
 
@@ -187,33 +190,40 @@ each other during training.
 They meet only at \textbf{execution time}. The policy always predicts a chunk of 16
 future actions. The open question at every replan is how many of those predicted
 actions to execute before replanning. That number $k$ is a queue-management knob
-outside the network. The predictor sets it:
+outside the network. The predictor sets it with one comparison, made at every
+replan:
 
 \begin{center}
 \begin{tabular}{@{}lll@{}}
 \toprule
-Predicted regime & Executed chunk & Meaning \\
+Predicted regime & Executed chunk & Reason \\
 \midrule
-$p_{ol}$ low (stable / not unstable) & $k = k_{\mathrm{long}}$ (8--16) & commit; plant absorbs or \\
- & & carries errors, fewer injections \\
-$p_{ol}$ high, $p_{cl}$ low & $k = 1$ & react; feedback beats the \\
- & & expansion here \\
-$p_{ol}$ high, $p_{cl}$ high & $k = 1$ + flag & no execution-side fix; segment \\
- & & marked for data-side repair \\
+open-loop stable ($\hat\lambda_{ol} \leq \delta$) & $k = 16$, commit &
+  the plant absorbs errors; \\
+ & & each replan would inject one \\
+open-loop unstable ($\hat\lambda_{ol} > \delta$) & $k = 4$, replan sooner &
+  errors grow here, so react \\
+ & & more often, but not per step \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-Hysteresis (two consecutive agreeing predictions) prevents chattering at segment
-boundaries. Because every compared execution rule runs the exact same frozen policy
-weights, any performance difference is attributable to the switching rule alone.
-That attribution is the experiment; baking the signal into policy training would
-destroy it.
+Two points prevent misreading this table. First, stability means commitment:
+the more stable the moment, the \emph{longer} the executed chunk. Short chunks
+are reserved for unstable moments. Second, the unstable branch uses $k = 4$
+and not $k = 1$, because per-step replanning during contact was measured to be
+harmful in the Stage 1a rollouts (0.60 to 0.67 success against 0.80 or better
+for committed execution) and the closed-loop labels explain why: the policy's
+own corrections inject error at 90 to 99 percent of stamps. Reacting more
+often than the plant demands is itself a failure mode.
 
-The one place the predictor's output may eventually influence training is stage 2,
-and it is data-side, not loss-side: segments flagged by the third row (unstable
-under both channels) become the target list for noise-injected demonstrations,
-which is the theory's prescribed remedy for that regime.
+Because every compared execution rule runs the exact same frozen policy
+weights, any performance difference is attributable to the switching rule
+alone. That attribution is the experiment; baking the signal into policy
+training would destroy it. An earlier version of this section described a
+planned three-case rule (with a separate closed-loop prediction choosing
+between reacting and flagging the segment for data-side repair); the deployed
+rule is the two-case rule above, and data-side repair remains future work.
 
 %=====================================================================
 \section{Training plan on the datasets we have}
@@ -221,35 +231,35 @@ which is the theory's prescribed remedy for that regime.
 
 \subsection{The training pool}
 
-Supervised pairs are (cached features, labels) per stamp. Current inventory, all
-labeled with the perturb-and-replay oracle at $K{=}24$, $N{=}8$, stride 2:
+Supervised pairs are (cached features, labels) per stamp. The full inventory,
+all labeled with the perturb-and-replay oracle at $K{=}24$, $N{=}8$, stride 2,
+all features extracted and cached:
 
 \begin{center}
 \small
-\begin{tabular}{@{}llrll@{}}
+\begin{tabular}{@{}llll@{}}
 \toprule
-Dataset & Stamps & Features & $\sigma_u$ & Role in training \\
+Dataset & Stamps & $\sigma_u$ & Role in training \\
 \midrule
-lift & 2{,}485 & cached & measured & pool \\
-can & 9{,}254 & cached & measured & pool (mostly-stable balance) \\
-square & 12{,}723 & cached & measured & pool + primary eval \\
-tool\_hang & 45{,}633 & cached & measured & pool + primary eval \\
-MimicGen stack\_d0 & 8{,}445 & to extract & interim & pool (contact diversity) \\
-MimicGen square\_d0 & 12{,}874 & to extract & borrowed & pool + transfer check \\
-LIBERO-Long (10 files) & $\sim$65k & to extract & interim & pool, provisional \\
-policy rollouts (lift, can) & to label & to extract & measured & pool (runtime states) \\
+lift & 2{,}485 & measured & pool \\
+can & 9{,}254 & measured & pool (mostly-stable balance) \\
+square & 12{,}723 & measured & pool + primary eval \\
+tool\_hang & 45{,}633 & measured & pool + primary eval \\
+MimicGen stack\_d0 & 8{,}445 & interim & pool (contact diversity) \\
+MimicGen square\_d0 & 12{,}874 & borrowed & pool + transfer check \\
+LIBERO-Long (10 files) & $\sim$63k & interim & pool (run 3b onward) \\
+policy rollouts (lift, can) & included & measured & pool (runtime states) \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-Three preparation steps still pending, in order of priority:
-(1) label the collected lift and can policy rollouts (including the failed ones)
-exactly like demos, so the predictor sees the state distribution it will face at
-runtime, not only the demo tube;
-(2) regenerate image observations for the MimicGen sets (their downloads are
-low-dimensional) and extract features in the MimicGen environment stack;
-(3) extract LIBERO features (their files ship with images) with the extractor
-adapted to LIBERO's observation keys.
+The preparation this required (labeling the lift and can policy rollouts so the
+head sees runtime states and not only the demo tube, regenerating MimicGen
+image observations and extracting their features in the MimicGen environment
+stack, and adapting the extractor to LIBERO's observation keys) is complete.
+The deployed head (run 1) trains on the eight Panda-robot feature sets, 82{,}212
+train and 20{,}147 validation stamps; run 3b adds LIBERO for 145{,}378 train
+stamps.
 
 \subsection{Targets and losses}
 
@@ -320,6 +330,9 @@ afternoon, not a compute event.
         switch against fixed-$k$ and policy-confidence baselines, all on the same
         frozen policy.
 \end{enumerate}
+
+All five steps have run. Their results are Sections \ref{sec:stage1b} and
+\ref{sec:stage1c}.
 
 %=====================================================================
 \section{Stage 1b results (July 18)}
