@@ -443,3 +443,17 @@ evals. Separately, the original ckpt_select_run.log was destroyed by an
 in-place sed on the CIFS mount (rename onto an open file leaves it
 delete-pending); it was reconstructed from the intact eval JSONs, which were
 never at risk.
+
+## 2026-07-23 06:40 UTC — K-sweep runner built and armed; backups complete
+
+All four checkpoint grids are backed up on scratch (55 GB each,
+SCRATCH_BACKUP_ALL). Reconversions are healthy (about demo 300 of 1,000 on
+three tasks, coffee at 129; ETA one to three hours). run_stage2_ksweep.sh is
+launched and waiting: it smoke-tests stage2_ksweep.py (2 episodes fixed, 2
+predictor) as soon as the three_piece dataset lands, waits for
+CKPT_SELECT_ALL_DONE, picks the best checkpoint per task from the selection
+JSONs (argmax success, ties to the later epoch), then runs the 20 cells
+(fixed k in {1,4,8,16} plus predictor (16,4), 50 episodes, seed 0) across 8
+GPUs. STAGE2_KSWEEP_ALL_DONE is written only if all 20 result files exist,
+so the shutdown watchdog cannot fire on a partial sweep. Both LaTeX docs
+updated with the selection results and the labeling clarification, pushed.
