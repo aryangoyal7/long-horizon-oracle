@@ -31,3 +31,7 @@ __pycache__/
 
 # Stray file created by an accidental paste in the file browser (Jul 21)
 Are all LaTeX*
+stages_combined_latex/*.aux
+stages_combined_latex/*.log
+stages_combined_latex/*.out
+stages_combined_latex/*.toc
