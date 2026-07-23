@@ -47,9 +47,34 @@ all four robomimic tasks, tool\_hang included.
 \section{The two stability measures at a glance}
 \label{sec:glance}
 
-Before the full detail, three questions that decide how to read everything
-below: what exactly is perturbed, what differs between the two channels, and
-whether the channels are measured on the same places.
+In plain terms first. \textbf{Open-loop labels:} take a recorded
+demonstration, jump the simulator to some timestep, and run the next 1.2
+seconds twice: once replaying the demonstration's recorded actions exactly,
+and once replaying the same actions after adding a small error to the first
+one, sized like a typical policy mistake. No policy is involved; both runs
+are fixed action playback. If the gap between the two trajectories shrinks
+or stays flat, the timestep is open-loop stable; if the gap grows, it is
+open-loop unstable. This asks ``if one wrong move happens here, does physics
+forgive it?'' and it is the primary label, the one the predictor trains on.
+
+\textbf{Closed-loop labels:} the same setup with one change. After the same
+injected error, the perturbed run is no longer fixed playback: the trained
+diffusion policy looks at its camera observations and picks a fresh action
+at every step, reacting as it would at deployment. This is the one place a
+trained policy enters the labeling at all, and it was run only after the
+Stage 1 policies were fully trained and verified (success 0.9 to 1.0). If
+reacting shrinks the gap, the timestep is closed-loop stable; if reacting
+makes the gap grow, closed-loop unstable. The channel is a diagnostic, and
+its headline finding is that in already-stable regions the policy's own
+corrections add error at 90 to 99 percent of stamps, which is the direct
+evidence that per-step replanning is harmful there. Ordinary policy
+rollouts, the policy running whole episodes, appear only in the Stage 1 and
+Stage 2 experiments that measure success rates; they play no part in
+labeling.
+
+The rest of this section makes three points precise: what exactly is
+perturbed, what differs between the two channels, and whether the channels
+are measured at the same places.
 
 \textbf{What is perturbed: an action, never the state.} Neither channel
 teleports the simulator state. The perturbation is Gaussian noise on the
