@@ -148,6 +148,58 @@ is a diagnostic channel: comparing $\lambda_{cl}$ against $\lambda_{ol}$ per seg
 tests the mechanism that feedback injects estimation error where the plant contracts
 and corrects error where the plant expands.
 
+\subsection{The four possible scenarios when the two channels are combined}
+\label{sec:scenarios}
+
+Each channel classifies a stamp three ways (stable, deadband, unstable), but the
+deadband is an abstention, not a third physical regime, so the physically meaningful
+question per channel is binary: does the error grow or not? Combining the two
+channels then gives exactly four scenarios. All four are logically possible, and
+they mean different things and recommend different execution behavior.
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{Open loop stable, closed loop stable.} The plant absorbs the
+        injected error on its own, and per-step replanning does no harm either.
+        Both execution modes are safe, so the tie-break is cost: commit a long
+        chunk and save the inference compute. Empirically this scenario is rare
+        in our data, because the closed-loop channel is rarely non-positive
+        (only 1 to 10 percent of stamps across the four tasks).
+  \item \textbf{Open loop stable, closed loop unstable.} The plant absorbs
+        committed errors, but the policy's own per-step corrections inject more
+        error than they remove. This is the feedback-noise regime, it is the
+        dominant scenario in our measurements (68 to 86 percent of open-loop
+        stamps sit at or below the deadband while 90 to 99 percent of
+        closed-loop stamps are positive), and it is the empirical footing for
+        committing long chunks in free space and transport: here replanning is
+        not merely unnecessary, it is the destabilizing choice.
+  \item \textbf{Open loop unstable, closed loop stable.} The plant amplifies
+        committed errors, but reacting corrects them faster than they grow.
+        This is the textbook case for short chunks and dense feedback, and it
+        is the scenario the switch rule hopes to find at contact boundaries.
+        At the stamp level our data shows it is uncommon (even in contact, the
+        closed-loop channel stays positive at most stamps), which is itself a
+        finding: feedback rescue is not free just because feedback is
+        available.
+  \item \textbf{Open loop unstable, closed loop unstable.} The plant amplifies
+        errors and per-step replanning amplifies them too. Locally, no
+        execution mode contains the error; what decides success is whether the
+        task funnels the state back (a peg entering its hole is guided by the
+        geometry) and how much extra noise each mode injects along the way.
+        The Stage 1a rollouts locate contact-heavy segments here and show that
+        intermediate chunks (4 to 16 actions) beat per-step replanning in
+        them, consistent with divergence data from both channels: when
+        nothing is contracting, the winning move is to stop adding feedback
+        noise, not to react faster.
+\end{enumerate}
+
+Two cautions when reading the table of scenarios. First, the channels measure
+state divergence over a 1.2 second window, not task failure; scenario 4 stamps
+are frequently crossed successfully by every execution mode, so ``unstable''
+means ``sensitive here'', not ``doomed here''. Second, membership is
+policy-dependent only through the closed-loop channel: retraining the policy can
+move a stamp between scenarios 1 and 2 or between 3 and 4, but never across the
+open-loop split, which is a property of the plant alone.
+
 \subsection{Why the primary label replays fixed actions instead of running the policy}
 
 A natural question: would it not be better to let the trained policy act in the
