@@ -9,7 +9,7 @@
 
 \title{Stability Labeling Report:\\ \large Data, Algorithm, Constants, and Results of the FTLE Labeling Campaign}
 \author{Aryan Goyal}
-\date{July 17, 2026 (updated July 21; reconstructed after the July 21 file loss, see PROGRESS)}
+\date{July 17, 2026 (updated July 23; reconstructed after the July 21 file loss, see PROGRESS)}
 
 \begin{document}
 \maketitle
@@ -168,6 +168,40 @@ label would have to be regenerated with every new checkpoint. The closed-loop
 channel is therefore kept as a separate diagnostic: the open-loop label licenses
 committing, and the closed-loop label tells us whether reacting helps where
 committing is unsafe.
+
+\subsection{Which labels need a trained policy, and which do not}
+\label{sec:policy-dependency}
+
+A reasonable worry: labeling ran while policy trainings were still in
+progress, so how could the labels exist before the policies did? The answer
+is that the two label channels have different inputs, and only one of them
+involves a policy at all.
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{The open-loop channel needs no policy.} Its probe perturbs a
+        state and then replays the \emph{recorded demonstration actions} on
+        both branches. Everything it touches (the demonstrations, the
+        simulator, the perturbation) exists the moment a dataset is
+        downloaded. This is the primary label, it is what the predictor is
+        trained on, and it was generated for every dataset in this report
+        with no policy in the loop. It is also why the label stays valid
+        when a policy is retrained or replaced.
+  \item \textbf{The closed-loop channel does need a trained policy}, because
+        its perturbed branch is driven by policy inference. It was therefore
+        generated last, and only for the four robomimic tasks, using the
+        finished Stage 1 policies (lift epoch 100 and can epoch 1050 at
+        success 1.0, square epoch 950 at 0.9, tool\_hang epoch 1200 at 0.9).
+        Nothing downstream trains on it; it is a diagnostic overlay on the
+        open-loop label.
+\end{itemize}
+
+Concretely for Stage 2: the four MimicGen long-horizon tasks have no labels
+and, on the current plan, need none, because the predictor head is applied
+zero-shot. If zero-shot transfer underperforms, the fallback is to label
+MimicGen demonstrations with the open-loop probe, and that fallback again
+waits on nothing, because it replays demonstration actions rather than
+querying the Stage 2 policies. At no point is any labeling blocked on a
+training run.
 
 \subsection{Why do we need a predictor or oracle at all?}
 

@@ -402,3 +402,44 @@ Analysis: `results/labels/lift/`. Training restarted ~18:45 with hdf5_cache_mode
 - ETA at ~36-41 s/epoch: nut ~10:00 UTC, the rest ~12:30-13:00 UTC Jul 22.
 - Selection waiter (pids 69506+) and auto_shutdown watchdog alive; no backups
   yet (none finished). Next: backup + selection per task as trainings finish.
+
+## 2026-07-23 05:30 UTC — Root cause of both "disk events": VM stops wipe scratch
+- Boot history shows the machine was STOPPED 14:55 UTC Jul 22 and restarted
+  04:46 UTC Jul 23; the Jul 17 boot ended 05:02 UTC Jul 21. Azure reprovisions
+  /mnt/scratch on every stop. So the Jul 21 "disk event" and yesterday's
+  selection death were both VM stops (manual or scheduled), not disk failures.
+- What completed before the stop: ALL FOUR trainings reached epoch 2000 and
+  finished. Selection completed for nut (best 0.36 @2000) and three_piece
+  (best 0.80 @1700); kitchen 600-1700 done (0.96-1.0 (!)); coffee only
+  epoch 600 (0.04). Missing: kitchen@2000, coffee@1000/1400/1700/2000.
+- Backup fault (mine): backups targeted the 119G OS disk which filled at 97%;
+  nut got 25G of 58G, kitchen 179M, others none. Partials deleted (originals
+  intact on the share), destination switched to /mnt/scratch/lh/ckpt_backups
+  (2.6T); full re-copy of all four grids running.
+- Recovery running: resume_ckpt_selection.sh (only missing evals, appends to
+  the watched log), rebuild_scratch.sh (venvs + datasets + reconversion on
+  GPUs 4-7, ~2h) relaunched after the wipe killed the first resume attempt
+  (mg venv missing); vacuous ALL_DONE scrubbed from ckpt_select_run.log;
+  auto_shutdown re-armed. GitHub: all commits pushed through restored
+  VS Code connection; credential store now holds a durable token.
+- Remaining: missing evals (~5h after reconversion), then build + smoke the
+  k-sweep runner, then the experiment (~1 GPU-day), then auto-shutdown.
+
+## 2026-07-23 06:10 UTC — Rebuild hit a torchvision fault; conversions rerunning
+
+The scratch rebuild finished its venvs and dataset downloads, but all four
+image reconversions failed instantly: setup_and_probe.sh installed torch from
+the cu128 wheel index while pip pulled torchvision from PyPI, and the
+mismatched C extension fails with "operator torchvision::nms does not exist".
+The selection resume then failed vacuously and wrote a false
+CKPT_SELECT_ALL_DONE, which was scrubbed before auto_shutdown could see a
+complete pipeline (the k-sweep gate was still closed, so no shutdown risk
+materialized). Fixes: cu128 torchvision force-reinstalled in the mg venv,
+setup_and_probe.sh now installs the pair from the same index (and its
+PATCH_V03 mujoco_py guard, which was defined but never invoked, is now
+called after the v03 clone). recover_convert_and_select.sh reruns the four
+conversions on GPUs 4-7 (~2h) and then relaunches the five missing selection
+evals. Separately, the original ckpt_select_run.log was destroyed by an
+in-place sed on the CIFS mount (rename onto an open file leaves it
+delete-pending); it was reconstructed from the intact eval JSONs, which were
+never at risk.

@@ -8,7 +8,7 @@
 \title{Stage 2: Long-Horizon MimicGen Tasks\\
 \large Why These Tasks, the Two-Simulator Problem, the Training Setup, and Current Status}
 \author{Aryan Goyal}
-\date{July 20, 2026 (updated July 22)}
+\date{July 20, 2026 (updated July 23)}
 
 \begin{document}
 \maketitle
@@ -25,11 +25,13 @@ nut\_assembly, kitchen, coffee\_preparation, all D0, 1{,}000 demonstrations
 each, mean episode lengths 337 to 689 steps) and will then run the same
 fixed-$k$ versus predictor-switch comparison as Stage 1c. This document records
 the design decisions, the two-simulator version problem and how it was solved,
-the exact conversion and training pipeline, the status log (including the
-July 21 scratch-disk event that killed the first training runs at 80 to 86
-percent, the relaunch fault that then deleted the surviving checkpoints, and
-the hardened restart that now carries the pipeline), and the open decisions
-for the evaluation phase.
+the exact conversion and training pipeline, the completed trainings (all four
+tasks reached epoch 2,000), the first checkpoint-selection results (kitchen at
+or near ceiling, three\_piece\_assembly at 0.80, nut\_assembly at 0.36,
+coffee\_preparation still being evaluated), and the incident log: the July 21
+scratch-disk event, the relaunch fault that deleted the surviving
+checkpoints, and the July 23 finding that both disk events were the machine
+being stopped, which reprovisions the scratch disk on this VM.
 \end{abstract}
 
 \tableofcontents
@@ -230,31 +232,61 @@ phase fits in a day. The venv constraint that forced rollouts off, in other
 words, also collapsed the schedule.
 
 %=====================================================================
-\section{Step 3, pending: post-hoc evaluation}
+\section{Step 3: the evaluation bridge and checkpoint selection}
 \label{sec:eval}
 
 Measuring success requires rolling out lh-venv-trained checkpoints inside
-mg-venv environments, and no single process can do both. Two candidate designs,
-not yet decided:
+mg-venv environments, and no single process can do both. Of the two candidate
+designs (a cross-venv policy server, or backporting Diffusion Policy into the
+mg venv), the policy server was built and is the one in use:
+\texttt{bridge\_eval.py} runs in the mg venv, owns the MimicGen environment,
+spawns \texttt{policy\_bridge.py} in the lh venv as a subprocess, and streams
+observations to it one step at a time over a pipe. This is the same pattern
+Stage 1c used to run the predictor next to the rollout process. Environment
+metadata comes from the converted dataset rather than the checkpoint, so the
+mg-venv side never has to unpickle an lh-venv torch checkpoint.
 
-\begin{enumerate}[leftmargin=2em]
-  \item \textbf{Policy server.} The policy loads in an lh-venv process; an
-        mg-venv process owns the environment and exchanges observations and
-        actions with the policy process over a local socket or pipe. This is
-        the same pattern Stage 1c used to run the predictor (which needs a
-        newer transformers stack) next to the rollout process, so the
-        infrastructure precedent exists in this codebase.
-  \item \textbf{Backport.} Install a Diffusion-Policy-capable robomimic into
-        the mg venv if its torch and robosuite pins allow it. Cleaner if it
-        works, but the dependency solve is unverified and the policy-server
-        pattern is known-good.
-\end{enumerate}
+\subsection{Checkpoint selection results}
+\label{sec:select-results}
 
-The bridge is the immediate next work item: with the measured training pace
-(Section \ref{sec:train}) the full checkpoint sets exist by the morning of
-July 21, so the bridge, not the trainings, is the critical path. Its first use
-is checkpoint selection (success rate at a subsample of the 40 checkpoints),
-mirroring how the Stage 1 policies were selected.
+Conditions: every cell is 25 rollout episodes at seed 0 through the bridge,
+one task per GPU. Observations are the two 84 by 84 cameras (agentview and
+eye in hand) plus proprioception, frame stack 2, matching training. Rollout
+horizons are fixed per task from the demonstration length maxima with margin:
+560 steps for three\_piece\_assembly, 650 for nut\_assembly, 980 for kitchen,
+1,140 for coffee\_preparation. Checkpoints are taken from the 2,000-epoch
+grids at epochs 600, 1,000, 1,400, 1,700, and 2,000. With 25 episodes the
+standard error is about 0.1, which is coarse but sufficient to pick a plateau
+checkpoint; the selected checkpoint then gets full 50-episode cells in the
+experiment itself. The selection rule is highest success rate, ties broken
+toward the later epoch. The July 22 machine stop (Section
+\ref{sec:incident3}) interrupted the pass; five cells are rerunning and are
+marked pending.
+
+\begin{center}
+\small
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+ & ep.\ 600 & ep.\ 1000 & ep.\ 1400 & ep.\ 1700 & ep.\ 2000 & best so far \\
+\midrule
+three\_piece\_assembly & 0.48 & 0.52 & 0.64 & \textbf{0.80} & 0.68 & 0.80 at 1700 \\
+nut\_assembly          & 0.12 & 0.00 & 0.32 & 0.32 & \textbf{0.36} & 0.36 at 2000 \\
+kitchen                & 0.96 & \textbf{1.00} & \textbf{1.00} & \textbf{1.00} & pending & 1.00 \\
+coffee\_preparation    & 0.04 & pending & pending & pending & pending & open \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Reading these as base policies for the switch experiment: kitchen is at or
+near ceiling, three\_piece\_assembly is strong, and nut\_assembly is weak but
+usable, with enough headroom in all three for chunk-length effects to show in
+either direction. A ceiling-level task like kitchen may compress differences
+between cells; that is acceptable in a four-task design and is itself
+informative if every cell saturates. coffee\_preparation cannot be judged from
+epoch 600 alone; nut\_assembly scored 0.12 at 600 and tripled by 2000, so the
+later coffee checkpoints must land before deciding whether the task has
+enough success to carry a comparison. If it stays near zero, the stage
+proceeds on three tasks, which the four-task design anticipated.
 
 %=====================================================================
 \section{Step 4, pending: the Stage 2 experiment}
@@ -444,8 +476,33 @@ finish between roughly 10:00 and 13:00 UTC. Selection (epochs 600, 1,000,
 training lands, and the switch-versus-fixed-$k$ experiment follows on the
 selected checkpoints.
 
-%=====================================================================
-\section{Risks and open items}
+\subsection{July 22 to 23: trainings complete; the disk events explained}
+\label{sec:incident3}
+
+All four trainings finished on July 22, each reaching epoch 2,000 and
+reporting success, and checkpoint selection completed 15 of its 20 cells
+(the results in Section \ref{sec:select-results}). At 14:55 UTC the virtual
+machine was stopped externally, killing the kitchen epoch-2,000 evaluation
+mid-run and leaving the four coffee\_preparation cells beyond epoch 600
+unstarted. On restart the next morning the scratch disk was again empty,
+and the boot history closed the case on both incidents: this Azure VM's
+scratch disk is reprovisioned on every machine stop. The July 21 ``disk
+event'' aligns with the end of the July 17 boot, and the July 22 loss aligns
+with the 14:55 stop. Nothing was failing at random; stopping the machine is
+what wipes scratch. The operational consequence is simple: the machine must
+stay up until the pipeline finishes, and power-off is left to the automatic
+shutdown watchdog, which fires only when trainings, selection, and the
+Stage 2 experiment have all reported completion.
+
+The July 23 rebuild rebuilt the three venvs and re-downloaded the four
+datasets, and in doing so reproduced both faults recorded in Section
+\ref{sec:incident} (the mismatched torchvision wheel, which silently killed
+all four image reconversions, and the unpatched \texttt{mujoco\_py} import in
+the fresh robomimic v0.3 clone). Both fixes are now written into the setup
+scripts rather than applied by hand, and the reconversions plus the five
+pending selection cells are rerunning. Checkpoint grids were never at risk
+this time: all four live on persistent storage, with a second copy on the
+rebuilt scratch as overwrite insurance.
 \label{sec:risks}
 
 \begin{itemize}[leftmargin=2em]
@@ -486,14 +543,18 @@ The two-simulator conflict between MimicGen (robosuite 1.4, no Diffusion
 Policy) and our training stack (robosuite 1.5) is solved by a strict
 conversion-in-mg, training-in-lh split, at the cost of moving all evaluation
 post hoc. The first training runs were killed at 80 to 86 percent by the
-July 21 scratch-disk event (Section \ref{sec:incident}), and the surviving
+July 21 scratch-disk event (Section \ref{sec:incident}), the surviving
 checkpoint grids were then deleted by a fault in the relaunch script itself
-(Section \ref{sec:incident2}), so the fresh full-length reruns launched on
-July 21 now carry the whole pipeline. They are healthy and finish around
-midday July 22 UTC. The evaluation bridge is built and smoke-tested, the
-zero-shot decision for the predictor head is taken, and the remaining
-sequence is: per-task checkpoint backup and selection as each training
-finishes (July 22), then the fixed-$k$ sweep plus predictor cells (July 22
-to 23), then automatic shutdown.
+(Section \ref{sec:incident2}), and the fresh full-length reruns carried the
+pipeline: all four finished at epoch 2,000 on July 22. Both disk events
+turned out to be the same thing, the machine being stopped, which
+reprovisions this VM's scratch disk (Section \ref{sec:incident3}); the
+machine now stays up until the pipeline's own shutdown watchdog fires.
+Checkpoint selection is three quarters done and already usable: kitchen at
+or near ceiling, three\_piece\_assembly best 0.80 at epoch 1,700,
+nut\_assembly best 0.36 at epoch 2,000, coffee\_preparation pending its
+later checkpoints (Section \ref{sec:select-results}). The remaining
+sequence is: the five rerunning selection cells, then the fixed-$k$ sweep
+plus predictor cells on the selected checkpoints, then automatic shutdown.
 
 \end{document}
