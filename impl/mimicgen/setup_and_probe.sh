@@ -15,8 +15,10 @@ export PIP_CACHE_DIR=$LH/pipcache
 
 # ---- dedicated venv -------------------------------------------------------------
 if [ ! -x $PY ]; then python3 -m venv $MG; $PIP install -q --upgrade pip; fi
-$PY -c "import torch" 2>/dev/null || \
-  $PIP install -q torch --index-url https://download.pytorch.org/whl/cu128
+# torch and torchvision must come from the same index or torchvision's C
+# extension fails against the cu128 torch (operator torchvision::nms missing)
+$PY -c "import torch; from torchvision.transforms import Lambda" 2>/dev/null || \
+  $PIP install -q torch torchvision --index-url https://download.pytorch.org/whl/cu128
 $PY -c "import mujoco; assert mujoco.__version__=='2.3.2'" 2>/dev/null || \
   $PIP install -q "mujoco==2.3.2"
 $PY -c "import robosuite; assert robosuite.__version__.startswith('1.4')" 2>/dev/null || \
