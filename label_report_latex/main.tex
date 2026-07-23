@@ -132,16 +132,20 @@ open-loop-unstable row; everywhere else commitment wins.
 \toprule
  & CL stable & CL deadband & CL unstable \\
 \midrule
-OL stable   & commit long $k$ & commit long $k$ & commit long $k$
-              (replanning destabilizes) \\
-OL deadband & commit long $k$ & commit long $k$
-              (fewer replans, fewer errors) & commit long $k$ \\
-OL unstable & replan per step
-              (feedback rescues) & short $k$ & intermediate $k$
-              (minimize injected noise) \\
+OL stable   & commit long $k$ & commit long $k$ & commit long $k$ \\
+OL deadband & commit long $k$ & commit long $k$ & commit long $k$ \\
+OL unstable & replan per step & short $k$      & intermediate $k$ \\
 \bottomrule
 \end{tabular}
 \end{center}
+
+The reasons per cell, briefly: in the top-right cell replanning is the
+destabilizing choice, so commitment is not just cheaper but safer; in the
+middle cell the policy is the only error source, so fewer replans mean fewer
+errors; in the bottom row, per-step replanning is right only when feedback
+genuinely rescues (bottom left), and when both channels are expansive the
+best that can be done is an intermediate $k$ that keeps some reaction while
+minimizing injected noise.
 
 Empirically the mass concentrates in two cells: transport segments land in
 (OL stable or deadband, CL unstable), and contact segments land in
