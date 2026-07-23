@@ -34,6 +34,7 @@ if [ ! -d $LH/repos/robomimic_v03 ]; then
     $LH/repos/robomimic_v03
 fi
 $PY -c "import robomimic" 2>/dev/null || $PIP install -q -e $LH/repos/robomimic_v03
+PATCH_V03
 if [ ! -d $LH/repos/mimicgen ]; then
   git clone -q https://github.com/NVlabs/mimicgen.git $LH/repos/mimicgen
 fi
