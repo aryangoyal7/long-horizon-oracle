@@ -118,6 +118,39 @@ therefore does not hold: most open-loop stamps, stable ones included, have no
 closed-loop measurement, and the closed-loop claims in this report are claims
 about the subsample.
 
+\textbf{All combinations, and the execution each recommends.} Each channel
+reports one of three classes, giving nine combinations. The recommended
+execution follows from two rules: the open-loop class decides whether
+committing is safe (deadband counts as safe to commit, see the deadband
+argument in the next section), and the closed-loop class decides whether
+reacting helps or hurts. The interesting variation is confined to the
+open-loop-unstable row; everywhere else commitment wins.
+
+\begin{center}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+ & CL stable & CL deadband & CL unstable \\
+\midrule
+OL stable   & commit long $k$ & commit long $k$ & commit long $k$
+              (replanning destabilizes) \\
+OL deadband & commit long $k$ & commit long $k$
+              (fewer replans, fewer errors) & commit long $k$ \\
+OL unstable & replan per step
+              (feedback rescues) & short $k$ & intermediate $k$
+              (minimize injected noise) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Empirically the mass concentrates in two cells: transport segments land in
+(OL stable or deadband, CL unstable), and contact segments land in
+(OL unstable, CL unstable). The rescue cell (OL unstable, CL stable) is rare
+in our measurements, and the whole CL-stable column is thin because the
+closed-loop channel is positive at 90 to 99 percent of stamps. Section
+\ref{sec:scenarios} discusses the four underlying physical scenarios in
+detail.
+
 %=====================================================================
 \section{The labeling algorithm, in full detail}
 
