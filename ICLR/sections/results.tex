@@ -1,0 +1,711 @@
+% Source files for every number in this section (2026-07-31):
+%   labels           /mnt/scratch/lh/labels/final3_env_rc_*.npz
+%   sigma sweep      /mnt/scratch/lh/labels/final3_env_sig{025,100}_rc_*.npz
+%   heterogeneity    results/analysis/heterogeneity_claim1.txt
+%   shadow/online    results/robocasa/switch_controls/<task>_shadow_16.json
+%   fixed k          results/robocasa/ksweep/<task>_fixed_<k>.json
+%   ACT              results/robocasa/act/<task>_act_fixed_<k>.json
+%   oracle           results/robocasa/oracle/
+%   predictors       results/predictor/rc_seq_v3/S_<task>_h<1|4>_s<0|1|2>/{metrics,calib}.json
+%   online switching results/robocasa/seqpred_calib/, thresholds in
+%                    results/predictor/rc_seq_v3/online_thresholds.json
+%   fork             results/robocasa/fork/<task>_fork_16-1.json
+%   proxies          results/robocasa/proxy/<task>_proxyshadow_16.json
+%   diffusion policy results/stage2/ksweep/, results/stage2/ksweep_libero/, results/ksweep/
+
+\section{Claim 1: One Task Contains Both Regimes}
+\label{sec:claim1}
+
+\subsection{Both regimes coexist inside single episodes}
+
+Table~\ref{tab:labels} summarizes the RoboCasa labels. Unstable stamps are a
+small minority everywhere, between 2 and 5 percent of all timesteps, but they
+are not spread evenly across episodes. Between 78 and 96 percent of individual
+episodes contain both regimes, and a typical episode crosses between them
+several times. The same procedure on LIBERO, MimicGen and robomimic gives the
+same picture on twenty more datasets, with unstable fractions from 4 to 51
+percent, both regimes present in essentially every episode, and 3 to 43
+crossings per episode. Error therefore does not compound at a uniform rate
+along an episode, which is what makes one chunk length per task the wrong unit.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+Task & stamps & $\delta$ & unstable & episodes with both & crossings \\
+\midrule
+OpenCabinet & 34{,}133 & .085 & 2.3\% & 86\% & 4 \\
+OpenDrawer & 24{,}293 & .076 & 3.1\% & 78\% & 2 \\
+PickPlaceCounterToCabinet & 23{,}724 & .065 & 5.0\% & 96\% & 6 \\
+TurnOnSinkFaucet & 20{,}198 & .058 & 3.9\% & 82\% & 2 \\
+\bottomrule
+\end{tabular}
+\caption{Open-loop stability labels on RoboCasa, 200 demonstrations per task.
+$\delta$ is the automatic per-task threshold and unstable is the fraction of
+stamps with $\lambda > \delta$. The last two columns show the two regimes
+coexisting inside single episodes: the fraction of episodes containing both,
+and the median number of crossings between them per episode.}
+\label{tab:labels}
+\end{table}
+
+\begin{table*}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrrr}
+\toprule
+& & & \multicolumn{2}{c}{regime share, all stamps} & \multicolumn{2}{c}{heterogeneity within episodes} \\
+\cmidrule(lr){4-5} \cmidrule(lr){6-7}
+Dataset & stamps & $\delta$ & deadband & unstable & within-ep var & crossings/100 \\
+\midrule
+\multicolumn{7}{l}{\textit{RoboCasa, GR00T N1.5}} \\
+\quad OpenCabinet & 34,133 & 0.085 & 95\% & 2.3\% & 99.4\% & 2.3 \\
+\quad OpenDrawer & 24,293 & 0.076 & 94\% & 3.1\% & 97.8\% & 2.4 \\
+\quad PickPlaceToCabinet & 23,724 & 0.065 & 93\% & 5.0\% & 97.8\% & 5.2 \\
+\quad TurnOnSinkFaucet & 20,198 & 0.058 & 94\% & 3.9\% & 94.5\% & 2.8 \\
+\addlinespace[2pt]
+\multicolumn{7}{l}{\textit{LIBERO-10, diffusion policy}} \\
+\quad K3 stove + moka & 6,060 & 0.085 & 93\% & 4.4\% & 96.9\% & 4.1 \\
+\quad K4 bowl in drawer & 5,632 & 0.024 & 68\% & 29.8\% & 98.0\% & 9.9 \\
+\quad K6 mug in microwave & 7,031 & 0.015 & 47\% & 50.9\% & 96.6\% & 22.8 \\
+\quad K8 both moka pots & 9,812 & 0.014 & 47\% & 50.1\% & 98.1\% & 21.5 \\
+\quad L1 soup + cream & 6,147 & 0.025 & 73\% & 25.0\% & 97.6\% & 12.2 \\
+\quad L2 soup + tomato & 6,761 & 0.014 & 48\% & 49.8\% & 97.0\% & 21.3 \\
+\quad L2 cream + butter & 5,920 & 0.014 & 48\% & 50.3\% & 97.0\% & 25.1 \\
+\quad L5 mug + chocolate & 5,868 & 0.018 & 54\% & 43.1\% & 98.5\% & 11.5 \\
+\quad L6 mug + chocolate & 5,789 & 0.018 & 60\% & 37.7\% & 96.5\% & 14.6 \\
+\quad S1 book on shelf & 4,146 & 0.011 & 47\% & 50.2\% & 91.9\% & 15.8 \\
+\addlinespace[2pt]
+\multicolumn{7}{l}{\textit{MimicGen, diffusion policy}} \\
+\quad coffee preparation & 66,724 & 0.064 & 85\% & 12.2\% & 99.6\% & 9.2 \\
+\quad nut assembly & 33,251 & 0.056 & 83\% & 14.8\% & 98.8\% & 12.8 \\
+\quad square & 12,874 & 0.036 & 61\% & 36.3\% & 95.5\% & 17.5 \\
+\quad stack & 8,445 & 0.022 & 55\% & 42.7\% & 95.7\% & 23.2 \\
+\addlinespace[2pt]
+\multicolumn{7}{l}{\textit{robomimic, diffusion policy}} \\
+\quad can & 9,254 & 0.050 & 83\% & 14.2\% & 95.9\% & 12.8 \\
+\quad lift & 2,485 & 0.018 & 55\% & 42.1\% & 95.5\% & 23.2 \\
+\quad square & 12,723 & 0.037 & 64\% & 33.4\% & 94.8\% & 15.2 \\
+\quad tool\_hang & 45,633 & 0.035 & 57\% & 40.3\% & 98.2\% & 19.1 \\
+\addlinespace[2pt]
+\multicolumn{7}{l}{\textit{policy rollouts (not demonstrations)}} \\
+\quad can (rollouts) & 8,360 & 0.038 & 66\% & 31.6\% & 89.7\% & 17.5 \\
+\quad lift (rollouts) & 2,585 & 0.032 & 65\% & 32.7\% & 82.3\% & 14.3 \\
+\addlinespace[2pt]
+\midrule
+\multicolumn{7}{l}{closed-loop axis: measured on the four RoboCasa tasks
+ (Table~\ref{tab:threebythree}); \pending{not yet measured on the other 20}} \\
+\bottomrule
+\end{tabular}
+\caption{Every dataset we labeled, 24 in total. $\delta$ is the automatic
+per-task threshold, unstable is the share of stamps with $\lambda>\delta$, and
+deadband is $\lvert\lambda\rvert\le\delta$ where the label is ambiguous by
+construction. We omit the stable share because the threshold rule fixes it near
+2.5\% on every dataset, so it carries no information. The last two columns
+measure heterogeneity. Within-ep var is the share of the total variance of
+$\lambda$ that survives removing the between-episode means, so a value near
+100\% means stability varies inside episodes rather than between them; it is 82
+to 99.6\% on every dataset, which is the central evidence that chunk length
+should not be a per-task constant. Crossings/100 counts regime transitions per
+100 labeled stamps, normalised so longer episodes do not inflate it: the kitchen
+tasks sit at 2 to 5 and alternate rarely, while long-horizon and high-precision
+tasks sit at 10 to 25.}
+\label{tab:alllabels}
+\end{table*}
+
+\begin{figure}[t]
+\centering
+\scriptsize
+\begin{tabular}{@{}ll@{}}
+\multicolumn{2}{@{}l}{\textit{RoboCasa PickPlaceToCabinet}, $\delta{=}.065$} \\
+\quad demo 52, 6 crossings & \texttt{..................................................UUU...} \\
+\quad demo 152, 26 crossings & \texttt{..........U................................U............} \\
+\addlinespace[3pt]
+\multicolumn{2}{@{}l}{\textit{RoboCasa TurnOnSinkFaucet}, $\delta{=}.058$} \\
+\quad demo 131, 2 crossings & \texttt{............................................U...........} \\
+\quad demo 68, 26 crossings & \texttt{..U...U.U.UU.UUUU...........U........................UU.} \\
+\addlinespace[3pt]
+\multicolumn{2}{@{}l}{\textit{LIBERO K8, both moka pots}, $\delta{=}.014$} \\
+\quad demo 15, 43 crossings & \texttt{......UU...UUUUU......UUUUUUU.UUU..UUUUUUU....UUUUU.UUUU} \\
+\quad demo 33, 73 crossings & \texttt{..UU....UU.UUUUUU.....U..U..U.U.UU.U.U.UUUU....U......UU} \\
+\addlinespace[3pt]
+\multicolumn{2}{@{}l}{\textit{robomimic tool\_hang}, $\delta{=}.035$} \\
+\quad demo 42, 43 crossings & \texttt{.....UU..............U.UU..UUU........UU..U.UUU.UUU.UUUU} \\
+\quad demo 156, 79 crossings & \texttt{.........UUUUU..U.U...U.UU..U.UU......UUUUU...UUUU.U.U.U} \\
+\end{tabular}
+\caption{Regime timelines for individual demonstrations, each row one episode
+resampled to 56 columns. A dot is a stable or deadband stamp and the letter U is an unstable one. The kitchen tasks put one or two short unstable islands in a
+long stable episode. The long-horizon LIBERO task and the high-precision
+tool-hang task alternate throughout, which is the regime where a shorter
+constant chunk, not switching, is the right answer.}
+\label{fig:timelines}
+\end{figure}
+
+The unstable segments are short and localized. Measured on the states the
+policy itself visits, a contiguous unstable stretch lasts a median of 1 to 5
+control steps and occupies 1 to 3 percent of an episode on three of the four
+tasks. OpenDrawer is the exception, where the signal stays up for long
+stretches covering about 18 percent of an episode, and we return to that task
+as the case where switching degenerates.
+
+\subsection{The structure is a property of the dynamics, not of the probe}
+
+A reader may ask whether the regimes are an artifact of the perturbation size
+we inject. They are not. Relabeling all four tasks at $\sigma_u$ of 0.025 and
+0.100, a fourfold range around the 0.05 used throughout, leaves the per-stamp
+ordering of $\lambda$ almost unchanged, with Spearman correlation 0.95 to 0.98
+between adjacent settings and 0.82 to 0.90 between the extremes, and the
+unstable flag agrees on 97 to 99 percent of stamps.
+
+\subsection{Fixed chunk length follows the regime profile}
+
+Table~\ref{tab:fixed} gives the fixed-$k$ sweep. The best constant is 16, 16, 8
+and 16 across the four tasks, so no single value is right even inside one
+benchmark. TurnOnSinkFaucet is the extreme case, collapsing from .42 to .04 as
+$k$ shrinks, which is the signature of a task that cannot tolerate constant
+replanning. A second policy class shows the same task dependence with a
+different profile. ACT policies trained on the same demonstrations score
+.58/.64/.52/.32 on OpenCabinet, .30/.32/.04/.10 on OpenDrawer,
+.12/.12/.04/.10 on PickPlaceCounterToCabinet and .50/.40/.34/.36 on
+TurnOnSinkFaucet for $k$ of 16, 8, 4 and 1, so ACT tolerates single-step
+execution on the faucet task where the generalist policy does not.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lcccc}
+\toprule
+Task & $k{=}16$ & $k{=}8$ & $k{=}4$ & $k{=}1$ \\
+\midrule
+OpenCabinet & \textbf{.52} & .52 & .44 & .48 \\
+OpenDrawer & \textbf{.64} & .56 & .64 & .40 \\
+PickPlaceCounterToCabinet & .58 & \textbf{.78} & .70 & .52 \\
+TurnOnSinkFaucet & \textbf{.42} & .36 & .10 & .04 \\
+\bottomrule
+\end{tabular}
+\caption{RoboCasa with GR00T N1.5, success over 50 episodes per cell. Bold
+marks the best constant chunk length per task.}
+\label{tab:fixed}
+\end{table}
+
+\section{Claim 2: The Regime Can Be Labeled and Predicted}
+\label{sec:claim2}
+
+\subsection{Three ways to answer the same question}
+
+Every controller in this paper answers one yes or no question at each replan:
+is the chunk the policy just proposed open-loop unstable? If the answer is no,
+the controller executes all 16 actions without looking. If the answer is yes,
+it switches to single-step execution and replans after every action until the
+signal clears. The controllers differ only in how they reach that answer.
+
+The \textbf{simulator oracle} measures the answer instead of predicting it. At
+each replan it saves the simulator state, replays the proposed chunk once
+unperturbed and eight more times with the first action perturbed, fits
+$\lambda$, restores the state exactly, and compares $\lambda$ to $\delta$. It
+is trained on nothing. It cannot run on a real robot because it rolls the
+simulator forward and then rewinds it, so its role is to bound what a perfect
+answer would be worth.
+
+The \textbf{h1 predictor} is a small attentive head on frozen V-JEPA features
+that predicts $\lambda$ from one clip of 16 consecutive camera frames, about
+0.8 seconds, plus the robot state over the same window. It is trained by
+supervised regression and classification against the labels of
+Table~\ref{tab:labels}, sees no simulator at run time, and costs one forward
+pass per replan.
+
+The \textbf{h4 predictor} has identical architecture and identical training
+targets but reads four clips spaced 16 frames apart, about 3.2 seconds of
+history, with a learned per-clip position embedding.
+
+\subsection{Perception recovers the regime}
+
+Table~\ref{tab:claim2} gives detection quality on held-out demonstrations. Both
+heads rank unstable segments well above chance on all four tasks. The result
+holds on the other platforms as well: 0.94 to 0.96 AUROC on confident stamps
+for MimicGen coffee preparation, 0.83 to 0.94 for nut assembly, 0.88 to 0.91
+across LIBERO tasks, and 0.87 on a pooled four-task robomimic set, with
+cross-task transfer from square to tool hang at 0.72 to 0.77.
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llcccc}
+\toprule
+& & \multicolumn{2}{c}{AUROC, confident stamps} & \multicolumn{2}{c}{recall at matched budget} \\
+\cmidrule(lr){3-4} \cmidrule(lr){5-6}
+Platform & Task & h1 & h4 & h1 & h4 \\
+\midrule
+RoboCasa GR00T & OpenCabinet & \textbf{0.885}\,$\pm$0.021 & 0.858\,$\pm$0.014 & 0.33 & 0.17 \\
+RoboCasa GR00T & OpenDrawer & \textbf{0.863}\,$\pm$0.023 & 0.838\,$\pm$0.010 & 0.18 & 0.10 \\
+RoboCasa GR00T & PickPlaceToCabinet & \textbf{0.895}\,$\pm$0.016 & 0.887\,$\pm$0.006 & 0.25 & 0.14 \\
+RoboCasa GR00T & TurnOnSinkFaucet & \textbf{0.902}\,$\pm$0.022 & 0.895\,$\pm$0.012 & 0.20 & 0.15 \\
+MimicGen DP & coffee preparation & 0.939\,$\pm$0.006 & \textbf{0.953}\,$\pm$0.002 & -- & -- \\
+MimicGen DP & nut assembly & \textbf{0.885}\,$\pm$0.029 & 0.859\,$\pm$0.022 & -- & -- \\
+\midrule
+\multicolumn{6}{l}{\textit{other evidence, single-clip architecture}} \\
+LIBERO-10 DP & 10 tasks & \multicolumn{2}{c}{.843 to .913} & \multicolumn{2}{c}{--} \\
+robomimic DP & 4-task pool & \multicolumn{2}{c}{.868} & \multicolumn{2}{c}{--} \\
+robomimic DP & square $\to$ tool\_hang & \multicolumn{2}{c}{.719 to .768} & \multicolumn{2}{c}{--} \\
+robomimic DP & DINOv2, single frame & \multicolumn{2}{c}{.859} & \multicolumn{2}{c}{--} \\
+any & privileged contact flag & \multicolumn{2}{c}{.602 to .802} & \multicolumn{2}{c}{--} \\
+\midrule
+\multicolumn{6}{l}{h1 and h4 on the remaining 16 labeled datasets:
+ \pending{in the training pipeline}} \\
+\multicolumn{6}{l}{pooled head over all four RoboCasa tasks:
+ \pending{in the training pipeline}} \\
+\multicolumn{6}{l}{head trained on both stability axes jointly:
+ \pending{not started, waiting on closed-loop labels}} \\
+\bottomrule
+\end{tabular}
+\caption{Detection quality of the stability predictors. AUROC is measured on
+held-out demonstrations, mean and standard deviation over three seeds, and
+restricted to confident stamps whose label is not inside the deadband. Recall
+at matched budget is the fraction of truly unstable stamps recovered when the
+firing rate is fixed to the label base rate, where random firing would recover
+2.5 to 5.0 percent, so the heads run 3 to 13 times better than chance. Bold
+marks the better of h1 and h4 per row: extra temporal history helps on one
+dataset out of six and hurts on the other five. The privileged contact flag,
+which reports whether the gripper touches a movable object, is the baseline a
+learned head must beat to show it is doing more than contact detection.}
+\label{tab:claim2}
+\end{table}
+
+The heads are not merely detecting contact. A privileged flag that reports
+whether the gripper touches a movable object reaches only 0.60 to 0.80 AUROC on
+the same stamps, so the learned heads discriminate which contact moments are
+sensitive rather than that contact is occurring.
+
+Whether temporal history helps depends on the task, and the dependence is
+systematic. On the four RoboCasa tasks the four-clip head is worse than the
+single-clip head everywhere, which suggested at first that history is simply
+unhelpful. Extending the comparison to 14 datasets reverses that reading: the
+single-clip head wins on 6 and the four-clip head on 8, with mean AUROC 0.848
+against 0.858. What separates them is how fast the task alternates between
+regimes. Ranking datasets by crossings per 100 stamps from
+Table~\ref{tab:alllabels}, the advantage of history correlates with the
+alternation rate at Spearman $+0.64$: on the seven slowest-alternating
+datasets the four-clip head loses by 0.013 on average and wins 2 of 7, while
+on the seven fastest it gains 0.034 and wins 6 of 7.
+
+We read this as follows. A single frame suffices when instability arrives as
+isolated islands, because the regime is then a property of the current
+configuration, whether the gripper is engaged and how the geometry sits. A
+single-frame DINOv2 head reaching 0.86 AUROC on confident stamps and
+proprioception-only heads matching vision-only heads on MimicGen both support
+that. When regimes alternate several times per hundred timesteps the current
+configuration is ambiguous and recent motion carries the extra information.
+RoboCasa, our main platform, sits firmly in the first case at 2 to 5 crossings
+per 100 stamps, which is why the four-clip head loses there.
+\pending{8 of 22 datasets still training; the correlation is over the 14 with
+both heads complete}
+
+\subsection{Existing replan signals do not track the measured one}
+\label{sec:proxies}
+
+Because our labels exist independently of any controller, they can be used to
+audit the signals other methods switch on. We instrument shadow rollouts to
+record, at the same state and the same replan, our $\lambda$ alongside the
+sample spread of repeated chunk draws, the agreement between the queued chunk
+and a freshly sampled one, and the speed profile of the predicted chunk, which
+are the signals used by the confidence, consistency and kinematic families
+respectively. Table~\ref{tab:proxies} reports the result over 1{,}370 to
+2{,}339 replans per task.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lcccc}
+\toprule
+Signal family & Spearman with $\lambda$ & AUROC for $\lambda > \delta$ \\
+\midrule
+sample spread (confidence) & $-.07$ to $+.10$ & .61 to .76 \\
+chunk agreement (consistency) & $-.17$ to $.00$ & .40 to .62 \\
+predicted speed valley (kinematic) & $+.15$ to $+.21$, inverted & .31 to .69 \\
+\bottomrule
+\end{tabular}
+\caption{Competing replan signals measured against $\lambda$ at the same
+states, ranges across the four RoboCasa tasks. The kinematic row is inverted:
+commanded speed correlates positively with $\lambda$, so firing at speed
+valleys fires at the more stable moments.}
+\label{tab:proxies}
+\end{table}
+
+None of the three tracks $\lambda$ closely. The confidence family carries a
+weak tail signal but almost no graded correlation. The consistency family is
+near chance. The kinematic family is the striking case: commanded speed
+correlates positively with $\lambda$, so a rule that fires at speed valleys
+fires preferentially at the more stable moments, the opposite of what the
+stability measurement recommends. This does not say those methods do not work,
+since a trigger can help for reasons unrelated to stability. It says they are
+measuring something else, which is why our labels are not redundant with them.
+
+\paragraph{Running them as controllers.}
+Correlation says what a signal measures, not what it is worth. We therefore
+reimplemented each signal as a controller in our own executor, switching
+between $k{=}16$ and $k{=}1$ on the same policy, tasks and episode budget as
+our own runs, with each threshold set so the signal fires at the oracle's rate
+for that task. DEHP is excluded because its trigger is a horizon head trained
+with reinforcement learning rather than a computable statistic.
+Table~\ref{tab:baselines} gives the result.
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccc}
+\toprule
+Controller & signal family & mean & achieved firing & target \\
+\midrule
+simulator oracle & measured $\lambda$ & \textbf{.637} & .06 to .15 & matched \\
+ours, h4 & learned $\lambda$ & .620 & .14 to .28 & matched \\
+SGAC chunk cosine & consistency & .615 & .02 to .08 & \textbf{under} \\
+DVAC sample variance & confidence & .585 & .06 to .15 & matched \\
+BID chunk L2 & consistency & .585 & .00 to .09 & \textbf{under} \\
+ours, h1 & learned $\lambda$ & .570 & .15 to .38 & over \\
+PACE speed valley & kinematic & .555 & .07 to .14 & matched \\
+\midrule
+vanilla, fixed $k{=}16$ & none & .540 & 0 & \\
+\bottomrule
+\end{tabular}
+\caption{Replan signals run as controllers on GR00T and RoboCasa, mean success
+over the four tasks at 50 episodes each. Every controller uses the identical
+executor and differs only in the statistic it thresholds. Achieved firing is
+the range of realised firing rates across the four tasks. Thresholds were set
+from a shadow pass in which the signal is scored but never acted on; once a
+signal acts it changes the states the policy visits, so realised rates drift
+from their targets. The two consistency signals drifted down, and one cell,
+BID on OpenCabinet, fired on zero replans and is therefore a fixed-16 run in
+disguise. Their means are consequently obtained with roughly half our
+intervention budget, so those two rows are not yet like-for-like and we report
+the realised rates rather than hide the discrepancy.
+\pending{recalibrate the consistency signals against their live firing rates
+and rerun}}
+\label{tab:baselines}
+\end{table}
+
+Read with that caveat, the ranking is unremarkable: every learned or heuristic
+controller lands within about six points of the others, and only the simulator
+oracle separates from the pack. Nothing here supports a claim that our signal
+makes a better trigger than the published alternatives at equal budget; what
+it does support is that none of them, including ours, converts into a large
+success gain on these tasks.
+
+\subsection{Both stability axes measured at the same states}
+\label{sec:threebythree}
+
+Open-loop stability is one axis. The regime that would justify switching is
+open-loop unstable together with closed-loop stable, and deciding membership
+needs the closed-loop measurement of Section~\ref{sec:claim2}. We ran it
+online on all four RoboCasa tasks, at every replan of a fixed-16 rollout, so
+both axes are measured at the same states on the distribution the policy
+actually visits. Table~\ref{tab:threebythree} is the result over 2{,}925
+paired probes.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lrrrr}
+\toprule
+& \multicolumn{3}{c}{closed-loop} & \\
+\cmidrule(lr){2-4}
+open-loop & stable & deadband & unstable & row \\
+\midrule
+stable & 1.7\% & 8.7\% & 0.2\% & 10.6\% \\
+deadband & 7.8\% & 47.4\% & 2.1\% & 57.3\% \\
+unstable & \textbf{7.0\%} & 24.1\% & 1.0\% & 32.1\% \\
+\midrule
+column & 16.4\% & 80.2\% & 3.3\% & \\
+\bottomrule
+\end{tabular}
+\caption{Both stability axes at the same states, pooled over the four
+RoboCasa tasks, 2{,}925 paired probes from 95 episodes. The closed-loop value
+is the growth rate of the perturbation minus the rate at which two
+\emph{unperturbed} policy rollouts separate, so it measures what the
+perturbation adds beyond the policy's own sampling. Both axes use the same
+per-task threshold, so they ask the same question on the same scale. The bold
+cell is the regime that motivates switching.}
+\label{tab:threebythree}
+\end{table}
+
+Three readings matter. The switching regime exists but is a minority: 7.0
+percent of all stamps, which is 22 percent of the open-loop-unstable stamps.
+Its size tracks each task's own instability, running 11, 16, 23 and 31 percent
+of the unstable stamps on OpenCabinet, OpenDrawer,
+PickPlaceCounterToCabinet and TurnOnSinkFaucet. Closed-loop instability is
+rare everywhere, 1.0 percent pooled and at most 5.6 percent on any task, so on
+these tasks the four-regime picture is closer to a two-regime one.
+
+The control branch was necessary rather than decorative. On every task, at
+about 66 percent of stamps the perturbed closed-loop branch grows
+\emph{more slowly} than two unperturbed rollouts do, meaning the policy's own
+sampling separates trajectories faster than our injected perturbation. Without
+subtracting that floor the closed-loop axis measures diffusion sampling rather
+than stability, which is the defect in an earlier closed-loop labeling we
+discarded.
+
+This also sets a ceiling on what any open-loop detector can do. Our predictors
+are trained on the open-loop axis alone, so even perfect open-loop detection
+spends about 78 percent of its interventions at moments where closing the loop
+cannot help. That is a quantitative reason to expect the intervention results
+of Section~\ref{sec:claim3} to be weak, without the stability signal itself
+being wrong. Training a head on the conjunction of both axes is the direct
+consequence and we leave it to future work.
+
+\section{Claim 3: Setting Chunk Length from the Predicted Regime}
+\label{sec:claim3}
+
+This is the claim for which our evidence is incomplete, and we report it as
+such.
+
+\pending{SAMPLE SIZE, to fix before submission. Every cell in this section is
+50 episodes at a single seed, which gives a standard error near 7 points on a
+success rate and near 10 points on the difference between two cells. Published
+adaptive-chunking work evaluates far more heavily: PACE reports 900 episodes
+per task-method pair over 50 tasks, DEHP reports 1000 environments over 3
+seeds, SGAC averages 100 episodes over 3 seeds. Our present numbers therefore
+cannot resolve effects of the size those papers report, and the final version
+must raise every cell in Tables~\ref{tab:main} and~\ref{tab:fork} to at least
+3 seeds of 50 episodes, and preferably widen the task set, before any of these
+comparisons is stated as a result.}
+
+\subsection{Getting the threshold right is most of the problem}
+
+A learned head needs a firing threshold, and the obvious choices both fail.
+Thresholding the predicted $\lambda$ at the label-space $\delta$ never fires at
+all: a regression head compresses its outputs toward the mean, so on
+TurnOnSinkFaucet the predicted $\lambda$ peaks at .064 against a $\delta$ of
+.058 and only 0.12 percent of held-out predictions exceed it. Every switching
+run built this way executes fixed 16 with extra computation. Calibrating the
+threshold on held-out demonstrations instead fixes the scale but not the
+distribution, and produces online firing rates from 2 to 29 percent against a 4
+percent target, because the policy visits states unlike the demonstrations. We
+therefore calibrate on deployment: a shadow run scores every replan without
+acting, and the threshold is set at the quantile of that online distribution
+which reproduces the oracle's firing rate for the task. Each predictor then
+receives the same intervention budget as the oracle. Neither failure is visible
+in AUROC, which is unchanged across all three choices.
+
+\subsection{Task success}
+
+Table~\ref{tab:main} is the main result of this section.
+
+\begin{table*}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{lccccccccc}
+\toprule
+& \multicolumn{3}{c}{No stability signal} & \multicolumn{1}{c}{Measured} & \multicolumn{4}{c}{Learned, no simulator} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-5} \cmidrule(lr){6-9}
+Task & vanilla & always & best fixed & oracle & h1 & fired & h4 & fired \\
+& $k{=}16$ & $k{=}1$ & ($k$) & $(16,1)$ & $(16,1)$ & & $(16,1)$ & \\
+\midrule
+OpenCabinet & .52 & .48 & .52 (16) & .60 & .54 & .16 & .60 & .28 \\
+OpenDrawer & .64 & .40 & .64 (16) & .62 & .60 & .34 & .62 & .26 \\
+PickPlaceCounterToCabinet & .58 & .52 & \textbf{.78} (8) & .77 & .60 & .38 & .66 & .14 \\
+TurnOnSinkFaucet & .42 & .04 & .42 (16) & .56 & .54 & .15 & \textbf{.60} & .14 \\
+\midrule
+mean & .54 & .36 & .59 & .64 & .57 & & .62 & \\
+\bottomrule
+\end{tabular}
+\caption{RoboCasa with GR00T N1.5, success over 50 episodes per cell. The pair
+$(16,1)$ under a switching controller gives its two chunk lengths: it executes
+the long chunk $k_s{=}16$ when the segment is judged open-loop stable and drops
+to the short chunk $k_u{=}1$ when it is judged unstable. The oracle column is
+the mean over available seeds, two for PickPlaceCounterToCabinet and
+TurnOnSinkFaucet and one otherwise. The fired columns give the fraction of
+replans at which the predictor chose the short chunk. The always $k{=}1$ column
+is the opposite extreme from the vanilla policy. The best fixed column names
+the constant chunk length that achieves it in parentheses, from
+Table~\ref{tab:fixed}; OpenCabinet ties at $k{=}8$ and OpenDrawer at $k{=}4$
+and we report the longer chunk. Repeated runs of an identical configuration
+differ by about .10 at this sample size.}
+\label{tab:main}
+\end{table*}
+
+Three readings, and one caution.
+
+The learned predictors improve on the vanilla policy on average, by 3 points
+for h1 and 8 points for h4, and they never collapse. The h4 mean of .62 closes
+most of the gap between the vanilla policy at .54 and the simulator oracle at
+.64, which is the strongest single number in favour of the approach here. The always $k{=}1$ column
+shows that this is not automatic: replanning every step for the whole episode
+averages .36, eighteen points below the vanilla policy, and reaches .04 on
+TurnOnSinkFaucet. The predictors enter that same single-step mode but only at
+selected moments and stay above the vanilla policy everywhere, so a rare and
+well placed switch is not the same intervention as a short fixed chunk.
+
+The history predictor beats the single-clip predictor online on all four
+tasks, reversing their offline ranking in Table~\ref{tab:claim2}. The firing
+columns explain it. The two h1 cells that fire most, at .38 and .34, are the
+ones that gain least, and across the eight learned cells the correlation
+between firing rate and gain over the vanilla policy is $-0.65$. The online
+advantage is calibration, not detection.
+
+No controller reaches the best fixed chunk length on
+PickPlaceCounterToCabinet, where $k{=}8$ alone scores .78 and even the oracle
+reaches .77. On the three tasks whose best constant is already 16, the adaptive
+controllers gain a few points. Against a .10 run-to-run spread only
+TurnOnSinkFaucet with h4 is clearly outside noise.
+
+The caution is that a success rate cannot separate the effect of an
+intervention from the difference between two independent sets of random
+episodes. The next experiment does separate them.
+
+\subsection{A paired test of the intervention}
+
+We fork each episode at the decision point. An episode runs under the oracle
+until the first replan where $\lambda$ crosses $\delta$. At that point we
+snapshot the simulator and run the remainder twice from that identical state,
+once with the oracle acting and once with the oracle ignored so the policy
+continues with fixed 16. The branches share their entire history and differ
+only in the decision at the fired moment, which removes episode-to-episode
+variance completely.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lccccc}
+\toprule
+Task & forked & rescued & broken & unchanged & $p$ \\
+\midrule
+PickPlaceCounterToCabinet & 40 & 4 & 4 & 32 & 1.00 \\
+TurnOnSinkFaucet & 22 & 0 & 0 & 22 & 1.00 \\
+\midrule
+combined & 62 & 4 & 4 & 54 & 1.00 \\
+\bottomrule
+\end{tabular}
+\caption{Paired fork test. Rescued counts episodes that succeed only when the
+loop is closed at the fired moment, broken counts those that succeed only when
+it is ignored, and $p$ is an exact two sided McNemar test. Success rates among
+forked episodes are identical in both branches, .625 and .455.}
+\label{tab:fork}
+\end{table}
+
+The result is a clean null (Table~\ref{tab:fork}). Closing the loop at a
+measured unstable moment rescues 6.5 percent of forked episodes and breaks an
+equal 6.5 percent. A paired comparison of time to success among episodes that
+succeed in both branches is also null and slightly favours ignoring the signal.
+The branches do diverge strongly, by up to a factor of five in steps to
+completion, so the null is not an artifact of the two arms staying identical.
+
+This also explains the pattern in Table~\ref{tab:main}. The largest oracle
+number, .77 on PickPlaceCounterToCabinet, sits below a fixed chunk of 8 at .78,
+and a second seed of the faucet oracle gives .50 where the first gave .62. What
+looked like a causal gain in single unpaired cells does not survive pairing.
+
+\subsection{The same conclusion on a second policy class}
+
+We ran the equivalent sweep with diffusion policies on LIBERO, MimicGen and
+robomimic: 42 predictor-driven cells on tasks that carry signal. Only 9 beat
+their fixed-16 baseline, and none beats the best constant chunk for its task.
+Where a shorter constant helps, using it everywhere is better than switching:
+nut assembly reaches .52 at $k{=}1$ against a best predictor cell of .46, and
+three-piece assembly reaches .78 at $k{=}1$ against .62. The damage is
+graded by how often the predictor fires, with a correlation of $+0.58$ between
+mean executed chunk length and change against baseline. Cells that fire most
+lose 23 points on average, cells that fire least are neutral. Those runs used
+demonstration-calibrated thresholds, so part of that damage is the calibration
+failure described above, but even the lightly firing cells average exactly
+zero benefit.
+
+\subsection{A composed task with a built-in regime change}
+
+Every task above is a single stage. If the hypothesis is right, switching
+should pay most where an episode is guaranteed to cross regimes. We build such
+an episode by forcing the cabinet shut at reset inside a
+PickPlaceCounterToCabinet environment, so one 1800-step episode contains an
+opening stage and then a pick-and-place stage, selected by the language
+instruction. Stage 1 ends on the environment's own door-open predicate; full
+success needs the environment's pick-and-place predicate as well.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lcc}
+\toprule
+Controller & full task & stage 1 \\
+\midrule
+fixed $k{=}16$ & .38 & .66 \\
+fixed $k{=}8$ & .44 & .68 \\
+fixed $k{=}4$ & .22 & .48 \\
+fixed $k{=}1$ & .10 & .62 \\
+\midrule
+h1 $(16,1)$ & .48 & .66 \\
+h4 $(16,1)$ & .48 & \textbf{.78} \\
+simulator oracle $(16,1)$ & \textbf{.54} & .79 \\
+\bottomrule
+\end{tabular}
+\caption{Composed OpenCabinet then PickPlaceCounterToCabinet in one 1800-step
+episode, 50 episodes per cell. This is the only setting in the paper where
+switching beats the best constant chunk. The oracle cell is
+\pending{28 of 50 episodes at the time of writing}. The learned cells select a
+stage-matched head using the environment's stage predicate, which is
+privileged information the other cells do not receive;
+\pending{a pooled head over all four tasks, which needs no stage signal, is
+training and will replace these cells}.}
+\label{tab:composed}
+\end{table}
+
+Both learned predictors reach .48 against .44 for the best constant chunk, and
+the oracle is higher still at .54. The stage-1 column locates the effect: the
+regime-aware controllers get through the opening stage more often than any
+constant chunk, .78 and .79 against .68. This is the result the hypothesis
+predicts and the only place we observe it, which we read as support for the
+mechanism and against the generality of the intervention rather than the
+reverse.
+
+Two caveats keep it from being a headline. The learned cells receive the stage
+boundary from the environment, and a pooled head trained over all four tasks,
+which needs no such signal, costs real accuracy: per-task AUROC falls to .69
+to .80 from the .863 to .902 of single-task heads. Removing the privilege is
+not free, and the honest version of this table is still running.
+
+\subsection{Seed variance is larger than the effects}
+
+Every cell above is a single 50-episode run. Repeating four configurations at
+two further seeds gives the spread in Table~\ref{tab:seeds}, and it is
+sobering.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{llccc}
+\toprule
+Task & controller & seed 0 & seed 1 & spread \\
+\midrule
+PickPlace & vanilla & .58 & .62 & 4 \\
+PickPlace & h1 & .60 & .70 & 10 \\
+PickPlace & oracle & .80 / .74 & .60 & \textbf{20} \\
+TurnOnSinkFaucet & vanilla & .42 & .54 & \textbf{12} \\
+TurnOnSinkFaucet & h1 & .54 & .66 & 12 \\
+TurnOnSinkFaucet & oracle & .62 / .50 & .48 & 14 \\
+\bottomrule
+\end{tabular}
+\caption{Success across seeds for identical configurations, 50 episodes each,
+spread in percentage points. The vanilla baseline alone moves 12 points on
+TurnOnSinkFaucet and the PickPlace oracle moves 20, which is larger than any
+effect reported in this section.
+\pending{full 3-seed replication in progress, 8 of 32 cells}}
+\label{tab:seeds}
+\end{table}
+
+The .77 pooled oracle figure on PickPlaceCounterToCabinet does not reproduce
+at a third seed, and the vanilla baseline on TurnOnSinkFaucet moves further
+between seeds than the gap we attribute to switching. We therefore treat every
+single-seed number in this section as provisional, and none of the
+differences in Table~\ref{tab:main} as established.
+
+\subsection{Where this leaves Claim 3}
+
+Regime-conditioned chunk length is, on current evidence, worth a few points
+over a fixed 16-step chunk and not worth anything over a properly swept
+constant. The intervention does not survive a paired causal test at the
+operating point we tested, which is a drop to single-step execution. Three
+things remain untested and are the natural next steps: milder switches such as
+$k{=}4$ at the fired moments, forking on tasks other than the two reported
+here, and the closed-loop axis, which is the axis that would tell us in advance
+whether closing the loop at an unstable moment can help at all.

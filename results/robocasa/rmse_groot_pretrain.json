@@ -1,0 +1,28 @@
+{
+  "OpenCabinet": {
+    "pos_action_rmse": 0.6145436072624593,
+    "n_points": 1101,
+    "trajs": 10,
+    "dataset": "/mnt/scratch/lh/repos/robocasa/datasets/v1.0/pretrain/atomic/OpenCabinet/20250819/lerobot"
+  },
+  "OpenDrawer": {
+    "pos_action_rmse": 0.4588821728498943,
+    "n_points": 591,
+    "trajs": 10,
+    "dataset": "/mnt/scratch/lh/repos/robocasa/datasets/v1.0/pretrain/atomic/OpenDrawer/20250819/lerobot"
+  },
+  "PickPlaceCounterToCabinet": {
+    "pos_action_rmse": 0.5697216505026217,
+    "n_points": 681,
+    "trajs": 10,
+    "dataset": "/mnt/scratch/lh/repos/robocasa/datasets/v1.0/pretrain/atomic/PickPlaceCounterToCabinet/20250819/lerobot"
+  },
+  "TurnOnSinkFaucet": {
+    "pos_action_rmse": 0.27103842206920675,
+    "n_points": 726,
+    "trajs": 10,
+    "dataset": "/mnt/scratch/lh/repos/robocasa/datasets/v1.0/pretrain/atomic/TurnOnSinkFaucet/20250819/lerobot"
+  },
+  "pooled_pos_action_rmse": 0.5127073807690439,
+  "sigma_u_placeholder_used_in_labels": 0.05
+}

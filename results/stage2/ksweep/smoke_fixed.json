@@ -1,0 +1,31 @@
+{
+  "dataset": "/mnt/scratch/lh/data/mimicgen/three_piece_assembly_d0_image.hdf5",
+  "checkpoint": "/home/azureuser/cloudfiles/code/Users/garyan18/long-horizon/results/training/dp_mg_three_piece_assembly_d0/dp_mg_three_piece_assembly_d0_image/20260721140200/models/model_epoch_1700.pth",
+  "mode": "fixed",
+  "k": 8,
+  "k_stable": 16,
+  "k_unstable": 4,
+  "delta": null,
+  "n_episodes": 2,
+  "horizon": 560,
+  "seed": 99,
+  "success_rate": 0.5,
+  "mean_k": 8.0,
+  "mean_steps_success": 344.0,
+  "episodes": [
+    {
+      "episode": 0,
+      "success": true,
+      "steps": 344,
+      "mean_k": 8.0,
+      "frac_unstable_calls": null
+    },
+    {
+      "episode": 1,
+      "success": false,
+      "steps": 560,
+      "mean_k": 8.0,
+      "frac_unstable_calls": null
+    }
+  ]
+}

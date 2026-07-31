@@ -1,0 +1,50 @@
+{
+  "OpenCabinet": {
+    "head": {
+      "old_delta": 0.057841247878968716,
+      "new_delta": 0.04006984,
+      "n": 2249,
+      "fired_old": 0.02267674522009782,
+      "target_frac": 0.117
+    }
+  },
+  "OpenDrawer": {
+    "head": {
+      "old_delta": 0.054712007753551006,
+      "new_delta": 0.05515344,
+      "n": 1479,
+      "fired_old": 0.16768086544962812,
+      "target_frac": 0.152
+    }
+  },
+  "PickPlaceCounterToCabinet": {
+    "head": {
+      "old_delta": 0.03576464727520942,
+      "new_delta": 0.0367942,
+      "n": 1216,
+      "fired_old": 0.515625,
+      "target_frac": 0.503
+    },
+    "oracle": {
+      "old_delta": 0.03576464727520942,
+      "new_delta": 0.02452086,
+      "n": 1639,
+      "fired_old": 0.13239780353874314
+    }
+  },
+  "TurnOnSinkFaucet": {
+    "head": {
+      "old_delta": 0.07711297795176507,
+      "new_delta": 0.0635501,
+      "n": 1383,
+      "fired_old": 0.018799710773680405,
+      "target_frac": 0.089
+    },
+    "oracle": {
+      "old_delta": 0.07711297795176507,
+      "new_delta": 0.10413294000000002,
+      "n": 1363,
+      "fired_old": 0.17168011738811445
+    }
+  }
+}

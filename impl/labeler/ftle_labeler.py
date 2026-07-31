@@ -87,6 +87,11 @@ OBJ_PATTERNS = {
     "Square_D0": ["squarenut"], "Square_D1": ["squarenut"],
     "Threading_D0": ["needle"], "Threading_D1": ["needle"],
     "Coffee_D0": ["pod"], "Coffee_D1": ["pod"],
+    # Kitchen: two manipulated objects (bread cube, pot). The stove, its burner and
+    # the button are fixtures, so bread-in-pot and pot-on-stove both read as
+    # object-fixture. The generic fallback would match "cube" but not the pot.
+    "Kitchen_D0": ["cube_bread", "potobject"],
+    "Kitchen_D1": ["cube_bread", "potobject"],
 }
 # fallback for env names not listed (generic task-object name fragments)
 OBJ_PATTERNS_DEFAULT = ["cube", "nut", "pod", "needle", "piece", "mug",

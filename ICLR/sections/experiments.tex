@@ -1,0 +1,37 @@
+\section{Experimental Design}
+
+\paragraph{Platforms and tasks.}
+Three platforms with different policy classes and scales.
+(1) RoboCasa kitchen tasks \citep{nasiriany2024robocasa} with the public GR00T
+N1.5 3B multitask checkpoint, nothing trained by us: OpenCabinet, OpenDrawer,
+PickPlaceCounterToCabinet and TurnOnSinkFaucet, with 102{,}348 labeled stamps
+from 800 human demonstrations. We also train ACT policies
+\citep{zhao2023act} on the same demonstrations as a second policy class.
+(2) LIBERO-Long \citep{liu2023libero} with per-task diffusion policies
+\citep{chi2023diffusion}.
+(3) MimicGen \citep{mandlekar2023mimicgen} and robomimic tasks with diffusion
+policies. Every evaluation cell is 50 episodes, and every switching evaluation
+includes the fully closed-loop branch $(k_s{=}16, k_u{=}1)$.
+
+\paragraph{Noise floor.}
+Success rates on 50 episodes carry a sampling standard error near 7 points, so
+the difference between two independent 50-episode runs has a standard error
+near 10 points. We measure this directly rather than assuming it. Pairs of runs
+that execute identical behavior, a fixed-16 run and a shadow run that scores
+the signal without acting on it, differ by 6, 8, 18 and 4 points on the four
+RoboCasa tasks, and two seeds of one identical switching configuration differ
+by 6 points. We therefore treat differences below about 10 points on a single
+pair of cells as unresolved, and say so wherever it applies.
+
+\paragraph{Experiments per claim.}
+For Claim 1, offline labeling of all datasets, a probe-size sweep at
+$\sigma_u \in \{0.025, 0.05, 0.10\}$, and online shadow runs that score every
+replan of a fixed-16 policy without acting, which give the regime distribution
+on the states the policy actually visits.
+For Claim 2, predictor training on held-out demonstrations with three seeds per
+configuration, a privileged contact-flag baseline, cross-task transfer, and a
+comparison of competing replan signals measured at the same states.
+For Claim 3, fixed-$k$ sweeps, oracle switching, learned switching with h1 and
+h4, a rate-matched random control that fires at the same rate but at random
+replans, and a paired fork test that removes episode variance by running both
+decisions from one simulator state.

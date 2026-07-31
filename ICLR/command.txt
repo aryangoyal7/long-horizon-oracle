@@ -1,0 +1,2 @@
+  cd /home/azureuser/cloudfiles/code/Users/garyan18/long-horizon/ICLR
+  latexmk -pdf -bibtex paper.tex

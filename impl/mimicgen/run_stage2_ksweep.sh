@@ -3,7 +3,7 @@
 # on the four MimicGen tasks, 50 episodes each at seed 0, on the selected
 # checkpoints. Sequencing: smoke-test stage2_ksweep.py as soon as the first
 # reconverted dataset lands (the old smoke died with the scratch wipe, exit
-# 137), then wait for checkpoint selection to finish, then run all 20 cells
+# 137), then wait for checkpoint selection to finish, then run all 24 cells
 # round-robin over the 8 GPUs. Appends markers to ksweep_run.log; the
 # shutdown watchdog fires only on STAGE2_KSWEEP_ALL_DONE, which is written
 # only if every cell produced its result file.
@@ -24,9 +24,20 @@ declare -A HOR=( [three_piece_assembly_d0]=560 [nut_assembly_d0]=650
 models_dir() { ls -d $LH_DIR/results/training/dp_mg_$1/*/*/models | head -1; }
 
 # ---- smoke: 2 episodes per mode on three_piece as soon as its data lands ----
+# The gate must test that the dataset is READABLE, not that some log claims it
+# is done: on 2026-07-23 the file existed and a stale rebuild log still carried
+# the previous run's RECONVERT marker while the conversion was mid-write, so the
+# gate opened and the smoke died on h5py's exclusive write lock. Open it for
+# real and check the demo count instead.
+ready() {
+  $MGPY - "$1" <<'PYGATE' 2>/dev/null
+import sys, h5py
+with h5py.File(sys.argv[1], "r") as f:
+    sys.exit(0 if len(f["data"]) >= 900 else 1)
+PYGATE
+}
 until [ -f $MG/three_piece_assembly_d0_image.hdf5 ] \
-      && grep -q "RECONVERT_three_piece_assembly_d0_DONE" \
-           $LH_DIR/results/stage2/rebuild_20260723.log; do sleep 120; done
+      && ready $MG/three_piece_assembly_d0_image.hdf5; do sleep 120; done
 ck=$(models_dir three_piece_assembly_d0)/model_epoch_1700.pth
 smoke() { # mode extra...
   local mode=$1; shift
@@ -66,6 +77,7 @@ CELLS=()
 for t in "${TASKS[@]}"; do
   for k in 1 4 8 16; do CELLS+=("$t|fixed|$k"); done
   CELLS+=("$t|predictor|16-4")
+  CELLS+=("$t|predictor|16-1")
 done
 
 run_cell() { # spec gpu
@@ -76,7 +88,8 @@ run_cell() { # spec gpu
   [ -f $OUT/$tag.json ] && { log "KSWEEP_SKIP_$tag"; return; }
   local ck=$(models_dir $t)/model_epoch_${BEST[$t]}.pth
   local extra
-  if [ $mode = fixed ]; then extra="--k $k"; else extra="--k-stable 16 --k-unstable 4"; fi
+  if [ $mode = fixed ]; then extra="--k $k"
+  else extra="--k-stable ${k%%-*} --k-unstable ${k##*-}"; fi
   log "KSWEEP_EVAL $tag (gpu $gpu) $(date -u +%H:%M:%S)"
   MUJOCO_GL=egl MUJOCO_EGL_DEVICE_ID=$gpu CUDA_VISIBLE_DEVICES=$gpu \
     $MGPY $LH_DIR/impl/mimicgen/stage2_ksweep.py \

@@ -1,0 +1,191 @@
+% Labeling-algorithm figure: how one stability label is produced.
+%
+% Panel (a) is a schematic of the procedure in Sec. 3.
+% Panels (b) and (c) are real data:
+%   (b) mean-over-branches log divergence, regenerated for
+%       rc_PickPlaceCounterToCabinet demo 20 by replaying the labeler's exact
+%       call sequence and RNG stream (seed = demo index = 20) and keeping the
+%       per-step curves that the production labeler discards.  The recomputed
+%       slopes reproduce the published labels to <1e-4, so the lambda values
+%       quoted here are the same numbers plotted in Fig. 1.
+%   (c) histogram of lambda_task over all 23,724 stamps of that task, with the
+%       automatic threshold delta = .0649 and the 5.0% of stamps above it.
+% Regeneration script: scratchpad/dump_divergence.py
+
+\begin{figure}[t]
+\centering
+
+%% ---------------------------------------------------------------- panel (a)
+\begin{tikzpicture}[font=\footnotesize,
+  stp/.style={circle, draw=cline, fill=white, inner sep=0.5pt,
+              minimum size=2.7mm, font=\tiny, line width=0.4pt},
+  sbox/.style={draw=cline, fill=cbox, rounded corners=1.6pt, align=center,
+               inner sep=2.5pt, font=\tiny, line width=0.5pt},
+  ar/.style={-latex, cline, line width=0.5pt},
+]
+% tau = 0 at x=2.4, tau = 24 at x=9.2 (0.2833 cm per step); nominal at y=1.75
+\node[sbox, text width=10mm] (s0) at (1.05,1.75) {restore\\$s_{t_0}$};
+\draw[ar] (s0.east) -- (2.36,1.75);
+\node[stp] at (0.22,1.75) {1};
+
+% the N=8 perturbed branches: same recorded actions, different first action
+\draw[cline!60, line width=0.5pt] (2.4,1.75) .. controls (5.0,1.918) and (7.4,2.254) .. (9.2,2.87);
+\draw[cline!60, line width=0.5pt] (2.4,1.75) .. controls (5.0,1.879) and (7.4,2.137) .. (9.2,2.61);
+\draw[cline!60, line width=0.5pt] (2.4,1.75) .. controls (5.0,1.839) and (7.4,2.016) .. (9.2,2.34);
+\draw[cline!60, line width=0.5pt] (2.4,1.75) .. controls (5.0,1.798) and (7.4,1.894) .. (9.2,2.07);
+\draw[cline!60, line width=0.5pt] (2.4,1.75) .. controls (5.0,1.711) and (7.4,1.633) .. (9.2,1.49);
+\draw[cline!60, line width=0.5pt] (2.4,1.75) .. controls (5.0,1.671) and (7.4,1.511) .. (9.2,1.22);
+\draw[cline!60, line width=0.5pt] (2.4,1.75) .. controls (5.0,1.628) and (7.4,1.386) .. (9.2,0.94);
+\draw[cline!60, line width=0.5pt] (2.4,1.75) .. controls (5.0,1.578) and (7.4,1.233) .. (9.2,0.60);
+
+% the nominal branch
+\draw[cline, line width=0.9pt] (2.4,1.75) -- (9.2,1.75);
+\fill[cline] (2.4,1.75) circle (1.3pt);
+
+% what makes the branches differ
+\node[font=\tiny, cunstable, anchor=south west, align=left, inner sep=1pt]
+  (pert) at (2.95,2.45)
+  {perturb $a_{t_0}$ only: $+\,\sigma_u\varepsilon$\\
+   on the translation dims};
+\draw[-latex, cunstable, line width=0.5pt] (3.05,2.43) -- (2.63,1.83);
+\node[font=\tiny, cline, anchor=south west, inner sep=1pt]
+  at (2.60,0.62) {identical actions in every branch after the first};
+
+% the quantity that is measured
+\draw[latex-latex, cline, line width=0.6pt] (7.5,1.75) -- (7.5,2.40);
+\node[font=\tiny, fill=white, inner sep=1pt] at (7.5,2.08) {$d_n(\tau)$};
+\node[stp] at (7.5,2.62) {4};
+
+\node[stp] at (9.38,1.75) {2};
+\node[font=\tiny, anchor=west, inner sep=1.5pt] at (9.52,1.75) {nominal};
+\node[stp] at (9.38,2.87) {3};
+\node[font=\tiny, anchor=west, inner sep=1.5pt, align=left]
+  at (9.52,2.87) {$N{=}8$\\branches};
+
+% tau axis
+\draw[-latex, cline, line width=0.5pt] (2.4,0.30) -- (9.55,0.30);
+\draw[cline, line width=0.5pt] (2.4,0.30) -- (2.4,0.21);
+\draw[cline, line width=0.5pt] (4.1,0.30) -- (4.1,0.21);
+\draw[cline, line width=0.5pt] (5.8,0.30) -- (5.8,0.21);
+\draw[cline, line width=0.5pt] (7.5,0.30) -- (7.5,0.21);
+\draw[cline, line width=0.5pt] (9.2,0.30) -- (9.2,0.21);
+\node[font=\tiny, anchor=north, inner sep=2pt] at (2.4,0.21) {0};
+\node[font=\tiny, anchor=north, inner sep=2pt] at (4.1,0.21) {6};
+\node[font=\tiny, anchor=north, inner sep=2pt] at (5.8,0.21) {12};
+\node[font=\tiny, anchor=north, inner sep=2pt] at (7.5,0.21) {18};
+\node[font=\tiny, anchor=north, inner sep=2pt] at (9.2,0.21) {24};
+\node[font=\tiny, anchor=west, inner sep=2pt] at (9.55,0.22) {$\tau$};
+
+\node[anchor=north west, font=\footnotesize\bfseries] at (0.0,3.10) {(a)};
+% the box is the full text width, and the (b)+(c) row below is stretched to
+% the same width with \hfill, so the two rows share a left edge
+\useasboundingbox (0.0,-0.08) rectangle (\textwidth,3.10);
+\end{tikzpicture}
+
+\vspace{2pt}
+
+%% ---------------------------------------------------------------- panel (b)
+\begin{tikzpicture}[font=\footnotesize]
+\begin{axis}[
+  scale only axis, width=4.5cm, height=2.6cm,
+  xmin=1, xmax=24, ymin=-7.2, ymax=-3.0,
+  xtick={1,6,12,18,24}, ytick={-7,-6,-5,-4},
+  ticklabel style={font=\scriptsize},
+  xlabel={$\tau$}, ylabel={mean $\log d_n(\tau)$},
+  xlabel style={font=\scriptsize, yshift=3pt},
+  ylabel style={font=\scriptsize, yshift=-4pt},
+  axis line style={cline}, tick style={cline}, tick align=outside,
+  every axis plot/.append style={line width=0.9pt},
+  clip mode=individual,
+]
+  % t0=48: unstable, d grows 0.0018 m -> 0.0256 m over the window
+  \addplot[cunstable] coordinates {
+    (1,-6.3076) (2,-5.9927) (3,-6.2816) (4,-5.5934) (5,-5.3721) (6,-5.2209)
+    (7,-5.1520) (8,-5.1344) (9,-5.1184) (10,-5.0567) (11,-5.1292) (12,-4.8690)
+    (13,-4.5927) (14,-4.3482) (15,-4.1399) (16,-3.9602) (17,-3.8317)
+    (18,-3.7741) (19,-3.7472) (20,-3.7123) (21,-3.6822) (22,-3.6773)
+    (23,-3.6709) (24,-3.6637)
+  };
+  \addplot[cunstable, dashed, line width=0.6pt]
+    coordinates {(1,-6.0568) (24,-3.2789)};
+  % t0=10: stable, d stays at 0.0013-0.0018 m
+  \addplot[cstable] coordinates {
+    (1,-6.6133) (2,-6.4940) (3,-6.4810) (4,-6.4753) (5,-6.3353) (6,-6.2190)
+    (7,-6.1582) (8,-6.1909) (9,-6.2181) (10,-6.2024) (11,-6.1560) (12,-6.1454)
+    (13,-6.0897) (14,-6.0891) (15,-6.1115) (16,-6.1230) (17,-6.1617)
+    (18,-6.2319) (19,-6.2902) (20,-6.3413) (21,-6.3524) (22,-6.3475)
+    (23,-6.3614) (24,-6.3434)
+  };
+  \addplot[cstable, dashed, line width=0.6pt]
+    coordinates {(1,-6.3393) (24,-6.2050)};
+  \node[anchor=north west, font=\tiny, cunstable, align=left, inner sep=1pt]
+    at (axis cs:1.4,-3.02) {unstable state, $\lambda{=}.121$};
+  \node[anchor=south west, font=\tiny, cstable, align=left, inner sep=1pt]
+    at (axis cs:1.4,-7.18) {stable state, $\lambda{=}.006$};
+\end{axis}
+\node[anchor=north west, font=\footnotesize\bfseries] at (-1.15,2.95) {(b)};
+\end{tikzpicture}
+\hfill
+%% ---------------------------------------------------------------- panel (c)
+\begin{tikzpicture}[font=\footnotesize]
+\begin{axis}[
+  scale only axis, width=4.5cm, height=2.6cm,
+  xmin=-0.10, xmax=0.16, ymin=0, ymax=19.6,
+  xtick={-0.1,0,0.1}, ytick={0,5,10,15},
+  ticklabel style={font=\scriptsize},
+  xlabel={$\lambda$ over all stamps of the task},
+  ylabel={\% of stamps},
+  xlabel style={font=\scriptsize, yshift=3pt},
+  ylabel style={font=\scriptsize, yshift=-4pt},
+  axis line style={cline}, tick style={cline}, tick align=outside,
+  clip mode=individual,
+]
+  \fill[cband] (axis cs:0.0649,0) rectangle (axis cs:0.16,19.6);
+  \addplot[ybar interval, draw=cstable, fill=cstable!25, line width=0.3pt]
+    coordinates {
+    (-0.10,0.510) (-0.09,0.691) (-0.08,0.784) (-0.07,0.906) (-0.06,1.290)
+    (-0.05,1.960) (-0.04,3.267) (-0.03,6.171) (-0.02,10.538) (-0.01,16.051)
+    (0.00,18.230) (0.01,13.674) (0.02,7.478) (0.03,5.105) (0.04,3.971)
+    (0.05,3.216) (0.06,2.234) (0.07,1.467) (0.08,1.113) (0.09,0.577)
+    (0.10,0.375) (0.11,0.181) (0.12,0.122) (0.13,0.046) (0.14,0.025)
+    (0.15,0.013) (0.16,0)
+  };
+  \draw[cunstable, dashed, line width=0.7pt]
+    (axis cs:0.0649,0) -- (axis cs:0.0649,19.6);
+  \node[anchor=north east, font=\tiny, cunstable, inner sep=1pt]
+    at (axis cs:0.0625,19.4) {$\delta$};
+  \node[anchor=north east, font=\tiny, cunstable, align=right, inner sep=1pt]
+    at (axis cs:0.158,14.0) {unstable:\\5.0\% of\\stamps};
+\end{axis}
+\node[anchor=north west, font=\footnotesize\bfseries] at (-1.15,2.95) {(c)};
+\end{tikzpicture}
+
+\caption{\textbf{How one stability label is produced.}
+\textbf{(a)} The procedure at a single state, and the whole of it: restore the
+simulator to $s_{t_0}$ (1); replay the $K{=}24$ recorded actions unperturbed to
+get the nominal branch (2); repeat $N{=}8$ times with Gaussian noise added to
+the translation components of the first action only, every branch replaying the
+same recorded actions thereafter (3); and record the task-space distance
+$d_n(\tau)$ between each branch and the nominal at every step (4). The label
+$\lambda$ is the least-squares slope of the mean log distance against $\tau$.
+Nothing is trained, no policy internals are read, and the policy is not involved
+at all: the label describes the plant and the task geometry under the recorded
+behavior.
+\textbf{(b)} The fit, on two real states drawn from the same episode as
+Figure~\ref{fig:framework}, with the least-squares line dashed. At the unstable
+state the branches separate from 1.8 to 25.6 millimetres in the task metric
+over the window, a factor of 14; at the stable state they stay between 1.3 and
+1.8 millimetres,
+and the fitted slope is twenty times smaller. The label is the slope,
+not the final distance, so it does not reward states that merely start far
+apart. Neither curve is a clean straight line, and the fit is a summary of the
+window rather than a claim that growth is exactly exponential within it.
+\textbf{(c)} Where the threshold comes from. Distribution of $\lambda$ over all
+23{,}724 stamps of PickPlaceCounterToCabinet. The bulk sits at a task-specific
+noise floor set by contact chatter and metric scale, so a fixed cutoff would not
+transfer between tasks; $\delta$ is instead read off the below-median half of
+this distribution as $P_{95}(\lvert\lambda\rvert)$, which puts 5.0\% of stamps
+in the unstable class here. Stamps with $\lvert\lambda\rvert \le \delta$ are the
+deadband and are excluded from classification training.}
+\label{fig:labeling}
+\end{figure}

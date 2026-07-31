@@ -124,6 +124,8 @@ class PredictorClient:
         import subprocess
         self.cam_key = cam_key
         self.buf = collections.deque(maxlen=clip_len)
+        # proprio history over the same window, for sequence-trained heads
+        self.pbuf = collections.deque(maxlen=clip_len)
         self.tmp = f"/dev/shm/predbridge_{os.getpid()}.npz"
         bridge = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                               "predictor_bridge.py")
@@ -143,15 +145,18 @@ class PredictorClient:
 
     def reset(self, obs):
         self.buf.clear()
+        self.pbuf.clear()
         self.observe(obs)
 
     def observe(self, obs):
         self.buf.append(_frame_from_obs(obs, self.cam_key))
+        self.pbuf.append(self._proprio(obs))
         self.last_obs = obs
 
     def query(self):
         np.savez(self.tmp, frames=np.stack(self.buf),
-                 proprio=self._proprio(self.last_obs))
+                 proprio=self._proprio(self.last_obs),
+                 proprio_seq=np.stack(self.pbuf))
         self.proc.stdin.write(f"REQ {self.tmp}\n")
         self.proc.stdin.flush()
         res = self.proc.stdout.readline().split()

@@ -1,0 +1,135 @@
+{
+  "dataset": "/mnt/scratch/lh/data/mimicgen/kitchen_d0_image.hdf5",
+  "checkpoint": "/home/azureuser/cloudfiles/code/Users/garyan18/long-horizon/results/training/dp_mg_kitchen_d0/dp_mg_kitchen_d0_image/20260721135025/models/model_epoch_1400.pth",
+  "n_episodes": 25,
+  "horizon": 980,
+  "seed": 0,
+  "success_rate": 1.0,
+  "episodes": [
+    {
+      "episode": 0,
+      "success": true,
+      "steps": 598
+    },
+    {
+      "episode": 1,
+      "success": true,
+      "steps": 607
+    },
+    {
+      "episode": 2,
+      "success": true,
+      "steps": 673
+    },
+    {
+      "episode": 3,
+      "success": true,
+      "steps": 599
+    },
+    {
+      "episode": 4,
+      "success": true,
+      "steps": 628
+    },
+    {
+      "episode": 5,
+      "success": true,
+      "steps": 633
+    },
+    {
+      "episode": 6,
+      "success": true,
+      "steps": 656
+    },
+    {
+      "episode": 7,
+      "success": true,
+      "steps": 597
+    },
+    {
+      "episode": 8,
+      "success": true,
+      "steps": 598
+    },
+    {
+      "episode": 9,
+      "success": true,
+      "steps": 566
+    },
+    {
+      "episode": 10,
+      "success": true,
+      "steps": 635
+    },
+    {
+      "episode": 11,
+      "success": true,
+      "steps": 590
+    },
+    {
+      "episode": 12,
+      "success": true,
+      "steps": 614
+    },
+    {
+      "episode": 13,
+      "success": true,
+      "steps": 638
+    },
+    {
+      "episode": 14,
+      "success": true,
+      "steps": 607
+    },
+    {
+      "episode": 15,
+      "success": true,
+      "steps": 594
+    },
+    {
+      "episode": 16,
+      "success": true,
+      "steps": 632
+    },
+    {
+      "episode": 17,
+      "success": true,
+      "steps": 615
+    },
+    {
+      "episode": 18,
+      "success": true,
+      "steps": 638
+    },
+    {
+      "episode": 19,
+      "success": true,
+      "steps": 612
+    },
+    {
+      "episode": 20,
+      "success": true,
+      "steps": 595
+    },
+    {
+      "episode": 21,
+      "success": true,
+      "steps": 647
+    },
+    {
+      "episode": 22,
+      "success": true,
+      "steps": 595
+    },
+    {
+      "episode": 23,
+      "success": true,
+      "steps": 637
+    },
+    {
+      "episode": 24,
+      "success": true,
+      "steps": 610
+    }
+  ]
+}

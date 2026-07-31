@@ -1,0 +1,44 @@
+\section{Conclusion}
+
+Chunk length is usually treated as a per-task constant, and the quantity it
+trades against, the rate at which error compounds while the policy acts blind,
+is usually not measured at all. We measured it directly as a finite-time
+maximal Lyapunov exponent per state, with a procedure that trains nothing and
+reads no policy internals.
+
+On Claim 1 the evidence is strong. Across more than twenty datasets and three
+platforms, both stability regimes occur inside almost every episode, with
+several crossings each. The unstable segments are a small minority of
+timesteps, short, and concentrated at contact. The structure survives a
+fourfold change in probe size. Each task's response to fixed chunk length
+follows its label profile, and this holds for two different policy classes.
+
+On Claim 2 the evidence is also strong. Small heads reading only camera frames
+and proprioception recover the regime at 0.83 to 0.96 AUROC on confident stamps
+in domain, transfer across tasks at 0.72 to 0.77, and beat a privileged contact
+baseline by a wide margin. Temporal history does not help, which places the
+signal in the current configuration rather than in motion. Audited against our
+labels, the replan signals used by existing adaptive-horizon methods do not
+track the measured stability, and one of them is anti-correlated with it. The
+closed-loop axis is measured for four robomimic tasks and in progress on
+RoboCasa.
+
+On Claim 3 the evidence is negative so far, and we prefer to report that
+plainly. Learned predictors driving the switch gain a few points over a fixed
+16-step chunk, never collapse the way constant single-step execution does, but
+stay inside the run-to-run spread and never beat a properly swept constant
+chunk. A paired fork test, which removes episode variance by running both
+decisions from one simulator state, finds that closing the loop at a measured
+unstable moment rescues as many episodes as it breaks. A 42-cell sweep with
+diffusion policies on three other benchmarks agrees. Along the way we found two
+deployment failures that offline detection metrics hide: a regression head
+compresses its predictions so the label threshold never fires, and a threshold
+calibrated on demonstrations mis-fires by up to a factor of seven once the
+policy visits its own states.
+
+The open question is the second stability axis. Switching should pay exactly
+where a segment is open-loop unstable and closed-loop stable, and we cannot yet
+say how common that combination is, because a closed-loop measurement needs
+both branches under policy control and a control for the policy's own sampling
+noise. That measurement, milder switches than single-step execution, and paired
+tests on more tasks are the direct next steps.

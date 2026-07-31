@@ -38,7 +38,12 @@ def main():
     enc.eval().to(device)
 
     ck = torch.load(args.head, map_location=device, weights_only=False)
-    head = AttentiveHead(prop_dim=len(ck["prop_mu"]))
+    prop_seq = bool(ck.get("prop_seq", False))       # heads trained before the
+    prop_win = int(ck.get("prop_win", 1))            # sequence change lack these
+    hargs = ck.get("args", {})                   # train_head stores vars(args) here
+    head = AttentiveHead(prop_dim=len(ck["prop_mu"]), prop_seq=prop_seq,
+                         proprio_only=bool(hargs.get("proprio_only", False)),
+                         no_proprio=bool(hargs.get("no_proprio", False)))
     head.load_state_dict(ck["model"])
     head.eval().to(device)
     mu = torch.tensor(np.asarray(ck["prop_mu"]), dtype=torch.float32, device=device)
@@ -59,7 +64,16 @@ def main():
         with torch.no_grad():
             tokens = encode_batch(enc, clip[None], device)     # 1,128,1024 fp16
             tokens = torch.from_numpy(tokens).float().to(device)
-            prop = torch.from_numpy(z["proprio"][None]).float().to(device)
+            # sequence head wants the proprio window; pad-at-start like the clip so a
+            # short rolling buffer early in an episode matches training
+            if prop_seq:
+                ps = z["proprio_seq"] if "proprio_seq" in z.files else z["proprio"][None]
+                if ps.shape[0] < prop_win:
+                    ps = np.concatenate(
+                        [np.repeat(ps[:1], prop_win - ps.shape[0], 0), ps])
+                prop = torch.from_numpy(ps[-prop_win:][None]).float().to(device)
+            else:
+                prop = torch.from_numpy(z["proprio"][None]).float().to(device)
             prop = (prop - mu) / (sd + 1e-8)
             logit, lam_hat = head(tokens, prop)
         p = torch.sigmoid(logit[0]).item()

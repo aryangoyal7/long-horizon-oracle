@@ -1,0 +1,69 @@
+{
+  "env": "seq_OpenCabinet+PickPlaceCounterToCabinet",
+  "mode": "fixed",
+  "k": 16,
+  "k_stable": 16,
+  "k_unstable": 4,
+  "deltas": {},
+  "n_episodes": 6,
+  "horizon": 1800,
+  "success_rate": 0.5,
+  "stage1_success_rate": 0.8333333333333334,
+  "mean_k": 16.0,
+  "episodes": [
+    {
+      "episode": 0,
+      "success": false,
+      "steps": 1799,
+      "stage1_success": true,
+      "stage1_end": 547,
+      "mean_k": 16.0,
+      "replans": []
+    },
+    {
+      "episode": 1,
+      "success": false,
+      "steps": 1799,
+      "stage1_success": false,
+      "stage1_end": null,
+      "mean_k": 16.0,
+      "replans": []
+    },
+    {
+      "episode": 2,
+      "success": true,
+      "steps": 498,
+      "stage1_success": true,
+      "stage1_end": 258,
+      "mean_k": 16.0,
+      "replans": []
+    },
+    {
+      "episode": 3,
+      "success": true,
+      "steps": 848,
+      "stage1_success": true,
+      "stage1_end": 388,
+      "mean_k": 16.0,
+      "replans": []
+    },
+    {
+      "episode": 4,
+      "success": false,
+      "steps": 1799,
+      "stage1_success": true,
+      "stage1_end": 347,
+      "mean_k": 16.0,
+      "replans": []
+    },
+    {
+      "episode": 5,
+      "success": true,
+      "steps": 1145,
+      "stage1_success": true,
+      "stage1_end": 648,
+      "mean_k": 16.0,
+      "replans": []
+    }
+  ]
+}

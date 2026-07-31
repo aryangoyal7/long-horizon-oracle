@@ -1,0 +1,441 @@
+% Appendix. Source files for every number here (2026-07-31):
+%   labeling params    meta field of /mnt/scratch/lh/labels/final3_env_rc_*.npz
+%                      and final2_ol_*.npz
+%   sigma sweep        final3_env_sig{025,100}_rc_*.npz, recomputed 2026-07-31
+%   policy action RMSE results/rmse/*.json (diffusion policies)
+%                      results/robocasa/rmse_groot.log (GR00T N1.5)
+%   predictor          results/predictor/rc_seq_v3/S_<task>_h<1|4>_s<0|1|2>/
+%                        {metrics,calib}.json
+%   online thresholds  results/predictor/rc_seq_v3/online_thresholds.json
+%   labeling wall time DONE lines of results/robocasa/label3_*.log
+%   amplification /       recomputed from final3_env_rc_*.npz on 2026-07-31:
+%   lambda_full agreement   delta reproduces Table 1 to 4 dp; e^{16 lambda} at
+%                           delta / p99 / max; spearman(lambda_task, lambda_full)
+
+\appendix
+
+\section{Error Growth Over the Execution Horizon}
+\label{app:theory}
+
+This appendix expands the premise paragraph of Section~\ref{sec:method}: the
+statements we take from the literature, the two lines of algebra that specialize
+them to one executed chunk, and what our measurement of $\lambda$ does and does
+not license.
+
+\paragraph{What is quoted.}
+Three results are used, none of them ours.
+
+\emph{(i) Compounding from distribution shift.} \citet{ross2010efficient},
+Theorem 2.1:
+if $\hat\pi$ has expected $0/1$ loss at most $\varepsilon$ under the expert's
+own state distribution, then $J(\hat\pi) \le J(\pi^\star) + T^2\varepsilon$ over
+a horizon of $T$ steps, and the quadratic is tight, since a system, cost and
+policy can be constructed that attain it. This is the distribution-shift form of
+compounding error and it assumes nothing about the dynamics.
+
+\emph{(ii) The continuous-action obstruction.}
+\citet{simchowitz2025pitfalls} define $f$ to be $(C,\rho)$-exponentially
+incrementally input-to-state stable when \eqref{eq:eiss} holds for all pairs of
+initial states and input sequences, with $C\ge 1$ and $\rho \in [0,1)$. Their
+Lemma 2.1 gives the benign direction: if the \emph{closed loop} $(f,\hat\pi)$ is
+$(C,\rho)$-stable and $\hat\pi$ is $L_{\hat\pi}$-Lipschitz, the execution error
+is at most $\frac{C}{1-\rho}(2+L_{\hat\pi})$ times the expert-distribution
+error, with no factor of the horizon at all. Their main theorem gives the
+obstruction: there are imitation problems with smooth deterministic experts and
+stable dynamics on which any smooth, Markovian, simply-stochastic imitator
+suffers execution error $\exp(\Omega(T))$ times its training error. Closing the
+loop is not by itself enough; the closed loop has to be stable, and learning
+from expert data alone does not deliver that.
+
+\emph{(iii) Chunking as the remedy.} \citet{zhang2025chunking} analyze
+action chunking directly. Their Proposition 3.1 states that if the learned pair
+$(\hat\pi,\hat f)$ is $(C_{\text{ISS}},\rho)$-stable and the chunk length
+$\ell$ exceeds $\log(1/\rho)^{-1}\log(\mathrm{poly}(L,C_{\text{ISS}}))$, then the
+chunked policy on the true dynamics is again exponentially stable, with constant
+$\log(1/\rho)^{-1}\mathrm{poly}(L,C_{\text{ISS}})$ and rate $\rho^{1/2}$; their
+Theorem 1 then bounds trajectory error by a constant multiple of regression
+error, with the constant free of $T$. The mechanism is that a long enough
+open-loop chunk lets the plant's own contraction wash out the mismatch between
+the learned and true dynamics before the next replan is committed. Note the
+direction: this is a lower bound on $\ell$, and it presumes $\rho<1$.
+
+\paragraph{What is derived.}
+The bounds in \eqref{eq:chunk} and~\eqref{eq:window} follow from
+\eqref{eq:eiss} by substitution and are not theorems from those works.
+
+For the labeling probe, both branches start at the same state, so the first term
+of \eqref{eq:eiss} vanishes, and only $u_1$ differs, so the sum has one nonzero
+term:
+$\lVert x_j - x'_j\rVert \le C\rho^{\,j-1}\lVert u_1 - u'_1 \rVert
+= C\sigma_u\,e^{(j-1)\lambda}$ with $\lambda := \log\rho$. Taking logarithms
+gives an affine function of $j$ with slope $\lambda$, which is what
+Algorithm~\ref{alg:label} fits.
+
+For one executed chunk, the action error is present at every step because no
+replan intervenes, so $\lVert u_i - u'_i\rVert = \varepsilon$ for all $i \le k$
+and the sum is geometric,
+$C\varepsilon\sum_{i=0}^{k-1} e^{i\lambda}
+= C\varepsilon\,(e^{\lambda k}-1)/(e^{\lambda}-1)$,
+which is \eqref{eq:chunk}. Its three branches are: for $\lambda<0$ the sum is
+increasing in $k$ and converges, so $C\varepsilon/(1-e^{\lambda})$ bounds it for
+every $k$; at $\lambda=0$ the ratio has a removable singularity with value $k$,
+giving $C\varepsilon k$; and for $\lambda>0$ the numerator dominates, leaving
+$C\varepsilon e^{\lambda k}/(e^{\lambda}-1)$.
+
+For the episode, write $e_n$ for the deviation at the $n$th chunk boundary and
+model one replan as a contraction by $\gamma$, so that
+$e_{n+1} \le \gamma\!\left(e^{\lambda k} e_n
++ C\varepsilon\,\frac{e^{\lambda k}-1}{e^{\lambda}-1}\right)$.
+This is a linear recursion with gain $\gamma e^{\lambda k}$, bounded over
+$n = T/k$ chunks exactly when $\gamma e^{\lambda k} < 1$, that is when
+$k < \log(1/\gamma)/\lambda$. Combining it with the lower bound of (iii) gives
+the admissible window \eqref{eq:window}.
+
+\paragraph{The threshold in amplification units.}
+The automatic threshold $\delta$ of Section~\ref{sec:method} is set from the
+$\lambda$ distribution alone and never sees a chunk length, so where it lands in
+the units of \eqref{eq:chunk} is a check rather than a construction.
+Table~\ref{tab:amp} converts it. On all four RoboCasa tasks the threshold sits
+where one 16-step chunk multiplies an action error by between 2.5 and 3.9, the
+top percentile of stamps sits at 4.5 to 6.9, and the worst stamps reach 19 to
+107. Equivalently, holding the amplification at a stamp on the threshold to a
+factor of two would require chunks of 8 to 12 steps rather than 16.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lcccccc}
+\toprule
+& \multicolumn{2}{c}{threshold} & \multicolumn{2}{c}{99th pct.} & \multicolumn{2}{c}{worst stamp} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
+Task & $\delta$ & $e^{16\delta}$ & $\lambda$ & $e^{16\lambda}$ & $\lambda$ & $e^{16\lambda}$ \\
+\midrule
+OpenCabinet & .085 & 3.9 & .115 & 6.3 & .222 & 35 \\
+OpenDrawer & .076 & 3.4 & .121 & 6.9 & .223 & 36 \\
+PickPlaceToCabinet & .065 & 2.8 & .095 & 4.5 & .184 & 19 \\
+TurnOnSinkFaucet & .058 & 2.5 & .098 & 4.8 & .292 & 107 \\
+\bottomrule
+\end{tabular}
+\caption{The measured $\lambda$ distribution read as the per-chunk
+amplification factor $e^{\lambda k}$ of \eqref{eq:chunk} at the executed chunk
+length $k{=}16$. The threshold column is the automatic $\delta$ of
+Table~\ref{tab:labels}, which is computed from the below-median half of the
+$\lambda$ distribution and has no knowledge of $k$.}
+\label{tab:amp}
+\end{table}
+
+\paragraph{What the correspondence does not license.}
+Four caveats, in decreasing order of how much they matter.
+
+\emph{$\lambda$ is measured on an output, not on the state.} The left-hand side
+of \eqref{eq:eiss} is $\lVert x_j - x'_j\rVert$, the full state. Our label is
+the growth rate of a task metric $y = h(x)$, and composing a Lipschitz $h$ with
+\eqref{eq:eiss} bounds $\lVert y_j - y'_j\rVert$ by $L_h C \rho^{j-1}\sigma_u$,
+so the fitted slope estimates the rate along the observed coordinates rather
+than the state's leading exponent. The two are not interchangeable here. The
+labeler also records the slope on the full simulator state, and on RoboCasa the
+two are nearly uncorrelated: Spearman $0.21$, $0.07$, $-0.02$ and $0.01$ on the
+four tasks, with the full-state slope having a \emph{negative} median
+($-0.019$ to $-0.010$) where the task-metric slope is near zero or positive.
+The full state settles while the coordinates the task cares about separate. We
+use the task metric deliberately, because whether the chunk still lands where
+it was aimed is a statement about those coordinates, but the label should be
+read as an output-space expansion rate and not as the plant's leading Lyapunov
+exponent.
+
+\emph{$\gamma$ is assumed, not measured.} Nothing in this paper measures the
+contraction a single replan buys. The closed-loop labels of
+Section~\ref{sec:method} measure whether replanning helps at all at a state,
+which is the sign of the effect, not its magnitude, so \eqref{eq:window} is a
+statement of shape rather than a formula we can evaluate. Measuring $\gamma$ is
+the natural way to turn the switching rule from two levels into a schedule.
+
+\emph{$C$ and $L$ are not measured either.} The lower bound in
+\eqref{eq:window} therefore cannot be evaluated for our systems, and we do not
+claim $k{=}16$ satisfies it. What the window says is that the two bounds move
+independently: the lower one is a property of the system and the learned model,
+the upper one of the state.
+
+\emph{The rate is finite-time.} $\lambda$ is fitted over a $K{=}24$ step window
+and is a finite-time exponent in the sense of \citet{haller2015lcs}, not an
+asymptotic one. Figure~\ref{fig:labeling}(b) shows that neither divergence curve
+is a clean straight line; the slope summarizes the window, and
+\eqref{eq:chunk} inherits that approximation.
+
+\section{The Labeling Procedure in Full}
+\label{app:labeling}
+
+Algorithm~\ref{alg:label} is the procedure of Section~\ref{sec:method} written
+out. It is the whole method: there is no training step and no policy query.
+
+\begin{algorithm}[h]
+\caption{Open-loop stability label at one state}
+\label{alg:label}
+\begin{algorithmic}[1]
+\Require simulator state $s_{t_0}$, recorded actions $a_{t_0},\dots,a_{t_0+K-1}$,
+         horizon $K$, branches $N$, scale $\sigma_u$
+\State restore the simulator to $s_{t_0}$
+\For{$j = 0$ to $K-1$}\Comment{nominal branch}
+  \State step the simulator with $a_{t_0+j}$; record $y_j \gets$ task metric
+\EndFor
+\For{$n = 1$ to $N$}
+  \State $\tilde a \gets a_{t_0}$; \; $\tilde a[\text{translation}] \mathrel{+}= \sigma_u \varepsilon$,
+         \; $\varepsilon \sim \mathcal{N}(0, I_3)$
+  \State restore the simulator to $s_{t_0}$
+  \For{$j = 0$ to $K-1$}\Comment{perturbed branch: same actions after the first}
+    \State step with $\tilde a$ if $j = 0$ else $a_{t_0+j}$; record $y^{(n)}_j$
+    \State $d^{(n)}_j \gets \lVert y^{(n)}_j - y_j \rVert$
+  \EndFor
+\EndFor
+\State \Return $\lambda \gets$ OLS slope of
+       $\frac{1}{N}\sum_n \log \max(d^{(n)}_j, 10^{-12})$ against $j$
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{Settings.}
+Every dataset in this paper uses $K{=}24$, $N{=}8$, a stride of 2 between
+labeled stamps, and perturbs the three translation dimensions only. The gripper
+dimension is never perturbed, because a perturbation there changes which
+discrete contact mode the branch enters and measures a different thing.
+
+\paragraph{Task metric.}
+The metric $y$ is the quantity whose divergence defines the label, and it
+differs by platform because the observation spaces do. On robomimic, MimicGen
+and LIBERO it is the end-effector position concatenated with the task object's
+observation vector. On RoboCasa it is the end-effector position concatenated
+with the gripper joint positions, because the kitchen environments have no
+single distinguished object observation. Both are norms over quantities in
+metres, so $\lambda$ carries units of inverse control steps in both cases.
+The change of metric between platforms means $\delta$, and therefore the
+unstable fraction, is not directly comparable across the two groups; the
+within-episode structure that Claim 1 rests on is.
+
+\paragraph{Action ordering.}
+The RoboCasa demonstrations are stored in a different action order from the one
+the controller consumes:
+\begin{center}
+\small
+stored $[\text{base}_3, \text{torso}_1, \text{mode}_1, \text{arm}_6, \text{grip}_1]$
+\quad$\rightarrow$\quad
+consumed $[\text{arm}_6, \text{grip}_1, \text{base}_3, \text{torso}_1, \text{mode}_1]$.
+\end{center}
+An earlier version of our labels replayed the stored order directly, which
+drives the arm with base commands and makes the nominal branch itself a failure.
+Replay validation caught it: the remapped order reproduces the demonstration
+end state to within 4 to 7 centimetres, the raw order misses by about a metre.
+Every RoboCasa number in this paper comes from labels regenerated after the fix.
+We report this because a silent action-order mismatch produces labels that look
+plausible, with a sensible $\lambda$ distribution and a sensible threshold, and
+is invisible without an explicit replay check.
+
+\paragraph{Determinism.}
+The label is reproducible to the last digit only if the simulator call sequence
+is reproduced exactly, including calls that read nothing. Re-running the
+procedure while omitting a redundant \texttt{reset\_to} shifts MuJoCo's
+warm-start cache, which perturbs the constraint solver and moves $\lambda$ by a
+few thousandths, enough to flip stamps near $\delta$. Regenerating the
+divergence curves of Figure~\ref{fig:labeling} with the call sequence
+reproduced exactly recovers the stored labels with a maximum absolute
+difference of $0$ over the 25 stamps checked.
+
+\section{The Perturbation Scale $\sigma_u$}
+\label{app:sigma}
+
+\paragraph{How it is set.}
+The intent stated in Section~\ref{sec:method} is that $\sigma_u$ should be the
+trained policy's validation action RMSE, so that the injected perturbation is
+the size of the error the policy actually makes. Table~\ref{tab:sigma} gives
+the value used for every dataset. For the diffusion-policy platforms this rule
+is applied directly, using the position-dimension RMSE of the trained
+checkpoint on held-out demonstrations. For RoboCasa it is not: all four tasks
+use $\sigma_u{=}0.05$, chosen before the GR00T checkpoint was evaluated and
+kept for consistency across the sweep.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{llc}
+\toprule
+Platform / dataset & $\sigma_u$ & source \\
+\midrule
+RoboCasa, all four tasks & 0.05 & fixed, see below \\
+robomimic can & 0.225 & policy RMSE \\
+robomimic lift & 0.165 & policy RMSE \\
+robomimic square & 0.220 & policy RMSE \\
+robomimic tool\_hang & 0.164 & policy RMSE \\
+MimicGen coffee preparation & 0.114 & policy RMSE \\
+MimicGen nut assembly & 0.103 & policy RMSE \\
+MimicGen square & 0.220 & policy RMSE, square ph \\
+MimicGen stack & 0.203 & robomimic mean \\
+LIBERO-10, all ten tasks & 0.203 & robomimic mean \\
+\bottomrule
+\end{tabular}
+\caption{Perturbation scale per dataset. Policy RMSE is the position-dimension
+action RMSE of the trained diffusion policy on held-out demonstrations. Two
+datasets use the mean over the robomimic policies because their own policy was
+not yet trained when the labels were produced.}
+\label{tab:sigma}
+\end{table}
+
+\paragraph{The RoboCasa gap.}
+Applying the stated rule to RoboCasa would give a much larger perturbation than
+the one we use. The GR00T N1.5 checkpoint's position-dimension action RMSE on
+held-out demonstrations is 0.565 on OpenCabinet, 0.426 on OpenDrawer, 0.479 on
+PickPlaceCounterToCabinet and 0.299 on TurnOnSinkFaucet, pooling to 0.467, an
+order of magnitude above the 0.05 used for labeling. The sensitivity analysis
+below covers a fourfold range around 0.05 and does not reach the rule-implied
+value, so it does not by itself justify the choice at that scale.
+\pending{relabel at least one RoboCasa task at the measured RMSE and report
+whether the regime structure survives; if it does not, the honest statement is
+that $\sigma_u$ is a free parameter of the label rather than a policy-derived
+one}
+
+\paragraph{Sensitivity.}
+Table~\ref{tab:sigmasweep} relabels all four RoboCasa tasks at
+$\sigma_u \in \{0.025, 0.05, 0.10\}$. The threshold $\delta$ moves with the
+probe, as it must, since a larger kick produces larger separations everywhere.
+What matters is that the per-stamp ordering of $\lambda$ is nearly preserved
+and the resulting unstable flag barely moves: adjacent settings agree on 96.6
+to 99.4 percent of stamps. The structure the paper relies on is therefore a
+property of the dynamics, not of the probe size, over this range.
+
+\begin{table}[h]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccccccc}
+\toprule
+& \multicolumn{3}{c}{$\delta$ at $\sigma_u$} & \multicolumn{3}{c}{Spearman $\rho$ of $\lambda$} & agree \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-8}
+Task & .025 & .05 & .10 & \tiny .025/.05 & \tiny .05/.10 & \tiny .025/.10 & \% \\
+\midrule
+OpenCabinet & .100 & .085 & .067 & .98 & .96 & .90 & 99.1--99.4 \\
+OpenDrawer & .088 & .076 & .061 & .96 & .93 & .85 & 99.0--99.3 \\
+PickPlaceToCabinet & .078 & .065 & .046 & .97 & .95 & .89 & 96.6--98.4 \\
+TurnOnSinkFaucet & .068 & .058 & .046 & .95 & .93 & .82 & 97.2--98.3 \\
+\bottomrule
+\end{tabular}
+\caption{Relabeling all four RoboCasa tasks across a fourfold range of
+$\sigma_u$, on the same 20{,}198 to 34{,}133 stamps per task. The agree column
+is the fraction of stamps on which the unstable flag matches the
+$\sigma_u{=}0.05$ labeling, given as the range over the two off-centre
+settings.}
+\label{tab:sigmasweep}
+\end{table}
+
+\section{Threshold Selection}
+\label{app:threshold}
+
+Section~\ref{sec:claim3} states that setting the firing threshold for a learned
+head is most of the problem. Table~\ref{tab:thresh} gives the numbers behind
+that claim.
+
+\begin{table}[h]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccccc}
+\toprule
+& & \multicolumn{2}{c}{label-space $\delta$} & \multicolumn{2}{c}{online} \\
+\cmidrule(lr){3-4} \cmidrule(lr){5-6}
+Task & $\delta$ & $\max \hat\lambda$ & \% over & target & thresh \\
+\midrule
+OpenCabinet & .085 & .097 & 0.02\% & .06 & .045 \\
+OpenDrawer & .076 & .058 & 0.00\% & .14 & .021 \\
+PickPlaceToCabinet & .065 & .076 & 0.02\% & .11 & .030 \\
+TurnOnSinkFaucet & .058 & .064 & 0.12\% & .12 & .037 \\
+\bottomrule
+\end{tabular}
+\caption{Why the obvious threshold does not work, h1 head. Applying the
+label-space $\delta$ to the head's predicted $\hat\lambda$ fires on 0.12
+percent of held-out stamps at best and on none at all for OpenDrawer, because
+the regression head compresses its outputs toward the mean: the maximum
+$\hat\lambda$ it ever emits barely reaches $\delta$. The online columns give
+the deployment calibration we adopt, where the threshold is the quantile of a
+shadow run's score distribution that reproduces the oracle's firing rate for
+that task. Target and achieved rates agree to within 0.1 percentage point on
+all eight predictor cells.}
+\label{tab:thresh}
+\end{table}
+
+Three points are worth separating. First, the failure is not a detection
+failure: AUROC is identical under all three threshold choices, because AUROC is
+invariant to any monotone rescaling of the score. An offline metric cannot see
+this problem at all. Second, calibrating on held-out demonstrations fixes the
+scale but not the distribution, and gives online firing rates from 2 to 29
+percent against a 4 percent target, because the policy visits states unlike the
+demonstrations. Third, the deployment calibration we adopt requires a shadow
+run per task and predictor, which is a real cost and one the oracle does not
+pay.
+
+\section{Predictor Architecture and Training}
+\label{app:predictor}
+
+\paragraph{Features.}
+Frozen V-JEPA 2 ViT-L (\texttt{vjepa2-vitl-fpc64-256}), never fine-tuned. For a
+stamp at time $t$ we take the 16 camera frames ending at $t$, padded at episode
+start, resize to 256, and keep a pooled token grid of 8 temporal positions
+$\times$ $4{\times}4$ spatial positions $\times$ 1024 channels, that is 128
+tokens per stamp, stored in fp16. Proprioception is end-effector position,
+quaternion and gripper joint positions over the same 16-step window.
+
+\paragraph{Head.}
+A learned query attends over the token grid with 8-head multi-head attention,
+followed by a LayerNorm. Proprioception passes through a single-layer GRU with
+64 hidden units. The pooled visual vector and the final GRU state are
+concatenated and passed through a two-layer MLP, hidden width 256, GELU,
+dropout 0.1, to two scalar outputs: a regression estimate of $\lambda$ and a
+classification logit for $\lambda > \delta$. The h4 variant is the same network
+reading four clips spaced 16 frames apart with a learned per-clip position
+embedding added before attention; h1 is the same code path with one clip.
+
+\paragraph{Training.}
+AdamW, learning rate $10^{-3}$, weight decay $10^{-4}$, cosine annealing over
+40 epochs, batch size 128. The loss is a Huber loss with $\delta_{\text{H}}{=}0.1$
+on $\lambda$ over all stamps plus a positive-weighted binary cross-entropy on
+confident stamps only, that is those with $\lvert\lambda\rvert > \delta$, since
+the deadband label is ambiguous by construction. The split is by demonstration,
+not by stamp, with 20 percent of demonstrations held out, so no frame from a
+validation episode is seen in training. Three seeds per configuration; the seed
+controls initialization, shuffling and the train/validation split together.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lcccc}
+\toprule
+& \multicolumn{2}{c}{AUROC, confident} & \multicolumn{2}{c}{Spearman with $\lambda$} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+Task & h1 & h4 & h1 & h4 \\
+\midrule
+OpenCabinet & .885 $\pm$ .021 & .858 $\pm$ .014 & .43 & .34 \\
+OpenDrawer & .863 $\pm$ .023 & .838 $\pm$ .010 & .24 & .16 \\
+PickPlaceToCabinet & .895 $\pm$ .016 & .887 $\pm$ .006 & .40 & .31 \\
+TurnOnSinkFaucet & .902 $\pm$ .022 & .895 $\pm$ .012 & .33 & .28 \\
+\bottomrule
+\end{tabular}
+\caption{Predictor quality on held-out demonstrations, mean and standard
+deviation over three seeds. These are the four RoboCasa rows of
+Table~\ref{tab:claim2} with the regression quality added, which is the
+per-stamp Spearman correlation between predicted and measured $\lambda$ rather
+than a ranking of the unstable stratum. The single-clip head is ahead of the
+four-clip head on every task and on both metrics, though the AUROC gap exceeds
+the seed spread on only two of the four tasks, OpenCabinet and OpenDrawer; the
+Spearman column is the clearer separation. Training sets are 16{,}090 to
+27{,}974 stamps and validation sets 4{,}108 to 6{,}159 stamps.}
+\label{tab:predfull}
+\end{table}
+
+\section{Compute}
+\label{app:compute}
+
+Labeling is the dominant cost and is CPU-only: no rendering, no network, no
+gradient. One RoboCasa task, 200 demonstrations and 20{,}198 to 34{,}133
+labeled stamps, takes 2.8 to 6.5 hours on 24 worker processes. Each stamp costs
+$(N{+}1) \times K = 216$ simulator steps plus two state restores, so the cost
+scales linearly in stamps, in $N$ and in $K$, and the stride is the only knob
+that changes stamp count. Feature extraction is one forward pass of a frozen
+ViT-L per stamp on one GPU. Head training is minutes on one GPU, the heads
+being small relative to the frozen encoder. The simulator oracle of Claim 2 has
+the same per-decision cost as one label, 216 steps, which is why it is a bound
+rather than a deployable controller.

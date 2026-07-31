@@ -1,0 +1,368 @@
+{
+  "dataset": "/mnt/scratch/lh/data/libero/libero_10/KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka_pot_on_it_demo.hdf5",
+  "task": "KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka_pot_on_it",
+  "checkpoint": "/home/azureuser/cloudfiles/code/Users/garyan18/long-horizon/results/training/dp_libero_KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka_pot_on_it/dp_libero_KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka_pot_on_it/20260724113453/models/model_epoch_400.pth",
+  "mode": "predictor",
+  "k": null,
+  "k_stable": 16,
+  "k_unstable": 1,
+  "delta": 0.024107583425939046,
+  "n_episodes": 50,
+  "horizon": 600,
+  "seed": 0,
+  "success_rate": 0.1,
+  "mean_k": 5.852626566243016,
+  "mean_steps_success": 269.6,
+  "episodes": [
+    {
+      "episode": 0,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.5,
+      "frac_unstable_calls": 0.9722222222222222
+    },
+    {
+      "episode": 1,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.125,
+      "frac_unstable_calls": 0.9753363228699552
+    },
+    {
+      "episode": 2,
+      "success": false,
+      "steps": 600,
+      "mean_k": 4.75,
+      "frac_unstable_calls": 0.9782608695652174
+    },
+    {
+      "episode": 3,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.5,
+      "frac_unstable_calls": 0.9722222222222222
+    },
+    {
+      "episode": 4,
+      "success": false,
+      "steps": 600,
+      "mean_k": 4.75,
+      "frac_unstable_calls": 0.9782608695652174
+    },
+    {
+      "episode": 5,
+      "success": false,
+      "steps": 600,
+      "mean_k": 4.375,
+      "frac_unstable_calls": 0.9810126582278481
+    },
+    {
+      "episode": 6,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.875,
+      "frac_unstable_calls": 0.9688995215311005
+    },
+    {
+      "episode": 7,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.125,
+      "frac_unstable_calls": 0.9753363228699552
+    },
+    {
+      "episode": 8,
+      "success": false,
+      "steps": 600,
+      "mean_k": 4.75,
+      "frac_unstable_calls": 0.9782608695652174
+    },
+    {
+      "episode": 9,
+      "success": false,
+      "steps": 600,
+      "mean_k": 4.75,
+      "frac_unstable_calls": 0.9782608695652174
+    },
+    {
+      "episode": 10,
+      "success": false,
+      "steps": 600,
+      "mean_k": 6.25,
+      "frac_unstable_calls": 0.9653465346534653
+    },
+    {
+      "episode": 11,
+      "success": false,
+      "steps": 600,
+      "mean_k": 4.75,
+      "frac_unstable_calls": 0.9782608695652174
+    },
+    {
+      "episode": 12,
+      "success": false,
+      "steps": 600,
+      "mean_k": 6.625,
+      "frac_unstable_calls": 0.9615384615384616
+    },
+    {
+      "episode": 13,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.875,
+      "frac_unstable_calls": 0.9688995215311005
+    },
+    {
+      "episode": 14,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.5,
+      "frac_unstable_calls": 0.9722222222222222
+    },
+    {
+      "episode": 15,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.125,
+      "frac_unstable_calls": 0.9753363228699552
+    },
+    {
+      "episode": 16,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.125,
+      "frac_unstable_calls": 0.9753363228699552
+    },
+    {
+      "episode": 17,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.125,
+      "frac_unstable_calls": 0.9753363228699552
+    },
+    {
+      "episode": 18,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.5,
+      "frac_unstable_calls": 0.9722222222222222
+    },
+    {
+      "episode": 19,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.125,
+      "frac_unstable_calls": 0.9753363228699552
+    },
+    {
+      "episode": 20,
+      "success": false,
+      "steps": 600,
+      "mean_k": 4.375,
+      "frac_unstable_calls": 0.9810126582278481
+    },
+    {
+      "episode": 21,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.125,
+      "frac_unstable_calls": 0.9753363228699552
+    },
+    {
+      "episode": 22,
+      "success": false,
+      "steps": 600,
+      "mean_k": 4.75,
+      "frac_unstable_calls": 0.9782608695652174
+    },
+    {
+      "episode": 23,
+      "success": false,
+      "steps": 600,
+      "mean_k": 4.75,
+      "frac_unstable_calls": 0.9782608695652174
+    },
+    {
+      "episode": 24,
+      "success": false,
+      "steps": 600,
+      "mean_k": 4.75,
+      "frac_unstable_calls": 0.9782608695652174
+    },
+    {
+      "episode": 25,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.125,
+      "frac_unstable_calls": 0.9753363228699552
+    },
+    {
+      "episode": 26,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.5,
+      "frac_unstable_calls": 0.9722222222222222
+    },
+    {
+      "episode": 27,
+      "success": true,
+      "steps": 257,
+      "mean_k": 12.381322957198444,
+      "frac_unstable_calls": 0.8266666666666667
+    },
+    {
+      "episode": 28,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.5,
+      "frac_unstable_calls": 0.9722222222222222
+    },
+    {
+      "episode": 29,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.125,
+      "frac_unstable_calls": 0.9753363228699552
+    },
+    {
+      "episode": 30,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.125,
+      "frac_unstable_calls": 0.9753363228699552
+    },
+    {
+      "episode": 31,
+      "success": true,
+      "steps": 241,
+      "mean_k": 13.136929460580912,
+      "frac_unstable_calls": 0.7796610169491526
+    },
+    {
+      "episode": 32,
+      "success": true,
+      "steps": 253,
+      "mean_k": 12.561264822134387,
+      "frac_unstable_calls": 0.8169014084507042
+    },
+    {
+      "episode": 33,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.125,
+      "frac_unstable_calls": 0.9753363228699552
+    },
+    {
+      "episode": 34,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.5,
+      "frac_unstable_calls": 0.9722222222222222
+    },
+    {
+      "episode": 35,
+      "success": false,
+      "steps": 600,
+      "mean_k": 4.375,
+      "frac_unstable_calls": 0.9810126582278481
+    },
+    {
+      "episode": 36,
+      "success": false,
+      "steps": 600,
+      "mean_k": 4.75,
+      "frac_unstable_calls": 0.9782608695652174
+    },
+    {
+      "episode": 37,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.875,
+      "frac_unstable_calls": 0.9688995215311005
+    },
+    {
+      "episode": 38,
+      "success": false,
+      "steps": 600,
+      "mean_k": 4.375,
+      "frac_unstable_calls": 0.9810126582278481
+    },
+    {
+      "episode": 39,
+      "success": false,
+      "steps": 600,
+      "mean_k": 4.75,
+      "frac_unstable_calls": 0.9782608695652174
+    },
+    {
+      "episode": 40,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.875,
+      "frac_unstable_calls": 0.9688995215311005
+    },
+    {
+      "episode": 41,
+      "success": false,
+      "steps": 600,
+      "mean_k": 4.75,
+      "frac_unstable_calls": 0.9782608695652174
+    },
+    {
+      "episode": 42,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.875,
+      "frac_unstable_calls": 0.9688995215311005
+    },
+    {
+      "episode": 43,
+      "success": true,
+      "steps": 258,
+      "mean_k": 12.337209302325581,
+      "frac_unstable_calls": 0.8289473684210527
+    },
+    {
+      "episode": 44,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.875,
+      "frac_unstable_calls": 0.9688995215311005
+    },
+    {
+      "episode": 45,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.125,
+      "frac_unstable_calls": 0.9753363228699552
+    },
+    {
+      "episode": 46,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.125,
+      "frac_unstable_calls": 0.9753363228699552
+    },
+    {
+      "episode": 47,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.125,
+      "frac_unstable_calls": 0.9753363228699552
+    },
+    {
+      "episode": 48,
+      "success": true,
+      "steps": 339,
+      "mean_k": 8.964601769911505,
+      "frac_unstable_calls": 0.9298245614035088
+    },
+    {
+      "episode": 49,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.125,
+      "frac_unstable_calls": 0.9753363228699552
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "dataset": "/mnt/scratch/lh/data/mimicgen/coffee_preparation_d0.hdf5",
+    "K": 24,
+    "N": 8,
+    "pos_only": true,
+    "stride": 2,
+    "sigma_u": 0.1139,
+    "sigma_u_source": "policy_rmse",
+    "seed": 0,
+    "metric": "eef_pos+object (task), full sim state ex-time (full)"
+  },
+  "n_stamps": 66724,
+  "frac_free_space": 0.0,
+  "mean_lambda_free": null,
+  "mean_lambda_gripper_contact": 0.025777130085855436,
+  "mean_lambda_fixture_contact": 0.015334508962494614,
+  "suggested_deadband_delta_p95_free": 0.05,
+  "auroc_lambda_predicts_window_contact": NaN,
+  "label_fracs_after_filter": {
+    "unstable": 0.1536778370601283,
+    "stable": 0.030199028835201727,
+    "deadband": 0.81612313410467
+  },
+  "frac_contact_labeled_unstable": 0.1536778370601283,
+  "frac_free_labeled_unstable": null
+}

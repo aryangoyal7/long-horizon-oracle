@@ -1,0 +1,26 @@
+{
+  "OpenCabinet": {
+    "prompt": "Open the cabinet door.",
+    "success": true,
+    "steps": 585,
+    "video": "/mnt/scratch/lh/rollouts/groot_sanity/OpenCabinet__success.mp4"
+  },
+  "OpenDrawer": {
+    "prompt": "Open the right drawer.",
+    "success": true,
+    "steps": 318,
+    "video": "/mnt/scratch/lh/rollouts/groot_sanity/OpenDrawer__success.mp4"
+  },
+  "PickPlaceCounterToCabinet": {
+    "prompt": "Pick the pear from the counter and place it in the cabinet.",
+    "success": true,
+    "steps": 167,
+    "video": "/mnt/scratch/lh/rollouts/groot_sanity/PickPlaceCounterToCabinet__success.mp4"
+  },
+  "TurnOnSinkFaucet": {
+    "prompt": "Turn on the sink faucet.",
+    "success": true,
+    "steps": 134,
+    "video": "/mnt/scratch/lh/rollouts/groot_sanity/TurnOnSinkFaucet__success.mp4"
+  }
+}

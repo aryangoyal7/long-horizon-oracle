@@ -1,0 +1,8 @@
+{
+  "ckpt": "/home/azureuser/cloudfiles/code/Users/garyan18/long-horizon/results/training/dp_mg_coffee_preparation_d0/dp_mg_coffee_preparation_d0_image/20260721141916/models/model_epoch_1000.pth",
+  "dataset": "/mnt/scratch/lh/data/mimicgen/coffee_preparation_d0_image.hdf5",
+  "n_points": 41850,
+  "arm_action_rmse": 0.09334492228180631,
+  "pos_action_rmse": 0.11389271742823669,
+  "valid_source": "fallback_last_demos"
+}

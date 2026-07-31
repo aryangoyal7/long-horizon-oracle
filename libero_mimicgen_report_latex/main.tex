@@ -1,0 +1,96 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.9in]{geometry}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage[hidelinks]{hyperref}
+\title{Chunk-Length Switching Outside RoboCasa:\\LIBERO and MimicGen Results}
+\author{Long-horizon adaptive chunking project}
+\date{July 29, 2026}
+\begin{document}
+\maketitle
+
+\section*{Setup}
+Same recipe as the RoboCasa study, on diffusion policies. We label
+demonstration states with the open-loop stability exponent $\lambda$
+(perturb the first action, replay the chunk open loop, fit the log
+divergence slope), train small predictor heads on the labels (vision,
+proprioception, and V-JEPA feature variants), and evaluate fixed chunk
+lengths $k \in \{16, 8, 4, 1\}$ against switching $(k_{\text{stable}},
+k_{\text{unstable}})$ with $(16,4)$ and $(16,1)$, plus $(8,\cdot)$
+completions on the tasks where fixed 8 is competitive. Heads are queried at
+every replan. 50 episodes per cell.
+
+\section*{LIBERO}
+\begin{table}[h]
+\centering
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lccccccccccccc}
+\toprule
+& \multicolumn{4}{c}{Fixed $k$} & \multicolumn{3}{c}{vjepa} & \multicolumn{3}{c}{vision} & \multicolumn{3}{c}{proprio} \\
+\cmidrule(lr){2-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}
+Task & 16 & 8 & 4 & 1 & (16,4) & (16,1) & (8,1) & (16,4) & (16,1) & (8,1) & (16,4) & (16,1) & (8,1) \\
+\midrule
+Kitchen 3 moka pot   & \textbf{.72} & .44 & .22 & .08 & .36 & .40 & .20 & .56 & .42 & .24 & .30 & .10 & .10 \\
+Kitchen 4 bowl in drawer & .76 & \textbf{.84} & .76 & .46 & .54 & .62 & .82 & .64 & .58 & .72 & .58 & .38 & .58 \\
+Kitchen 6 mug in microwave & .00 & .00 & .00 & .00 & .00 & .00 & -- & .00 & .00 & -- & .00 & -- & -- \\
+Living Room 2 soup and sauce & .00 & .00 & .00 & .00 & .00 & .00 & -- & .00 & .00 & -- & .00 & .00 & -- \\
+Living Room 2 cheese and butter & .00 & .00 & .00 & .00 & .00 & .00 & -- & .00 & .00 & -- & .00 & .00 & -- \\
+\bottomrule
+\end{tabular}
+\caption{LIBERO success rates. Bold is the best cell per task. Kitchen 6 is
+zero at every completed cell (its proprio $(16,1)$ cell is still running);
+dashes were not run.}
+\end{table}
+
+\section*{MimicGen}
+\begin{table}[h]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccccccccccc}
+\toprule
+& \multicolumn{4}{c}{Fixed $k$} & \multicolumn{4}{c}{full} & \multicolumn{2}{c}{vision} & \multicolumn{2}{c}{proprio} \\
+\cmidrule(lr){2-5}\cmidrule(lr){6-9}\cmidrule(lr){10-11}\cmidrule(lr){12-13}
+Task & 16 & 8 & 4 & 1 & (16,4) & (16,1) & (8,4) & (8,1) & (16,4) & (16,1) & (16,4) & (16,1) \\
+\midrule
+Nut assembly & .34 & .42 & .42 & \textbf{.52} & .40 & .32 & .34 & .42 & .34 & .46 & .44 & .38 \\
+Coffee preparation & .18 & \textbf{.24} & .10 & .04 & .16 & .10 & .24 & .06 & .12 & .12 & .02 & .10 \\
+\bottomrule
+\end{tabular}
+\caption{MimicGen success rates with in-domain heads. Bold is the best cell
+per task.}
+\end{table}
+
+\section*{Reading}
+The fixed-$k$ profiles match the label story. Kitchen 3 collapses from .72
+to .08 as the chunk shrinks, the signature of a task where frequent
+replanning itself destabilizes the policy. Nut assembly is the opposite:
+mostly unstable, so the shortest chunk is best at .52. Coffee preparation
+needs a middle chunk (.24 at $k{=}8$) and dies at $k{=}1$.
+
+Learned switching never beats the best fixed chunk on these platforms,
+though from the right base it can now match it. The $(8,\cdot)$
+completions sharpen the picture: Kitchen 4's vjepa $(8,1)$ reaches .82
+against the best fixed .84, and coffee's full-head $(8,4)$ reaches .24,
+exactly its best fixed chunk. Nut assembly's $(8,1)$ lands on fixed 8 at
+.42, still below fixed 1 at .52. The closed-loop unstable tasks pay for
+every false positive: all three Kitchen 3 $(8,1)$ cells (.10 to .24) fall
+far below fixed 16 at .72, and coffee $(8,1)$ collapses to .06. The
+pattern is the same one we measured directly on RoboCasa: the heads rank
+states well offline (AUROC .78 to .89) but the stability signal shifts
+between demonstration states and rollout states, so the threshold fires in
+the wrong places. On a task like Kitchen 3 the cost is largest, because
+every false positive buys a step of the closed-loop instability that made
+short chunks fail there in the first place; its proprio $(16,1)$ cell lands
+at .10, essentially the fixed $k{=}1$ result.
+
+In the two-axis taxonomy: Kitchen 3 and coffee sit in the closed-loop
+unstable row where false positives are expensive and long or middle chunks
+are mandatory. Nut assembly is mostly open-loop unstable, and the right
+answer is a short fixed chunk rather than switching. Kitchen 6 and both
+Living Room 2 tasks are at zero everywhere, unstable on both axes, and no
+chunk length can help. These results complete the negative half of the
+paper's claim: the taxonomy predicts not only where switching wins on
+RoboCasa but also where it must lose elsewhere.
+\end{document}

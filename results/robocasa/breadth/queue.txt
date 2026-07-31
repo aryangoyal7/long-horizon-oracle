@@ -1,0 +1,17 @@
+PickPlaceCounterToSink fixed8
+PickPlaceCounterToSink fixed1
+OpenMicrowave shadow16
+OpenMicrowave fixed8
+OpenMicrowave fixed1
+CloseDishwasher shadow16
+CloseDishwasher fixed8
+CloseDishwasher fixed1
+PickPlaceCounterToStove shadow16
+PickPlaceCounterToStove fixed8
+PickPlaceCounterToStove fixed1
+TurnOffSinkFaucet shadow16
+TurnOffSinkFaucet fixed8
+TurnOffSinkFaucet fixed1
+OpenFridge shadow16
+OpenFridge fixed8
+OpenFridge fixed1

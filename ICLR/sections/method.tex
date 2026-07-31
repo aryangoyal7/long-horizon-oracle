@@ -1,0 +1,177 @@
+\section{Measuring and Predicting Stability Regimes}
+\label{sec:method}
+
+\paragraph{Setup.}
+A policy $\pi$ maps an observation $o_t$ to an action chunk
+$(a_t, \dots, a_{t+H-1})$ of nominal length $H$, here $H{=}16$. The executor
+plays the first $k \le H$ actions open-loop and then replans. We ask how $k$
+should depend on the state.
+
+\paragraph{Premise: what an open-loop chunk costs.}
+The price of executing $k$ actions blind can be written down before it is
+measured. Take the standard incremental-stability model of the plant: the
+dynamics are $(C,\rho)$-exponentially incrementally input-to-state stable if any
+two trajectories driven by input sequences $u$ and $u'$ satisfy
+\begin{equation}
+\lVert x_j - x'_j \rVert \;\le\; C\rho^{\,j-1}\lVert x_1 - x'_1 \rVert
+\;+\; C\sum_{i=1}^{j-1} \rho^{\,j-1-i}\,\lVert u_i - u'_i \rVert ,
+\label{eq:eiss}
+\end{equation}
+with contraction rate $\rho$ and constant $C \ge 1$
+\citep{simchowitz2025pitfalls,zhang2025chunking}. The two things a chunked
+executor does are the two special cases of \eqref{eq:eiss}.
+
+\emph{Perturb one input.} Start both branches at the same state and perturb only
+$u_1$, by $\sigma_u$. Then \eqref{eq:eiss} collapses to a single term,
+$\log \lVert x_j - x'_j \rVert \le \log C\sigma_u + (j-1)\log\rho$, a straight
+line in $j$ of slope $\log\rho$. The labeling procedure below perturbs exactly
+the first action and fits exactly that slope, so the $\lambda$ it returns is a
+state-local empirical estimate of $\log\rho$ in units of inverse control steps,
+and the linear fit is the model rather than a convenience.
+
+\emph{Execute a chunk.} A policy whose per-step action error is $\varepsilon$
+commits that error at every step of the chunk, since nothing corrects it until
+the next replan. Putting $\lVert u_i - u'_i \rVert = \varepsilon$ in
+\eqref{eq:eiss} and writing $\rho = e^{\lambda}$, the deviation at the end of a
+chunk of length $k$ obeys
+\begin{equation}
+\lVert x_k - x'_k \rVert \;\le\; C\varepsilon\,
+\frac{e^{\lambda k}-1}{e^{\lambda}-1}
+\;=\;
+\begin{cases}
+C\varepsilon\,/\,(1-e^{\lambda}) & \lambda < 0,\\[2pt]
+C\varepsilon\,k & \lambda = 0,\\[2pt]
+C\varepsilon\,e^{\lambda k}/(e^{\lambda}-1) & \lambda > 0.
+\end{cases}
+\label{eq:chunk}
+\end{equation}
+Chunk length is free where the segment is open-loop stable, costs linearly at
+the noise floor, and costs exponentially above it. The scale is not academic:
+the two states in Figure~\ref{fig:labeling}(b) carry $\lambda{=}.006$ and
+$\lambda{=}.121$, so a single 16-step chunk multiplies a given action error by
+$1.1$ at the first and by $6.9$ at the second.
+
+\emph{Over an episode.} Run $T/k$ chunks and let a replan contract the
+accumulated deviation by $\gamma<1$ where the policy is closed-loop stable. The
+deviation at chunk boundaries then follows a linear recursion of gain
+$\gamma e^{\lambda k}$, which stays bounded over the episode exactly when
+$k < \log(1/\gamma)/\lambda$. Open-loop instability sets a ceiling on chunk
+length, and closed-loop stability is what raises that ceiling.
+
+Two known results bracket this picture. With no assumption on the dynamics at
+all, the classical imitation bound is
+$J(\hat\pi) \le J(\pi^\star) + T^2\varepsilon$ for a policy with per-step error
+$\varepsilon$, and the quadratic is tight \citep{ross2010efficient}. With
+continuous actions it is worse:
+\citet{simchowitz2025pitfalls} show that even under \eqref{eq:eiss} with
+$\rho<1$ and a smooth deterministic expert, any smooth imitator can suffer
+execution error $\exp(\Omega(T))$ times its error on the training distribution.
+In the other direction \citet{zhang2025chunking} prove that chunking is the
+remedy: once the chunk is longer than
+$\log(1/\rho)^{-1}\log(\mathrm{poly}(L,C))$ the chunked closed loop is
+exponentially stable again, with rate $\rho^{1/2}$, and its trajectory error
+becomes horizon-free. That condition is a \emph{lower} bound on chunk length,
+and it assumes a single $\rho<1$ for the system.
+
+The bound in \eqref{eq:chunk} is the other side of the same inequality, and it
+is why this paper measures rather than assumes. An admissible chunk length has to
+satisfy both bounds at once,
+\begin{equation}
+\underbrace{\frac{\log \mathrm{poly}(L,C)}{\log(1/\rho)}}_{\text{fixed by the system}}
+\;<\; k \;<\;
+\underbrace{\frac{\log(1/\gamma)}{\lambda(s_t)}}_{\text{moves with the state}} ,
+\label{eq:window}
+\end{equation}
+and Claim~1 is the finding that the right-hand side is not a constant: $\lambda$
+takes both signs inside a single episode, so a single $k$ per task must respect
+the tightest ceiling the episode ever imposes, leaving it conservative wherever
+$\lambda$ is small and unsafe wherever $\lambda$ is large. The switching rule of
+this paper is the two-level approximation of \eqref{eq:window}. Neither
+\eqref{eq:chunk} nor \eqref{eq:window} is a theorem from the works cited; both
+are the local reading of \eqref{eq:eiss} that a per-state measurement of
+$\lambda$ makes available, and $\gamma$ in particular is a
+modelling assumption about what one replan buys, which we do not measure.
+Appendix~\ref{app:theory} gives the derivation, the statements quoted from, and
+what the correspondence between $\lambda$ and $\log\rho$ does and does not
+license.
+
+\paragraph{Open-loop stability labels.}
+For a state $s_{t_0}$ with actions $a_{t_0}, \dots, a_{t_0+K-1}$ we measure
+divergence under action perturbation. First, restore the simulator to
+$s_{t_0}$ and replay the $K$ actions unperturbed, recording a task metric
+$y_j$, here end-effector position and gripper joint positions. Second, in $N$
+branches, perturb the translation components of $a_{t_0}$ with noise of scale
+$\sigma_u$, replay the same remaining actions, and record $y^{(n)}_j$. Third,
+fit by least squares the slope $\lambda$ of
+$\frac{1}{N}\sum_n \log \lVert y^{(n)}_j - y_j \rVert$ against $j$. This
+$\lambda$ is a finite-time maximal Lyapunov exponent for the chunk. We use
+$K{=}24$, $N{=}8$, a stride of 2, and $\sigma_u{=}0.05$ on RoboCasa. The label
+is open-loop by construction: no replanning happens inside the window, so
+$\lambda$ measures the plant and the task geometry under the recorded
+behavior, not the reactivity of any controller. The procedure trains nothing
+and reads no policy internals.
+Figure~\ref{fig:labeling} shows the construction, the fit on two real states,
+and the distribution the threshold below is read from.
+Appendix~\ref{app:labeling} gives the procedure as pseudocode, the per-platform
+task metric, and the reproducibility details, and Appendix~\ref{app:sigma}
+covers how $\sigma_u$ is set and how much the labels depend on it.
+
+\input{Figures/labeling}
+
+\paragraph{Automatic threshold.}
+Divergence slopes have a task-specific noise floor from contact chatter and
+metric scale. We set
+$\delta = P_{95}\left(\lvert \lambda \rvert \,:\, \lambda < \mathrm{median}(\lambda)\right)$,
+the 95th percentile of the magnitude of the below-median half, and call a stamp
+unstable if $\lambda > \delta$. This adapts to each task's floor with no manual
+tuning. Stamps with $\lvert \lambda \rvert \le \delta$ form a deadband where
+the label is ambiguous by construction, and we exclude them from
+classification training and report classification quality both with and
+without them.
+
+\paragraph{Closed-loop stability labels.}
+The same construction gives a second axis if the perturbed branch is driven by
+the policy replanning at every step instead of replaying fixed actions. Two
+choices matter. The nominal branch must also be policy-driven and unperturbed,
+otherwise the measured rate mixes perturbation growth with the ordinary
+difference between the policy and the recorded behavior. And because modern
+policies sample stochastically, two unperturbed policy rollouts from one state
+already separate, so we run a control pair from the same state with no
+perturbation and report its rate $\lambda_{\text{ctrl}}$ alongside. A segment
+is closed-loop stable when the perturbation adds nothing beyond that floor.
+
+\paragraph{Two axes, four regimes.}
+Open-loop stability says whether errors grow while a chunk plays out.
+Closed-loop stability says whether the policy tolerates frequent replanning,
+since some tasks degrade sharply at $k{=}1$ when replanning every step
+introduces dithering near fine goals. The two axes give four regimes.
+Open-loop stable and closed-loop stable: any $k$ works, prefer long chunks.
+Open-loop unstable and closed-loop stable: the case that motivates switching,
+because short chunks fix what long chunks break.
+Open-loop stable and closed-loop unstable: long chunks are mandatory and a
+switcher must not produce false positives here.
+Unstable on both axes: no chunk length helps and the failure is not a chunking
+problem.
+
+\paragraph{Predictors.}
+To act on the signal at rollout time without a simulator we train a small
+attentive head on frozen V-JEPA features that regresses $\lambda$ and
+classifies $\lambda > \delta$. The h1 variant reads one clip of 16 consecutive
+frames, about 0.8 seconds, together with the robot state over the same window.
+The h4 variant reads four such clips spaced 16 frames apart, about 3.2 seconds,
+with a learned per-clip position embedding, and tests whether the regime is
+visible in motion over time. We also evaluate a simulator oracle that runs the
+labeling procedure live at each replan and therefore measures $\lambda$ instead
+of predicting it. The oracle needs to roll the simulator forward and rewind it,
+so it cannot run on a real robot; its role is to bound what perfect prediction
+would be worth. Appendix~\ref{app:predictor} gives the architecture and
+training setup.
+
+\paragraph{Switching rule.}
+At each replan the controller obtains a stability score and executes
+$k = k_u$ if the score exceeds a threshold, else $k = k_s$, with
+$(k_s, k_u) = (16, 1)$ throughout unless stated. The rule only shortens on
+predicted instability, so in stable segments it costs nothing by construction.
+Setting the threshold for a learned head is not trivial and we treat it as part
+of the method rather than an implementation detail; Section~\ref{sec:claim3}
+reports the two ways it fails and the calibration we adopt.

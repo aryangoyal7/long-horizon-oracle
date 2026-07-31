@@ -1,0 +1,22 @@
+{
+  "OpenCabinet": {
+    "sample_spread_rmse": 0.2566634476118778,
+    "mean2_vs_demo_rmse": 0.606846587959677,
+    "n_points": 414
+  },
+  "OpenDrawer": {
+    "sample_spread_rmse": 0.18896024346293985,
+    "mean2_vs_demo_rmse": 0.4505613449070823,
+    "n_points": 213
+  },
+  "PickPlaceCounterToCabinet": {
+    "sample_spread_rmse": 0.21424451830173344,
+    "mean2_vs_demo_rmse": 0.5272225400123957,
+    "n_points": 237
+  },
+  "TurnOnSinkFaucet": {
+    "sample_spread_rmse": 0.1614301371826981,
+    "mean2_vs_demo_rmse": 0.25679526572522693,
+    "n_points": 252
+  }
+}

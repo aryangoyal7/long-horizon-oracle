@@ -1,0 +1,90 @@
+\section{Introduction}
+
+\paragraph{Premise: error compounds along the horizon, and chunk length is how
+a policy trades against it.}
+Imitation-learned manipulation policies increasingly predict chunks of actions
+rather than single steps \citep{zhao2023act,chi2023diffusion}. A chunked
+executor plays $k$ actions open-loop and then replans. The reason to make $k$
+large is that replanning at every step is expensive, adds dithering, and is
+often unnecessary. The reason to keep $k$ small is the classical one: a policy
+that acts without observing accumulates error, and in imitation learning that
+error compounds along the horizon rather than staying bounded
+\citep{ross2010efficient,ross2011dagger}. Chunk length is therefore a direct
+control on how much compounding the executor allows between observations.
+
+How fast error actually compounds is a property of the dynamics at the current
+state, and it has a standard measurement. If a small perturbation is injected
+and the system is run forward, the exponential rate at which the perturbed and
+unperturbed trajectories separate over a finite window is a finite-time
+maximal Lyapunov exponent \citep{haller2015lcs}, a tool already used to
+diagnose the sensitivity of model predictive control and reinforcement
+learning policies \citep{krishna2023ftle}. We write this rate $\lambda$ and use
+it as the definition of open-loop stability for a chunk. A segment with
+$\lambda$ below a task-specific floor is open-loop stable, meaning a
+perturbation dies out while the chunk plays; a segment above it is open-loop
+unstable, meaning every additional blind step makes the error larger.
+
+Existing methods that vary the execution horizon do not measure this quantity.
+They trigger on model confidence, on attention weights, on entropy, on the
+consistency of successive chunk samples, or on the kinematics of the predicted
+path \citep{zhao2026dehp,wang2026autohorizon,nie2026pace,zhang2026hipolicy,feng2026dvac,so2025sgac}.
+Those are proxies for how sure the policy is, not for how fast the plant
+amplifies an error. This paper studies the quantity itself.
+
+\paragraph{The three parts of this paper.}
+The paper makes three claims and reports the evidence for each separately,
+including where that evidence is still incomplete.
+Figure~\ref{fig:framework} states all three in one picture.
+
+\input{Figures/framework}
+
+\textbf{Claim 1: a single task contains both regimes, so a single chunk length
+per task is the wrong unit.} Error does not compound at a uniform rate along
+an episode. We measure $\lambda$ at every timestep of more than twenty datasets
+on three platforms, and find that between 78 and 100 percent of individual
+episodes contain both open-loop stable and open-loop unstable segments, with
+several crossings per episode. The unstable segments are short and concentrated
+at contact events. Chunk length should therefore follow the regime rather than
+the task. The specific case where this matters is a segment that is open-loop
+unstable but closed-loop stable: running blind through it compounds error,
+while replanning every step would not, so $k{=}1$ is the right answer there and
+$k{=}16$ elsewhere.
+
+\textbf{Claim 2: the regime can be labeled and predicted.} We give a labeling
+algorithm that assigns $\lambda$ to every state without training anything and
+without access to policy internals, and we extend it to the closed-loop axis by
+letting the policy replan inside the perturbed branch. We then show the regime
+is predictable from what a robot can actually observe. Three predictors are
+compared: a simulator oracle that measures $\lambda$ exactly and serves as the
+upper bound, and two learned heads that read camera frames and proprioception
+only, one using a single 0.8 second clip and one using 3.2 seconds of history.
+The learned heads reach 0.83 to 0.96 AUROC on confident stamps and transfer
+across tasks, well above a privileged contact-flag baseline.
+
+\textbf{Claim 3: the predicted regime can set chunk length at inference time,
+and beat a fixed chunk.} This is the claim for which our evidence is
+incomplete, and we report it as such. Learned predictors driving the switch
+raise mean success over the vanilla policy by 3 to 8 points across four
+RoboCasa tasks, and they never collapse the way constant single-step execution
+does. But those gains sit inside the run-to-run spread of this benchmark, no
+controller beats the best constant chunk length on the one task where a shorter
+constant genuinely helps, and a paired test that forks each episode at a
+measured unstable moment finds that closing the loop there rescues as many
+episodes as it breaks. We report the negative result together with the two
+deployment failures we diagnosed along the way, both of which are invisible to
+offline detection metrics.
+
+\paragraph{Contributions.}
+\begin{itemize}
+\item A measurable, training-free, policy-agnostic definition of within-episode
+stability regimes for chunked policies, with an automatic per-task threshold,
+and evidence across three platforms and more than twenty datasets that both
+regimes coexist inside single episodes.
+\item Evidence that the regime is predictable from perception alone, with a
+simulator oracle that bounds what perfect prediction is worth, and an ablation
+showing that temporal history does not help, which locates the signal in the
+current configuration.
+\item An honest evaluation of regime-conditioned chunk length at inference
+time, including a paired causal test that isolates the intervention from
+episode variance, and two calibration failures that offline metrics hide.
+\end{itemize}

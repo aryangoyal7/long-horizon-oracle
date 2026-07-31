@@ -6,6 +6,17 @@
 #   - download_datasets.py needs gdown -> skip it, pull straight from HuggingFace.
 # Pins per mimicgen docs: robosuite v1.4.1, mujoco 2.3.2, robomimic v0.3.0.
 set -uo pipefail
+# /usr/bin/python3 on this image has no ensurepip (python3.10-venv is not
+# installed) and the @reboot PATH does not reach the conda python, so the
+# interpreter that builds the venvs is resolved explicitly rather than by PATH.
+BASEPY=""
+for _p in /anaconda/envs/azureml_py38/bin/python3 /anaconda/bin/python3 python3; do
+  if command -v "$_p" >/dev/null 2>&1 && "$_p" -c "import ensurepip" 2>/dev/null; then
+    BASEPY=$(command -v "$_p"); break
+  fi
+done
+[ -n "$BASEPY" ] || { echo "FATAL: no interpreter with ensurepip found"; exit 1; }
+
 LH=/mnt/scratch/lh
 MG=$LH/envs/mg
 PY=$MG/bin/python
@@ -14,7 +25,7 @@ LH_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 export PIP_CACHE_DIR=$LH/pipcache
 
 # ---- dedicated venv -------------------------------------------------------------
-if [ ! -x $PY ]; then python3 -m venv $MG; $PIP install -q --upgrade pip; fi
+if [ ! -x $PY ]; then "$BASEPY" -m venv $MG; $PIP install -q --upgrade pip; fi
 # torch and torchvision must come from the same index or torchvision's C
 # extension fails against the cu128 torch (operator torchvision::nms missing)
 $PY -c "import torch; from torchvision.transforms import Lambda" 2>/dev/null || \

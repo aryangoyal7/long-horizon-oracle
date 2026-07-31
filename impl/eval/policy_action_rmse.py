@@ -40,8 +40,16 @@ def main():
     sq_err, n_pts = 0.0, 0
     sq_err_pos, n_pts_pos = 0.0, 0
     with h5py.File(args.dataset, "r") as f:
-        valid = [d.decode() if isinstance(d, bytes) else d
-                 for d in f["mask/valid"][()]][: args.max_demos]
+        if "mask" in f and "valid" in f["mask"]:
+            valid = [d.decode() if isinstance(d, bytes) else d
+                     for d in f["mask/valid"][()]][: args.max_demos]
+            valid_source = "mask_valid"
+        else:
+            # reconverted mimicgen files carry no filter keys; fall back to the
+            # last demos by index (closest stand-in for a held-out split)
+            keys = sorted(f["data"].keys(), key=lambda k: int(k.split("_")[-1]))
+            valid = keys[-args.max_demos:]
+            valid_source = "fallback_last_demos"
         for dk in valid:
             g = f[f"data/{dk}"]
             acts = g["actions"][()]
@@ -70,7 +78,8 @@ def main():
     rmse = float(np.sqrt(sq_err / n_pts))
     rmse_pos = float(np.sqrt(sq_err_pos / n_pts_pos))
     out = {"ckpt": args.ckpt, "dataset": args.dataset, "n_points": n_pts,
-           "arm_action_rmse": rmse, "pos_action_rmse": rmse_pos}
+           "arm_action_rmse": rmse, "pos_action_rmse": rmse_pos,
+           "valid_source": valid_source}
     with open(args.out, "w") as f:
         json.dump(out, f, indent=2)
     print(json.dumps(out, indent=2))

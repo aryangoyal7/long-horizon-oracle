@@ -1,0 +1,146 @@
+\begin{thebibliography}{20}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Chi et~al.(2023)Chi, Feng, Du, Xu, Cousineau, Burchfiel, and
+  Song]{chi2023diffusion}
+Cheng Chi, Siyuan Feng, Yilun Du, Zhenjia Xu, Eric Cousineau, Benjamin
+  Burchfiel, and Shuran Song.
+\newblock Diffusion policy: Visuomotor policy learning via action diffusion.
+\newblock In \emph{Robotics: Science and Systems (RSS)}, 2023.
+
+\bibitem[Feng et~al.(2026)Feng, Cheng, Shi, Han, Yan, Hong, Tian, and
+  Jiang]{feng2026dvac}
+Xiangdong Feng, Yuxuan Cheng, Chen Shi, Boyao Han, Yuxuan Yan, Yitong Hong,
+  Zhuotao Tian, and Li~Jiang.
+\newblock Denoising tells when to replan: Denoising-variance adaptive chunking
+  for flow-based robot policies.
+\newblock \emph{arXiv preprint arXiv:2606.03847}, 2026.
+
+\bibitem[Haller(2015)]{haller2015lcs}
+George Haller.
+\newblock Lagrangian coherent structures.
+\newblock \emph{Annual Review of Fluid Mechanics}, 47:\penalty0 137--162, 2015.
+
+\bibitem[Krishna et~al.(2023)Krishna, Brunton, and Song]{krishna2023ftle}
+Kartik Krishna, Steven~L. Brunton, and Zhuoyuan Song.
+\newblock Finite time lyapunov exponent analysis of model predictive control
+  and reinforcement learning.
+\newblock \emph{IEEE Access}, 2023.
+\newblock arXiv:2304.03326.
+
+\bibitem[Liu et~al.(2023)Liu, Zhu, Gao, Feng, Liu, Zhu, and
+  Stone]{liu2023libero}
+Bo~Liu, Yifeng Zhu, Chongkai Gao, Yihao Feng, Qiang Liu, Yuke Zhu, and Peter
+  Stone.
+\newblock Libero: Benchmarking knowledge transfer for lifelong robot learning.
+\newblock \emph{Advances in Neural Information Processing Systems (NeurIPS)},
+  2023.
+
+\bibitem[Liu et~al.(2024)Liu, Hamid, Xie, Lee, Du, and
+  Finn]{liu2024bidirectional}
+Yuejiang Liu, Jubayer~Ibn Hamid, Annie Xie, Yoonho Lee, Maximilian Du, and
+  Chelsea Finn.
+\newblock Bidirectional decoding: Improving action chunking via closed-loop
+  resampling.
+\newblock \emph{arXiv preprint arXiv:2408.17355}, 2024.
+
+\bibitem[Mandlekar et~al.(2023)Mandlekar, Nasiriany, Wen, Akinola, Narang, Fan,
+  Zhu, and Fox]{mandlekar2023mimicgen}
+Ajay Mandlekar, Soroush Nasiriany, Bowen Wen, Iretiayo Akinola, Yashraj Narang,
+  Linxi Fan, Yuke Zhu, and Dieter Fox.
+\newblock Mimicgen: A data generation system for scalable robot learning using
+  human demonstrations.
+\newblock In \emph{Conference on Robot Learning (CoRL)}, 2023.
+
+\bibitem[Nasiriany et~al.(2024)Nasiriany, Maddukuri, Zhang, Parikh, Lo, Joshi,
+  Mandlekar, and Zhu]{nasiriany2024robocasa}
+Soroush Nasiriany, Abhiram Maddukuri, Lance Zhang, Adeet Parikh, Aaron Lo,
+  Abhishek Joshi, Ajay Mandlekar, and Yuke Zhu.
+\newblock Robocasa: Large-scale simulation of everyday tasks for generalist
+  robots.
+\newblock In \emph{Robotics: Science and Systems (RSS)}, 2024.
+
+\bibitem[Nie et~al.(2026)Nie, Li, Zhang, Lao, Liu, Zhang, and
+  Huang]{nie2026pace}
+Junnan Nie, Jiayi Li, Jiachen Zhang, Junyi Lao, Chenghao Liu, Tianle Zhang, and
+  Songfang Huang.
+\newblock {PACE}: Phase-aware chunk execution for robot policies with action
+  chunking.
+\newblock \emph{arXiv preprint arXiv:2606.00537}, 2026.
+
+\bibitem[{NVIDIA}(2025)]{gr00t2025}
+{NVIDIA}.
+\newblock Gr00t n1: An open foundation model for generalist humanoid robots.
+\newblock \emph{arXiv preprint arXiv:2503.14734}, 2025.
+
+\bibitem[Ross \& Bagnell(2010)Ross and Bagnell]{ross2010efficient}
+St{\'e}phane Ross and J.~Andrew Bagnell.
+\newblock Efficient reductions for imitation learning.
+\newblock In \emph{International Conference on Artificial Intelligence and
+  Statistics (AISTATS)}, 2010.
+
+\bibitem[Ross et~al.(2011)Ross, Gordon, and Bagnell]{ross2011dagger}
+St{\'e}phane Ross, Geoffrey~J. Gordon, and J.~Andrew Bagnell.
+\newblock A reduction of imitation learning and structured prediction to
+  no-regret online learning.
+\newblock In \emph{International Conference on Artificial Intelligence and
+  Statistics (AISTATS)}, 2011.
+
+\bibitem[Simchowitz et~al.(2025)Simchowitz, Pfrommer, and
+  Jadbabaie]{simchowitz2025pitfalls}
+Max Simchowitz, Daniel Pfrommer, and Ali Jadbabaie.
+\newblock The pitfalls of imitation learning when actions are continuous.
+\newblock In \emph{Conference on Learning Theory (COLT)}, volume 291 of
+  \emph{Proceedings of Machine Learning Research}, pp.\  5248--5351, 2025.
+\newblock arXiv:2503.09722.
+
+\bibitem[So et~al.(2025)So, Lee, Lee, Ok, and Park]{so2025sgac}
+Junhyuk So, Chiwoong Lee, Shinyoung Lee, Jungseul Ok, and Eunhyeok Park.
+\newblock Improving generative behavior cloning via self-guidance and adaptive
+  chunking.
+\newblock \emph{arXiv preprint arXiv:2510.12392}, 2025.
+
+\bibitem[Wang et~al.(2026)Wang, Zhang, Yan, Kompella, and
+  Liu]{wang2026autohorizon}
+Haoxuan Wang, Gengyu Zhang, Yan Yan, Ramana~Rao Kompella, and Gaowen Liu.
+\newblock Vla knows its limits: Adaptive execution horizons for robot policies.
+\newblock \emph{arXiv preprint arXiv:2602.21445}, 2026.
+
+\bibitem[Wen et~al.(2026)Wen, Zhu, Zhang, Xia, Gao, and Li]{wen2026adaptive}
+Qingpeng Wen, Haomin Zhu, Yuepeng Zhang, Linzhong Xia, Bo~Gao, and Zhuozhen Li.
+\newblock Adaptive action chunking for robotic imitation learning.
+\newblock \emph{Biomimetics}, 11\penalty0 (5):\penalty0 316, 2026.
+
+\bibitem[Zhang et~al.(2026)Zhang, Han, Wang, Wu, Lin, Li, Fan, Wu, Li, and
+  Dong]{zhang2026hipolicy}
+Jiyao Zhang, Zimu Han, Junhan Wang, Xionghao Wu, Shihong Lin, Jinzhou Li,
+  Hongwei Fan, Ruihai Wu, Dongjiang Li, and Hao Dong.
+\newblock {HiPolicy}: Hierarchical multi-frequency action chunking for policy
+  learning.
+\newblock \emph{arXiv preprint arXiv:2604.06067}, 2026.
+
+\bibitem[Zhang et~al.(2025)Zhang, Pfrommer, Pan, Matni, and
+  Simchowitz]{zhang2025chunking}
+Thomas~T. Zhang, Daniel Pfrommer, Chaoyi Pan, Nikolai Matni, and Max
+  Simchowitz.
+\newblock Action chunking and exploratory data collection yield exponential
+  improvements in behavior cloning for continuous control.
+\newblock \emph{arXiv preprint arXiv:2507.09061}, 2025.
+
+\bibitem[Zhao et~al.(2023)Zhao, Kumar, Levine, and Finn]{zhao2023act}
+Tony~Z. Zhao, Vikash Kumar, Sergey Levine, and Chelsea Finn.
+\newblock Learning fine-grained bimanual manipulation with low-cost hardware.
+\newblock In \emph{Robotics: Science and Systems (RSS)}, 2023.
+
+\bibitem[Zhao et~al.(2026)Zhao, Bogdanovic, Sohal, Tao, Darvish, Aspuru-Guzik,
+  Shkurti, and Garg]{zhao2026dehp}
+Yuchi Zhao, Miroslav Bogdanovic, Arjun Sohal, Liyu Tao, Kourosh Darvish,
+  Al{\'a}n Aspuru-Guzik, Florian Shkurti, and Animesh Garg.
+\newblock Dynamic execution horizon prediction for chunk-based robot policies.
+\newblock \emph{arXiv preprint arXiv:2606.11408}, 2026.
+
+\end{thebibliography}

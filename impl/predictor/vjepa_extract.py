@@ -117,7 +117,15 @@ def main():
                 clip = np.concatenate(
                     [np.repeat(clip[:1], CLIP_LEN - clip.shape[0], 0), clip])
             batch_clips.append(clip)
-            batch_prop.append(prop_all[t])
+            # proprio over the SAME window the encoder sees, not just the stamp.
+            # A single (pos, quat, gripper) snapshot carries no velocity, approach
+            # speed or gripper-closing signal, all of which govern whether an error
+            # grows; the sequence does. Padded at episode start exactly like clip.
+            pseq = prop_all[lo: t + 1]
+            if pseq.shape[0] < CLIP_LEN:
+                pseq = np.concatenate(
+                    [np.repeat(pseq[:1], CLIP_LEN - pseq.shape[0], 0), pseq])
+            batch_prop.append(pseq)
             batch_pos.append(idx)
             if len(batch_clips) == args.batch:
                 flush()
@@ -128,7 +136,9 @@ def main():
     np.savez(
         args.out,
         features=np.stack(out_feats),                        # N,128,1024 fp16
-        proprio=np.stack(out_prop).astype(np.float32),
+        proprio_seq=np.stack(out_prop).astype(np.float32),   # N,CLIP_LEN,9
+        # last frame only, kept so older readers and cached files stay compatible
+        proprio=np.stack(out_prop)[:, -1].astype(np.float32),
         demo_id=demo_ids, t=ts,
         lambda_task=z[args.lambda_key],
         **extra,

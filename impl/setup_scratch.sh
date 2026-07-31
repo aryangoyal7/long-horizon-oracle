@@ -10,6 +10,17 @@
 #   torch      cu128 wheel
 set -euo pipefail
 
+# /usr/bin/python3 on this image has no ensurepip (python3.10-venv is not
+# installed) and the @reboot PATH does not reach the conda python, so the
+# interpreter that builds the venvs is resolved explicitly rather than by PATH.
+BASEPY=""
+for _p in /anaconda/envs/azureml_py38/bin/python3 /anaconda/bin/python3 python3; do
+  if command -v "$_p" >/dev/null 2>&1 && "$_p" -c "import ensurepip" 2>/dev/null; then
+    BASEPY=$(command -v "$_p"); break
+  fi
+done
+[ -n "$BASEPY" ] || { echo "FATAL: no interpreter with ensurepip found"; exit 1; }
+
 SCRATCH=/mnt/scratch
 LH=$SCRATCH/lh
 PY=$LH/envs/lh/bin/python
@@ -24,7 +35,7 @@ export PIP_CACHE_DIR=$LH/pipcache
 
 # ---- venv -------------------------------------------------------------------
 if [ ! -x $PY ]; then
-  python3 -m venv $LH/envs/lh
+  "$BASEPY" -m venv $LH/envs/lh
   $PIP install -q --upgrade pip
 fi
 $PY -c "import torch" 2>/dev/null || \
@@ -48,7 +59,7 @@ $PY -c "import mujoco; assert mujoco.__version__=='3.2.6'" 2>/dev/null || \
 # ---- vjepa venv (separate: needs transformers>=4.52, robomimic pins 4.41) ------
 VPY=$LH/envs/vjepa/bin/python
 if [ ! -x $VPY ]; then
-  python3 -m venv $LH/envs/vjepa
+  "$BASEPY" -m venv $LH/envs/vjepa
   $LH/envs/vjepa/bin/pip install -q --upgrade pip
 fi
 $VPY -c "import torch" 2>/dev/null || \

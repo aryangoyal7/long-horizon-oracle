@@ -10,6 +10,13 @@ results/label_videos/
 *.pth
 *.npz.tmp
 
+# Per-replan prediction dumps (~13 MB each) and rendered rollout videos.
+# The .json summaries beside them carry every number the paper reports.
+results/robocasa/seqpred_calib/*.npz
+results/robocasa/seeds/*.npz
+results/robocasa/evidence_videos/
+*.mp4
+
 # LaTeX build files (source .tex, figures, and final PDFs are kept)
 *.aux
 *.log

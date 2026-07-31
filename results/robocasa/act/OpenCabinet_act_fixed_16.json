@@ -1,0 +1,414 @@
+{
+  "env": "OpenCabinet",
+  "policy": "act",
+  "mode": "fixed",
+  "k": 16,
+  "k_stable": 16,
+  "k_unstable": 1,
+  "delta": null,
+  "horizon": 1050,
+  "n_episodes": 50,
+  "success_rate": 0.58,
+  "episodes": [
+    {
+      "episode": 0,
+      "success": false,
+      "steps": 1050,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 1,
+      "success": false,
+      "steps": 1050,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 2,
+      "success": true,
+      "steps": 471,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 3,
+      "success": false,
+      "steps": 1050,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 4,
+      "success": true,
+      "steps": 474,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 5,
+      "success": false,
+      "steps": 1050,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 6,
+      "success": true,
+      "steps": 864,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 7,
+      "success": true,
+      "steps": 729,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 8,
+      "success": true,
+      "steps": 420,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 9,
+      "success": true,
+      "steps": 413,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 10,
+      "success": false,
+      "steps": 1050,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 11,
+      "success": true,
+      "steps": 202,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 12,
+      "success": true,
+      "steps": 784,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 13,
+      "success": false,
+      "steps": 1050,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 14,
+      "success": true,
+      "steps": 165,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 15,
+      "success": false,
+      "steps": 1050,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 16,
+      "success": true,
+      "steps": 178,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 17,
+      "success": false,
+      "steps": 1050,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 18,
+      "success": true,
+      "steps": 162,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 19,
+      "success": true,
+      "steps": 803,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 20,
+      "success": true,
+      "steps": 204,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 21,
+      "success": true,
+      "steps": 477,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 22,
+      "success": false,
+      "steps": 1050,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 23,
+      "success": false,
+      "steps": 1050,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 24,
+      "success": true,
+      "steps": 396,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 25,
+      "success": false,
+      "steps": 1050,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 26,
+      "success": true,
+      "steps": 179,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 27,
+      "success": true,
+      "steps": 711,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 28,
+      "success": false,
+      "steps": 1050,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 29,
+      "success": false,
+      "steps": 1050,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 30,
+      "success": true,
+      "steps": 799,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 31,
+      "success": false,
+      "steps": 1050,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 32,
+      "success": false,
+      "steps": 1050,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 33,
+      "success": true,
+      "steps": 187,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 34,
+      "success": false,
+      "steps": 1050,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 35,
+      "success": false,
+      "steps": 1050,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 36,
+      "success": false,
+      "steps": 1050,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 37,
+      "success": true,
+      "steps": 176,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 38,
+      "success": true,
+      "steps": 227,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 39,
+      "success": true,
+      "steps": 414,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 40,
+      "success": false,
+      "steps": 1050,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 41,
+      "success": true,
+      "steps": 204,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 42,
+      "success": true,
+      "steps": 412,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 43,
+      "success": true,
+      "steps": 396,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 44,
+      "success": true,
+      "steps": 486,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 45,
+      "success": true,
+      "steps": 526,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 46,
+      "success": false,
+      "steps": 1050,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 47,
+      "success": true,
+      "steps": 347,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 48,
+      "success": false,
+      "steps": 1050,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    },
+    {
+      "episode": 49,
+      "success": true,
+      "steps": 469,
+      "mean_k": 16.0,
+      "frac_unstable_calls": 0.0,
+      "replans": []
+    }
+  ]
+}

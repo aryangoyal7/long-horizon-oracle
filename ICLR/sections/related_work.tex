@@ -1,0 +1,65 @@
+\section{Related Work}
+
+\paragraph{Action chunking policies.}
+Chunked action prediction is standard in modern imitation learning. ACT
+predicts chunks with a transformer and blends them with temporal ensembling
+\citep{zhao2023act}. Diffusion Policy denoises an action sequence and executes
+a prefix before replanning \citep{chi2023diffusion}. Generalist
+vision-language-action models such as GR00T N1 produce 16-step chunks from a
+flow-matching head \citep{gr00t2025}. In all of these the executed chunk
+length is a fixed hyperparameter, chosen once per task.
+
+\paragraph{Compounding error and the theory of chunking.}
+The reason short chunks help at all is the compounding of error under a policy
+that acts without observing, analyzed for imitation learning by
+\citet{ross2010efficient} and \citet{ross2011dagger}, whose bound grows
+quadratically in the horizon in the worst case. In continuous action spaces the
+situation is sharper: \citet{simchowitz2025pitfalls} show that even with
+exponentially stable dynamics and a smooth deterministic expert, any smooth
+imitator can suffer execution error exponential in the horizon relative to its
+error on the training distribution. Closest to this paper,
+\citet{zhang2025chunking} prove that action chunking is a remedy, because a
+chunk longer than a threshold set by the contraction rate restores exponential
+stability of the learned closed loop and makes the trajectory error
+horizon-free. Their analysis and ours meet at the same inequality and pull in
+opposite directions on the same knob. Theirs is a lower bound on chunk length,
+derived under a single contraction rate for the system; ours is the upper bound
+that the same inequality implies when the local rate is positive, and our
+measurement is the state-dependent counterpart of their constant. Section
+\ref{sec:method} makes the connection explicit, and Claim 1 is the empirical
+observation that no single rate describes an episode.
+
+\paragraph{Adaptive execution horizons.}
+A recent line of work varies the executed horizon at test time, and the
+distinguishing feature is the signal each one switches on. Bidirectional
+decoding re-samples chunks and selects for closed-loop coherence
+\citep{liu2024bidirectional}. DEHP trains an execution-horizon branch with
+chunk-level reinforcement learning over a frozen base policy
+\citep{zhao2026dehp}. AutoHorizon reads the policy's action self-attention as a
+confidence signal \citep{wang2026autohorizon}. PACE cuts chunks at low-speed
+valleys of the predicted trajectory \citep{nie2026pace}. DVAC uses the variance
+of the clean-action estimate along the denoising trajectory of a flow policy
+\citep{feng2026dvac}, and SGAC compares the queued chunk against a freshly
+sampled one \citep{so2025sgac}. HiPolicy predicts chunks at several frequencies
+and gates them by entropy \citep{zhang2026hipolicy}, and \citet{wen2026adaptive}
+learn chunk length end-to-end from visual context.
+
+These methods share our motivation that manipulation is stage-structured, and
+PACE states that intuition explicitly. The difference is what gets measured.
+Confidence, attention, entropy and sample agreement describe the policy's
+uncertainty about its own output. Speed valleys describe the kinematics of the
+predicted path. None of them measure how fast the plant amplifies an action
+error, which is the quantity chunk length actually trades against, and none
+produce per-timestep labels that exist independently of the controller that
+consumes them. We measure these proxies against $\lambda$ at the same states in
+Section~\ref{sec:proxies}.
+
+\paragraph{Stability analysis in control and learning.}
+Finite-time Lyapunov exponents are a classical tool for diagnosing trajectory
+divergence and coherent structure in flows \citep{haller2015lcs}, and have been
+used to analyze the sensitivity of MPC and reinforcement learning policies
+\citep{krishna2023ftle}. We bring the tool to a different question: not whether
+a controller is stable overall, but which chunk length a chunked policy should
+execute, segment by segment. To our knowledge no prior work labels states with
+measured open-loop divergence, separates open-loop from closed-loop stability
+per segment, or uses such labels to schedule the execution horizon.

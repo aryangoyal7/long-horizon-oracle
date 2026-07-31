@@ -10,6 +10,10 @@ export PIP_CACHE_DIR=$LH/pipcache
 
 [ -d $LH/repos/LIBERO ] || \
   git clone -q https://github.com/Lifelong-Robot-Learning/LIBERO.git $LH/repos/LIBERO
+# LIBERO ships no top-level libero/__init__.py, so the editable install alone does
+# not make it importable. It resolves as a namespace package off the repo root, and
+# every consumer must therefore have the repo root on PYTHONPATH.
+export PYTHONPATH="$LH/repos/LIBERO${PYTHONPATH:+:$PYTHONPATH}"
 $PY -c "import libero" 2>/dev/null || $PIP install -q --no-deps -e $LH/repos/LIBERO
 $PIP install -q bddl easydict "hydra-core>=1.1" gym cloudpickle future \
   huggingface_hub 2>/dev/null || true
@@ -22,8 +26,10 @@ if ! ls $LH/data/libero/**/*.hdf5 >/dev/null 2>&1; then
   (cd $LH/repos/LIBERO && timeout 3600 $PY benchmark_scripts/download_libero_datasets.py \
      --datasets libero_10 --save-dir $LH/data/libero 2>&1 | tail -4) || true
 fi
-if ! ls $LH/data/libero/**/*.hdf5 >/dev/null 2>&1; then
-  echo "[libero] trying HuggingFace mirrors..."
+# LIBERO-10 is exactly 10 tasks; anything less means an interrupted download
+NHDF5=$(ls $LH/data/libero/libero_10/*.hdf5 2>/dev/null | wc -l)
+if [ "$NHDF5" -lt 10 ]; then
+  echo "[libero] have $NHDF5/10, trying HuggingFace mirrors..."
   $PY - <<'PYEOF'
 from huggingface_hub import HfApi, hf_hub_download
 api = HfApi()
@@ -34,9 +40,10 @@ for repo in ["yifengzhu-hf/LIBERO-datasets", "openvla/LIBERO-datasets",
                  if "libero_10" in f and f.endswith(".hdf5")]
         print(repo, "->", len(files), "libero_10 files")
         if files:
-            p = hf_hub_download(repo, files[0], repo_type="dataset",
-                                local_dir="/mnt/scratch/lh/data/libero")
-            print("GOT", p)
+            for fn in sorted(files):
+                p = hf_hub_download(repo, fn, repo_type="dataset",
+                                    local_dir="/mnt/scratch/lh/data/libero")
+                print("GOT", p, flush=True)
             break
     except Exception as e:
         print("no:", repo, type(e).__name__, str(e)[:80])

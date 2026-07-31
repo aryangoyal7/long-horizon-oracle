@@ -1,0 +1,368 @@
+{
+  "dataset": "/mnt/scratch/lh/data/libero/libero_10/LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket_demo.hdf5",
+  "task": "LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket",
+  "checkpoint": "/home/azureuser/cloudfiles/code/Users/garyan18/long-horizon/results/training/dp_libero_LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket/dp_libero_LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket/20260724113454/models/model_epoch_1000.pth",
+  "mode": "predictor",
+  "k": null,
+  "k_stable": 16,
+  "k_unstable": 1,
+  "delta": 0.024107583425939046,
+  "n_episodes": 50,
+  "horizon": 600,
+  "seed": 0,
+  "success_rate": 0.0,
+  "mean_k": 1.8530000000000002,
+  "mean_steps_success": null,
+  "episodes": [
+    {
+      "episode": 0,
+      "success": false,
+      "steps": 600,
+      "mean_k": 3.25,
+      "frac_unstable_calls": 0.9883720930232558
+    },
+    {
+      "episode": 1,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 2,
+      "success": false,
+      "steps": 600,
+      "mean_k": 5.325,
+      "frac_unstable_calls": 0.9726651480637813
+    },
+    {
+      "episode": 3,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 4,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.75,
+      "frac_unstable_calls": 0.9965034965034965
+    },
+    {
+      "episode": 5,
+      "success": false,
+      "steps": 600,
+      "mean_k": 8.3,
+      "frac_unstable_calls": 0.9390243902439024
+    },
+    {
+      "episode": 6,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.75,
+      "frac_unstable_calls": 0.9965034965034965
+    },
+    {
+      "episode": 7,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.75,
+      "frac_unstable_calls": 0.9965034965034965
+    },
+    {
+      "episode": 8,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 9,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.75,
+      "frac_unstable_calls": 0.9965034965034965
+    },
+    {
+      "episode": 10,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 11,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 12,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 13,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.75,
+      "frac_unstable_calls": 0.9965034965034965
+    },
+    {
+      "episode": 14,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 15,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 16,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 17,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 18,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 19,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 20,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 21,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 22,
+      "success": false,
+      "steps": 600,
+      "mean_k": 3.625,
+      "frac_unstable_calls": 0.9860557768924303
+    },
+    {
+      "episode": 23,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.75,
+      "frac_unstable_calls": 0.9965034965034965
+    },
+    {
+      "episode": 24,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 25,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.75,
+      "frac_unstable_calls": 0.9965034965034965
+    },
+    {
+      "episode": 26,
+      "success": false,
+      "steps": 600,
+      "mean_k": 3.35,
+      "frac_unstable_calls": 0.98635477582846
+    },
+    {
+      "episode": 27,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 28,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 29,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 30,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.75,
+      "frac_unstable_calls": 0.9965034965034965
+    },
+    {
+      "episode": 31,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.75,
+      "frac_unstable_calls": 0.9965034965034965
+    },
+    {
+      "episode": 32,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 33,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 34,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 35,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.75,
+      "frac_unstable_calls": 0.9965034965034965
+    },
+    {
+      "episode": 36,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.75,
+      "frac_unstable_calls": 0.9965034965034965
+    },
+    {
+      "episode": 37,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.75,
+      "frac_unstable_calls": 0.9965034965034965
+    },
+    {
+      "episode": 38,
+      "success": false,
+      "steps": 600,
+      "mean_k": 2.875,
+      "frac_unstable_calls": 0.9905660377358491
+    },
+    {
+      "episode": 39,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.75,
+      "frac_unstable_calls": 0.9965034965034965
+    },
+    {
+      "episode": 40,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.375,
+      "frac_unstable_calls": 0.9982935153583617
+    },
+    {
+      "episode": 41,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.75,
+      "frac_unstable_calls": 0.9965034965034965
+    },
+    {
+      "episode": 42,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 43,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.75,
+      "frac_unstable_calls": 0.9965034965034965
+    },
+    {
+      "episode": 44,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.75,
+      "frac_unstable_calls": 0.9965034965034965
+    },
+    {
+      "episode": 45,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.75,
+      "frac_unstable_calls": 0.9965034965034965
+    },
+    {
+      "episode": 46,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.75,
+      "frac_unstable_calls": 0.9965034965034965
+    },
+    {
+      "episode": 47,
+      "success": false,
+      "steps": 600,
+      "mean_k": 9.05,
+      "frac_unstable_calls": 0.9266666666666666
+    },
+    {
+      "episode": 48,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    },
+    {
+      "episode": 49,
+      "success": false,
+      "steps": 600,
+      "mean_k": 1.0,
+      "frac_unstable_calls": 1.0
+    }
+  ]
+}

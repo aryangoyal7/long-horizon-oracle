@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "dataset": "/mnt/scratch/lh/data/mimicgen/nut_assembly_d0.hdf5",
+    "K": 24,
+    "N": 8,
+    "pos_only": true,
+    "stride": 2,
+    "sigma_u": 0.103,
+    "sigma_u_source": "policy_rmse",
+    "seed": 0,
+    "metric": "eef_pos+object (task), full sim state ex-time (full)"
+  },
+  "n_stamps": 33251,
+  "frac_free_space": 0.31349433099756396,
+  "mean_lambda_free": -0.002982027040790508,
+  "mean_lambda_gripper_contact": 0.02563783149103727,
+  "mean_lambda_fixture_contact": 0.030017288962629052,
+  "suggested_deadband_delta_p95_free": 0.0620477244034822,
+  "auroc_lambda_predicts_window_contact": 0.6923642154924117,
+  "label_fracs_after_filter": {
+    "unstable": 0.10667348350425551,
+    "stable": 0.00860124507533608,
+    "deadband": 0.8847252714204084
+  },
+  "frac_contact_labeled_unstable": 0.1481578832084812,
+  "frac_free_labeled_unstable": 0.015828856485034536
+}

@@ -4,6 +4,17 @@
 # Survivors: labels/ and lift/can rollouts (rescued to persistent rescue/),
 # the running dp_mg trainings (deleted-inode code+data, checkpoints safe).
 set -uo pipefail
+# /usr/bin/python3 on this image has no ensurepip (python3.10-venv is not
+# installed) and the @reboot PATH does not reach the conda python, so the
+# interpreter that builds the venvs is resolved explicitly rather than by PATH.
+BASEPY=""
+for _p in /anaconda/envs/azureml_py38/bin/python3 /anaconda/bin/python3 python3; do
+  if command -v "$_p" >/dev/null 2>&1 && "$_p" -c "import ensurepip" 2>/dev/null; then
+    BASEPY=$(command -v "$_p"); break
+  fi
+done
+[ -n "$BASEPY" ] || { echo "FATAL: no interpreter with ensurepip found"; exit 1; }
+
 LH=/mnt/scratch/lh
 LH_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 export PIP_CACHE_DIR=$LH/pipcache
@@ -15,7 +26,12 @@ bash $LH_DIR/impl/mimicgen/setup_and_probe.sh && echo REBUILD_MG_VENV_DONE \
 
 # ---- 2. lh venv (robomimic main + diffusion policy deps) ----
 LHV=$LH/envs/lh
-python3 -m venv --clear $LHV
+# Idempotent: boot_recover.sh's setup_scratch.sh may have already built this venv,
+# and --clear would delete it out from under a resumed training that is using it.
+if $LHV/bin/python -c "import robomimic, robosuite, diffusers, torch" 2>/dev/null; then
+  echo REBUILD_LH_VENV_SKIP
+else
+"$BASEPY" -m venv --clear $LHV
 $LHV/bin/pip install -q --upgrade pip
 $LHV/bin/pip install -q torch torchvision --index-url https://download.pytorch.org/whl/cu128
 if [ ! -d $LH/repos/robomimic ]; then
@@ -26,15 +42,20 @@ $LHV/bin/pip install -q "robosuite==1.5.1" "mujoco==3.2.6" diffusers h5py numpy 
 $LHV/bin/pip install -q -e $LH/repos/robomimic
 $LHV/bin/python -c "import robomimic, robosuite, diffusers, torch; print('lh ok')" \
   && echo REBUILD_LH_VENV_DONE || { echo REBUILD_LH_VENV_FAIL; exit 1; }
+fi
 
 # ---- 3. vjepa venv (encoder + head inference) ----
 VJ=$LH/envs/vjepa
-python3 -m venv --clear $VJ
+if $VJ/bin/python -c "import transformers, torch" 2>/dev/null; then
+  echo REBUILD_VJEPA_VENV_SKIP
+else
+"$BASEPY" -m venv --clear $VJ
 $VJ/bin/pip install -q --upgrade pip
 $VJ/bin/pip install -q torch --index-url https://download.pytorch.org/whl/cu128
 $VJ/bin/pip install -q transformers h5py numpy
 $VJ/bin/python -c "import transformers, torch; print('vjepa ok')" \
   && echo REBUILD_VJEPA_VENV_DONE || { echo REBUILD_VJEPA_VENV_FAIL; exit 1; }
+fi
 
 # ---- 4. re-download the four Stage 2 source datasets ----
 HF=https://huggingface.co/datasets/amandlek/mimicgen_datasets/resolve/main/core
@@ -70,10 +91,11 @@ convert coffee_preparation_d0 7 &
 wait
 echo REBUILD_ALL_DONE
 
-# ---- 6. relaunch checkpoint selection (waits for trainings itself) ----
-setsid nohup bash $LH_DIR/impl/mimicgen/run_ckpt_selection.sh \
-  > $LH_DIR/results/stage2/ckpt_select_run.log 2>&1 < /dev/null &
-echo CKPT_SELECT_RELAUNCHED
+# ---- 6. resume checkpoint selection (only the evals still missing;
+# appends to ckpt_select_run.log, never truncates it) ----
+setsid nohup bash $LH_DIR/impl/mimicgen/resume_ckpt_selection.sh \
+  > $LH_DIR/results/stage2/resume_select.log 2>&1 < /dev/null &
+echo CKPT_SELECT_RESUMED
 
 # NOTE (Jul 21): after cloning robomimic_v03, ALWAYS re-apply the mujoco_py
 # import guard in robomimic/envs/env_robosuite.py (robosuite 1.4 uses the DM

@@ -1,0 +1,27 @@
+Action chunking lets imitation policies execute several actions from one
+inference call. The executed chunk length sets a tradeoff: long chunks are
+smooth and cheap, short chunks limit how far error compounds before the policy
+looks again. Practice picks one chunk length per task. We argue this is the
+wrong unit, and study the quantity it trades against directly. For each state
+we measure a finite-time maximal Lyapunov exponent by restoring the simulator,
+perturbing the first action, replaying the rest open-loop, and fitting the
+growth rate of the divergence. The paper then makes three claims. First, a
+single task contains both stability regimes: across more than twenty datasets
+on three platforms, between 78 and 100 percent of episodes contain both stable
+and unstable segments with several crossings each, the unstable segments are
+short and concentrated at contact, and the structure is unchanged by a
+fourfold change in probe size. Second, the regime can be labeled and predicted:
+small heads reading only camera frames and proprioception reach 0.83 to 0.96
+AUROC on confident stamps and transfer across tasks, well above a privileged
+contact baseline, while a simulator oracle bounds what perfect prediction is
+worth. Audited against our labels, the replan signals used by existing
+adaptive-horizon methods do not track measured stability, and a kinematic one
+is anti-correlated with it. Third, we ask whether the predicted regime can set
+chunk length at inference time, and report an incomplete and so far negative
+answer: learned predictors gain 3 to 8 points over a fixed 16-step chunk but
+stay inside run-to-run noise, never beat a properly swept constant chunk, and a
+paired test that forks each episode at a measured unstable moment finds that
+closing the loop rescues as many episodes as it breaks. Chunked execution has a
+legible and predictable stability structure; converting it into a chunk-length
+controller does not yet pay, and we identify the closed-loop axis as the
+measurement that would say when it should.

@@ -1,0 +1,8 @@
+{
+  "ckpt": "/home/azureuser/cloudfiles/code/Users/garyan18/long-horizon/results/training/dp_mg_nut_assembly_d0/dp_mg_nut_assembly_d0_image/20260721133929/models/model_epoch_2000.pth",
+  "dataset": "/mnt/scratch/lh/data/mimicgen/nut_assembly_d0_image.hdf5",
+  "n_points": 21594,
+  "arm_action_rmse": 0.08953935499744832,
+  "pos_action_rmse": 0.10302354323261122,
+  "valid_source": "fallback_last_demos"
+}

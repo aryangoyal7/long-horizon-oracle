@@ -28,7 +28,9 @@ declare -A EP=( [three_piece_assembly_d0]="600 1000 1400 1700 2000"
 backup_ckpts() { # task
   local t=$1
   local models=$(ls -d $LH_DIR/results/training/dp_mg_${t}/*/*/models 2>/dev/null | head -1)
-  [ -n "$models" ] && cp -rn "$models" "/home/azureuser/ckpt_backup_dp_mg_${t}" \
+  # scratch has 2.6T free; the OS disk (119G) cannot hold 4x58G grids
+  mkdir -p /mnt/scratch/lh/ckpt_backups
+  [ -n "$models" ] && cp -rn "$models" "/mnt/scratch/lh/ckpt_backups/dp_mg_${t}" \
     && echo "CKPT_BACKUP_${t}_DONE"
 }
 
