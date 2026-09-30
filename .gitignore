@@ -16,6 +16,8 @@ results/robocasa/seqpred_calib/*.npz
 results/robocasa/seeds/*.npz
 results/robocasa/evidence_videos/
 *.mp4
+# ...except the project page's 58 label clips (~13 MB), which the page needs
+!project_page/static/videos/*.mp4
 
 # LaTeX build files (source .tex, figures, and final PDFs are kept)
 *.aux

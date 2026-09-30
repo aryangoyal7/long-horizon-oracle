@@ -1,0 +1,990 @@
+[
+ {
+  "platform": "robomimic",
+  "task": "lift",
+  "label_key": "lift",
+  "n_stamps": 2485,
+  "n_by_class": {
+   "unstable": 525,
+   "deadband": 1960,
+   "stable": 0
+  },
+  "labels_table_file": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_lift.npz",
+  "labels_run_file": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_lift.npz",
+  "sim_dataset": "/mnt/scratch/lh/data/robomimic/lift/ph/low_dim_v15.hdf5",
+  "K": 24,
+  "N": 8,
+  "stride": 2,
+  "sigma_u": 0.1651,
+  "seed": 0,
+  "rng": "default_rng(seed + demo index), sequential per stamp",
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "distinct_demos": true,
+  "clips": [
+   {
+    "button": 1,
+    "class": "unstable",
+    "idx": 1,
+    "available": true,
+    "demo_id": 161,
+    "t": 18,
+    "lambda_bar": 0.3234313097767601,
+    "lambda_se": 0.012305874086599337,
+    "label": 1,
+    "file": "robomimic_lift_unstable_1.mp4"
+   },
+   {
+    "button": 2,
+    "class": "unstable",
+    "idx": 2,
+    "available": true,
+    "demo_id": 122,
+    "t": 32,
+    "lambda_bar": 0.3165079247717246,
+    "lambda_se": 0.011271903091972962,
+    "label": 1,
+    "file": "robomimic_lift_unstable_2.mp4"
+   },
+   {
+    "button": 3,
+    "class": "deadband",
+    "idx": 1,
+    "available": true,
+    "demo_id": 96,
+    "t": 6,
+    "lambda_bar": -1.1716800489578075e-05,
+    "lambda_se": 0.007234192702837647,
+    "label": 0,
+    "file": "robomimic_lift_deadband_1.mp4"
+   },
+   {
+    "button": 4,
+    "class": "deadband",
+    "idx": 2,
+    "available": true,
+    "demo_id": 110,
+    "t": 0,
+    "lambda_bar": -4.845027704195544e-05,
+    "lambda_se": 0.001960762277516253,
+    "label": 0,
+    "file": "robomimic_lift_deadband_2.mp4"
+   },
+   {
+    "button": 5,
+    "class": "stable",
+    "available": false,
+    "n_class": 0
+   },
+   {
+    "button": 6,
+    "class": "stable",
+    "available": false,
+    "n_class": 0
+   }
+  ]
+ },
+ {
+  "platform": "robomimic",
+  "task": "can",
+  "label_key": "can",
+  "n_stamps": 9254,
+  "n_by_class": {
+   "unstable": 1396,
+   "deadband": 7591,
+   "stable": 267
+  },
+  "labels_table_file": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_can.npz",
+  "labels_run_file": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_can.npz",
+  "sim_dataset": "/mnt/scratch/lh/data/robomimic/can/ph/low_dim_v15.hdf5",
+  "K": 24,
+  "N": 8,
+  "stride": 2,
+  "sigma_u": 0.2251,
+  "seed": 0,
+  "rng": "default_rng(seed + demo index), sequential per stamp",
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "distinct_demos": true,
+  "clips": [
+   {
+    "button": 1,
+    "class": "unstable",
+    "idx": 1,
+    "available": true,
+    "demo_id": 170,
+    "t": 56,
+    "lambda_bar": 0.3247911283393832,
+    "lambda_se": 0.026842390616400185,
+    "label": 1,
+    "file": "robomimic_can_unstable_1.mp4"
+   },
+   {
+    "button": 2,
+    "class": "unstable",
+    "idx": 2,
+    "available": true,
+    "demo_id": 189,
+    "t": 68,
+    "lambda_bar": 0.3144434007304835,
+    "lambda_se": 0.016130521469360323,
+    "label": 1,
+    "file": "robomimic_can_unstable_2.mp4"
+   },
+   {
+    "button": 3,
+    "class": "deadband",
+    "idx": 1,
+    "available": true,
+    "demo_id": 127,
+    "t": 64,
+    "lambda_bar": -1.288924906200096e-06,
+    "lambda_se": 0.0050450867829079215,
+    "label": 0,
+    "file": "robomimic_can_deadband_1.mp4"
+   },
+   {
+    "button": 4,
+    "class": "deadband",
+    "idx": 2,
+    "available": true,
+    "demo_id": 141,
+    "t": 94,
+    "lambda_bar": 3.7795089236502615e-06,
+    "lambda_se": 0.0041586297019785825,
+    "label": 0,
+    "file": "robomimic_can_deadband_2.mp4"
+   },
+   {
+    "button": 5,
+    "class": "stable",
+    "idx": 1,
+    "available": true,
+    "demo_id": 47,
+    "t": 100,
+    "lambda_bar": -0.19201505334524574,
+    "lambda_se": 0.001232995631185493,
+    "label": -1,
+    "file": "robomimic_can_stable_1.mp4"
+   },
+   {
+    "button": 6,
+    "class": "stable",
+    "idx": 2,
+    "available": true,
+    "demo_id": 8,
+    "t": 46,
+    "lambda_bar": -0.17741572981134057,
+    "lambda_se": 0.02296311845578398,
+    "label": -1,
+    "file": "robomimic_can_stable_2.mp4"
+   }
+  ]
+ },
+ {
+  "platform": "robomimic",
+  "task": "square",
+  "label_key": "square",
+  "n_stamps": 12723,
+  "n_by_class": {
+   "unstable": 3549,
+   "deadband": 8978,
+   "stable": 196
+  },
+  "labels_table_file": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_square.npz",
+  "labels_run_file": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_square.npz",
+  "sim_dataset": "/mnt/scratch/lh/data/robomimic/square/ph/low_dim_v15.hdf5",
+  "K": 24,
+  "N": 8,
+  "stride": 2,
+  "sigma_u": 0.2201,
+  "seed": 0,
+  "rng": "default_rng(seed + demo index), sequential per stamp",
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "distinct_demos": true,
+  "clips": [
+   {
+    "button": 1,
+    "class": "unstable",
+    "idx": 1,
+    "available": true,
+    "demo_id": 8,
+    "t": 46,
+    "lambda_bar": 0.3567700839300278,
+    "lambda_se": 0.004018241348343364,
+    "label": 1,
+    "file": "robomimic_square_unstable_1.mp4"
+   },
+   {
+    "button": 2,
+    "class": "unstable",
+    "idx": 2,
+    "available": true,
+    "demo_id": 34,
+    "t": 38,
+    "lambda_bar": 0.3260492673802162,
+    "lambda_se": 0.008372721189870376,
+    "label": 1,
+    "file": "robomimic_square_unstable_2.mp4"
+   },
+   {
+    "button": 3,
+    "class": "deadband",
+    "idx": 1,
+    "available": true,
+    "demo_id": 59,
+    "t": 16,
+    "lambda_bar": -3.5966709168494294e-06,
+    "lambda_se": 0.005692044469495821,
+    "label": 0,
+    "file": "robomimic_square_deadband_1.mp4"
+   },
+   {
+    "button": 4,
+    "class": "deadband",
+    "idx": 2,
+    "available": true,
+    "demo_id": 198,
+    "t": 86,
+    "lambda_bar": -4.967381728546812e-06,
+    "lambda_se": 0.003242410501371354,
+    "label": 0,
+    "file": "robomimic_square_deadband_2.mp4"
+   },
+   {
+    "button": 5,
+    "class": "stable",
+    "idx": 1,
+    "available": true,
+    "demo_id": 123,
+    "t": 54,
+    "lambda_bar": -0.18715208981421114,
+    "lambda_se": 0.02597153026278546,
+    "label": -1,
+    "file": "robomimic_square_stable_1.mp4"
+   },
+   {
+    "button": 6,
+    "class": "stable",
+    "idx": 2,
+    "available": true,
+    "demo_id": 116,
+    "t": 134,
+    "lambda_bar": -0.1721148930327551,
+    "lambda_se": 0.007175832005567624,
+    "label": -1,
+    "file": "robomimic_square_stable_2.mp4"
+   }
+  ]
+ },
+ {
+  "platform": "robomimic",
+  "task": "tool_hang",
+  "label_key": "tool_hang",
+  "n_stamps": 45633,
+  "n_by_class": {
+   "unstable": 14264,
+   "deadband": 30742,
+   "stable": 627
+  },
+  "labels_table_file": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_tool_hang.npz",
+  "labels_run_file": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_tool_hang.npz",
+  "sim_dataset": "/mnt/scratch/lh/data/robomimic/tool_hang/ph/low_dim_v15.hdf5",
+  "K": 24,
+  "N": 8,
+  "stride": 2,
+  "sigma_u": 0.1638,
+  "seed": 0,
+  "rng": "default_rng(seed + demo index), sequential per stamp",
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "distinct_demos": true,
+  "clips": [
+   {
+    "button": 1,
+    "class": "unstable",
+    "idx": 1,
+    "available": true,
+    "demo_id": 55,
+    "t": 322,
+    "lambda_bar": 0.33987746812618974,
+    "lambda_se": 0.009231891199426592,
+    "label": 1,
+    "file": "robomimic_tool_hang_unstable_1.mp4"
+   },
+   {
+    "button": 2,
+    "class": "unstable",
+    "idx": 2,
+    "available": true,
+    "demo_id": 108,
+    "t": 420,
+    "lambda_bar": 0.32999813320680266,
+    "lambda_se": 0.011282789714839207,
+    "label": 1,
+    "file": "robomimic_tool_hang_unstable_2.mp4"
+   },
+   {
+    "button": 3,
+    "class": "deadband",
+    "idx": 1,
+    "available": true,
+    "demo_id": 139,
+    "t": 258,
+    "lambda_bar": -5.236952582737578e-07,
+    "lambda_se": 0.005511234965915371,
+    "label": 0,
+    "file": "robomimic_tool_hang_deadband_1.mp4"
+   },
+   {
+    "button": 4,
+    "class": "deadband",
+    "idx": 2,
+    "available": true,
+    "demo_id": 181,
+    "t": 34,
+    "lambda_bar": -4.325405911205323e-06,
+    "lambda_se": 0.007328917824467901,
+    "label": 0,
+    "file": "robomimic_tool_hang_deadband_2.mp4"
+   },
+   {
+    "button": 5,
+    "class": "stable",
+    "idx": 1,
+    "available": true,
+    "demo_id": 142,
+    "t": 40,
+    "lambda_bar": -0.16973068635147348,
+    "lambda_se": 0.020158942963401896,
+    "label": -1,
+    "file": "robomimic_tool_hang_stable_1.mp4"
+   },
+   {
+    "button": 6,
+    "class": "stable",
+    "idx": 2,
+    "available": true,
+    "demo_id": 187,
+    "t": 56,
+    "lambda_bar": -0.15098062341158572,
+    "lambda_se": 0.036524882747245004,
+    "label": -1,
+    "file": "robomimic_tool_hang_stable_2.mp4"
+   }
+  ]
+ },
+ {
+  "platform": "mimicgen",
+  "task": "coffee",
+  "label_key": "mg_coffee_preparation_d0",
+  "n_stamps": 332981,
+  "n_by_class": {
+   "unstable": 61368,
+   "deadband": 253235,
+   "stable": 18378
+  },
+  "labels_table_file": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_mg_coffee_preparation_d0.npz",
+  "labels_run_file": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_mg_coffee_preparation_d0.npz",
+  "sim_dataset": "/mnt/scratch/lh/data/mimicgen/coffee_preparation_d0.hdf5",
+  "K": 24,
+  "N": 8,
+  "stride": 2,
+  "sigma_u": 0.1139,
+  "seed": 0,
+  "rng": "default_rng(seed + demo index), sequential per stamp",
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "distinct_demos": true,
+  "clips": [
+   {
+    "button": 1,
+    "class": "unstable",
+    "idx": 1,
+    "available": true,
+    "demo_id": 464,
+    "t": 436,
+    "lambda_bar": 0.39199968024417836,
+    "lambda_se": 0.02629050469012529,
+    "label": 1,
+    "file": "mimicgen_coffee_unstable_1.mp4"
+   },
+   {
+    "button": 2,
+    "class": "unstable",
+    "idx": 2,
+    "available": true,
+    "demo_id": 591,
+    "t": 90,
+    "lambda_bar": 0.36600608183039773,
+    "lambda_se": 0.0031491995231088085,
+    "label": 1,
+    "file": "mimicgen_coffee_unstable_2.mp4"
+   },
+   {
+    "button": 3,
+    "class": "deadband",
+    "idx": 1,
+    "available": true,
+    "demo_id": 222,
+    "t": 580,
+    "lambda_bar": 1.9889775693888337e-08,
+    "lambda_se": 0.004086240994201655,
+    "label": 0,
+    "file": "mimicgen_coffee_deadband_1.mp4"
+   },
+   {
+    "button": 4,
+    "class": "deadband",
+    "idx": 2,
+    "available": true,
+    "demo_id": 375,
+    "t": 106,
+    "lambda_bar": -1.109546617891634e-07,
+    "lambda_se": 0.0029782889829139676,
+    "label": 0,
+    "file": "mimicgen_coffee_deadband_2.mp4"
+   },
+   {
+    "button": 5,
+    "class": "stable",
+    "idx": 1,
+    "available": true,
+    "demo_id": 444,
+    "t": 640,
+    "lambda_bar": -0.2513973156103554,
+    "lambda_se": 0.018494742572195456,
+    "label": -1,
+    "file": "mimicgen_coffee_stable_1.mp4"
+   },
+   {
+    "button": 6,
+    "class": "stable",
+    "idx": 2,
+    "available": true,
+    "demo_id": 440,
+    "t": 292,
+    "lambda_bar": -0.24876043964723685,
+    "lambda_se": 0.01698105679963408,
+    "label": -1,
+    "file": "mimicgen_coffee_stable_2.mp4"
+   }
+  ]
+ },
+ {
+  "platform": "mimicgen",
+  "task": "nut_assembly",
+  "label_key": "mg_nut_assembly_d0",
+  "n_stamps": 33251,
+  "n_by_class": {
+   "unstable": 6708,
+   "deadband": 24989,
+   "stable": 1554
+  },
+  "labels_table_file": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_mg_nut_assembly_d0.npz",
+  "labels_run_file": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_mg_nut_assembly_d0.npz",
+  "sim_dataset": "/mnt/scratch/lh/data/mimicgen/nut_assembly_d0.hdf5",
+  "K": 24,
+  "N": 8,
+  "stride": 2,
+  "sigma_u": 0.103,
+  "seed": 0,
+  "rng": "default_rng(seed + demo index), sequential per stamp",
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "distinct_demos": true,
+  "clips": [
+   {
+    "button": 1,
+    "class": "unstable",
+    "idx": 1,
+    "available": true,
+    "demo_id": 6,
+    "t": 60,
+    "lambda_bar": 0.3337461421957164,
+    "lambda_se": 0.028061788563975395,
+    "label": 1,
+    "file": "mimicgen_nut_assembly_unstable_1.mp4"
+   },
+   {
+    "button": 2,
+    "class": "unstable",
+    "idx": 2,
+    "available": true,
+    "demo_id": 106,
+    "t": 228,
+    "lambda_bar": 0.32005423950035994,
+    "lambda_se": 0.017404033941324594,
+    "label": 1,
+    "file": "mimicgen_nut_assembly_unstable_2.mp4"
+   },
+   {
+    "button": 3,
+    "class": "deadband",
+    "idx": 1,
+    "available": true,
+    "demo_id": 133,
+    "t": 234,
+    "lambda_bar": -1.3986566987920513e-06,
+    "lambda_se": 0.003632093139210187,
+    "label": 0,
+    "file": "mimicgen_nut_assembly_deadband_1.mp4"
+   },
+   {
+    "button": 4,
+    "class": "deadband",
+    "idx": 2,
+    "available": true,
+    "demo_id": 195,
+    "t": 270,
+    "lambda_bar": -2.160133482404586e-06,
+    "lambda_se": 0.005800184607476363,
+    "label": 0,
+    "file": "mimicgen_nut_assembly_deadband_2.mp4"
+   },
+   {
+    "button": 5,
+    "class": "stable",
+    "idx": 1,
+    "available": true,
+    "demo_id": 10,
+    "t": 50,
+    "lambda_bar": -0.22276752451238815,
+    "lambda_se": 0.00686524255685911,
+    "label": -1,
+    "file": "mimicgen_nut_assembly_stable_1.mp4"
+   },
+   {
+    "button": 6,
+    "class": "stable",
+    "idx": 2,
+    "available": true,
+    "demo_id": 192,
+    "t": 0,
+    "lambda_bar": -0.2202108695271494,
+    "lambda_se": 0.01525304320049921,
+    "label": -1,
+    "file": "mimicgen_nut_assembly_stable_2.mp4"
+   }
+  ]
+ },
+ {
+  "platform": "robocasa",
+  "task": "OpenCabinet",
+  "label_key": "rc_OpenCabinet",
+  "n_stamps": 33238,
+  "n_by_class": {
+   "unstable": 1063,
+   "deadband": 31760,
+   "stable": 415
+  },
+  "labels_table_file": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_OpenCabinet.npz",
+  "labels_run_file": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_OpenCabinet.npz",
+  "sim_dataset": "/mnt/scratch/lh/data/robocasa/hdf5/rc_OpenCabinet.hdf5",
+  "K": 24,
+  "N": 8,
+  "stride": 2,
+  "sigma_u": 0.5649161946422923,
+  "seed": null,
+  "rng": "per-stamp blake2s(task|demo|t0|sigma-rmse-v2)",
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "distinct_demos": true,
+  "clips": [
+   {
+    "button": 1,
+    "class": "unstable",
+    "idx": 1,
+    "available": true,
+    "demo_id": 18,
+    "t": 52,
+    "lambda_bar": 0.16024,
+    "lambda_se": 0.017436,
+    "label": 1,
+    "file": "robocasa_OpenCabinet_unstable_1.mp4"
+   },
+   {
+    "button": 2,
+    "class": "unstable",
+    "idx": 2,
+    "available": true,
+    "demo_id": 61,
+    "t": 74,
+    "lambda_bar": 0.159443,
+    "lambda_se": 0.024438,
+    "label": 1,
+    "file": "robocasa_OpenCabinet_unstable_2.mp4"
+   },
+   {
+    "button": 3,
+    "class": "deadband",
+    "idx": 1,
+    "available": true,
+    "demo_id": 103,
+    "t": 90,
+    "lambda_bar": -0.0,
+    "lambda_se": 0.006105,
+    "label": 0,
+    "file": "robocasa_OpenCabinet_deadband_1.mp4"
+   },
+   {
+    "button": 4,
+    "class": "deadband",
+    "idx": 2,
+    "available": true,
+    "demo_id": 47,
+    "t": 336,
+    "lambda_bar": -1e-06,
+    "lambda_se": 0.006723,
+    "label": 0,
+    "file": "robocasa_OpenCabinet_deadband_2.mp4"
+   },
+   {
+    "button": 5,
+    "class": "stable",
+    "idx": 1,
+    "available": true,
+    "demo_id": 72,
+    "t": 56,
+    "lambda_bar": -0.123879,
+    "lambda_se": 0.019819,
+    "label": -1,
+    "file": "robocasa_OpenCabinet_stable_1.mp4"
+   },
+   {
+    "button": 6,
+    "class": "stable",
+    "idx": 2,
+    "available": true,
+    "demo_id": 2,
+    "t": 66,
+    "lambda_bar": -0.11481,
+    "lambda_se": 0.013637,
+    "label": -1,
+    "file": "robocasa_OpenCabinet_stable_2.mp4"
+   }
+  ]
+ },
+ {
+  "platform": "robocasa",
+  "task": "OpenDrawer",
+  "label_key": "rc_OpenDrawer",
+  "n_stamps": 24226,
+  "n_by_class": {
+   "unstable": 1030,
+   "deadband": 22579,
+   "stable": 617
+  },
+  "labels_table_file": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_OpenDrawer.npz",
+  "labels_run_file": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_OpenDrawer.npz",
+  "sim_dataset": "/mnt/scratch/lh/data/robocasa/hdf5/rc_OpenDrawer.hdf5",
+  "K": 24,
+  "N": 8,
+  "stride": 2,
+  "sigma_u": 0.42621933973099346,
+  "seed": null,
+  "rng": "per-stamp blake2s(task|demo|t0|sigma-rmse-v2)",
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "distinct_demos": true,
+  "clips": [
+   {
+    "button": 1,
+    "class": "unstable",
+    "idx": 1,
+    "available": true,
+    "demo_id": 126,
+    "t": 256,
+    "lambda_bar": 0.197355,
+    "lambda_se": 0.01334,
+    "label": 1,
+    "file": "robocasa_OpenDrawer_unstable_1.mp4"
+   },
+   {
+    "button": 2,
+    "class": "unstable",
+    "idx": 2,
+    "available": true,
+    "demo_id": 103,
+    "t": 144,
+    "lambda_bar": 0.182225,
+    "lambda_se": 0.010172,
+    "label": 1,
+    "file": "robocasa_OpenDrawer_unstable_2.mp4"
+   },
+   {
+    "button": 3,
+    "class": "deadband",
+    "idx": 1,
+    "available": true,
+    "demo_id": 66,
+    "t": 290,
+    "lambda_bar": 6e-06,
+    "lambda_se": 0.00985,
+    "label": 0,
+    "file": "robocasa_OpenDrawer_deadband_1.mp4"
+   },
+   {
+    "button": 4,
+    "class": "deadband",
+    "idx": 2,
+    "available": true,
+    "demo_id": 173,
+    "t": 34,
+    "lambda_bar": -8e-06,
+    "lambda_se": 0.011675,
+    "label": 0,
+    "file": "robocasa_OpenDrawer_deadband_2.mp4"
+   },
+   {
+    "button": 5,
+    "class": "stable",
+    "idx": 1,
+    "available": true,
+    "demo_id": 167,
+    "t": 144,
+    "lambda_bar": -0.175749,
+    "lambda_se": 0.010496,
+    "label": -1,
+    "file": "robocasa_OpenDrawer_stable_1.mp4"
+   },
+   {
+    "button": 6,
+    "class": "stable",
+    "idx": 2,
+    "available": true,
+    "demo_id": 162,
+    "t": 204,
+    "lambda_bar": -0.136145,
+    "lambda_se": 0.003918,
+    "label": -1,
+    "file": "robocasa_OpenDrawer_stable_2.mp4"
+   }
+  ]
+ },
+ {
+  "platform": "robocasa",
+  "task": "PickPlaceCounterToCabinet",
+  "label_key": "rc_PickPlaceCounterToCabinet",
+  "n_stamps": 23724,
+  "n_by_class": {
+   "unstable": 1398,
+   "deadband": 22312,
+   "stable": 14
+  },
+  "labels_table_file": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_PickPlaceCounterToCabinet.npz",
+  "labels_run_file": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_PickPlaceCounterToCabinet.npz",
+  "sim_dataset": "/mnt/scratch/lh/data/robocasa/hdf5/rc_PickPlaceCounterToCabinet.hdf5",
+  "K": 24,
+  "N": 8,
+  "stride": 2,
+  "sigma_u": 0.479445345739178,
+  "seed": null,
+  "rng": "per-stamp blake2s(task|demo|t0|sigma-rmse-v2)",
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "distinct_demos": true,
+  "clips": [
+   {
+    "button": 1,
+    "class": "unstable",
+    "idx": 1,
+    "available": true,
+    "demo_id": 70,
+    "t": 72,
+    "lambda_bar": 0.204031,
+    "lambda_se": 0.01056,
+    "label": 1,
+    "file": "robocasa_PickPlaceCounterToCabinet_unstable_1.mp4"
+   },
+   {
+    "button": 2,
+    "class": "unstable",
+    "idx": 2,
+    "available": true,
+    "demo_id": 142,
+    "t": 256,
+    "lambda_bar": 0.188761,
+    "lambda_se": 0.008123,
+    "label": 1,
+    "file": "robocasa_PickPlaceCounterToCabinet_unstable_2.mp4"
+   },
+   {
+    "button": 3,
+    "class": "deadband",
+    "idx": 1,
+    "available": true,
+    "demo_id": 155,
+    "t": 134,
+    "lambda_bar": -1e-06,
+    "lambda_se": 0.011028,
+    "label": 0,
+    "file": "robocasa_PickPlaceCounterToCabinet_deadband_1.mp4"
+   },
+   {
+    "button": 4,
+    "class": "deadband",
+    "idx": 2,
+    "available": true,
+    "demo_id": 75,
+    "t": 50,
+    "lambda_bar": 2e-06,
+    "lambda_se": 0.012694,
+    "label": 0,
+    "file": "robocasa_PickPlaceCounterToCabinet_deadband_2.mp4"
+   },
+   {
+    "button": 5,
+    "class": "stable",
+    "idx": 1,
+    "available": true,
+    "demo_id": 152,
+    "t": 204,
+    "lambda_bar": -0.092563,
+    "lambda_se": 0.009174,
+    "label": -1,
+    "file": "robocasa_PickPlaceCounterToCabinet_stable_1.mp4"
+   },
+   {
+    "button": 6,
+    "class": "stable",
+    "idx": 2,
+    "available": true,
+    "demo_id": 61,
+    "t": 154,
+    "lambda_bar": -0.055566,
+    "lambda_se": 0.005031,
+    "label": -1,
+    "file": "robocasa_PickPlaceCounterToCabinet_stable_2.mp4"
+   }
+  ]
+ },
+ {
+  "platform": "robocasa",
+  "task": "TurnOnSinkFaucet",
+  "label_key": "rc_TurnOnSinkFaucet",
+  "n_stamps": 19968,
+  "n_by_class": {
+   "unstable": 1339,
+   "deadband": 18439,
+   "stable": 190
+  },
+  "labels_table_file": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_TurnOnSinkFaucet.npz",
+  "labels_run_file": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_TurnOnSinkFaucet.npz",
+  "sim_dataset": "/mnt/scratch/lh/data/robocasa/hdf5/rc_TurnOnSinkFaucet.hdf5",
+  "K": 24,
+  "N": 8,
+  "stride": 2,
+  "sigma_u": 0.2992765144500152,
+  "seed": null,
+  "rng": "per-stamp blake2s(task|demo|t0|sigma-rmse-v2)",
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "distinct_demos": true,
+  "clips": [
+   {
+    "button": 1,
+    "class": "unstable",
+    "idx": 1,
+    "available": true,
+    "demo_id": 60,
+    "t": 212,
+    "lambda_bar": 0.237756,
+    "lambda_se": 0.021827,
+    "label": 1,
+    "file": "robocasa_TurnOnSinkFaucet_unstable_1.mp4"
+   },
+   {
+    "button": 2,
+    "class": "unstable",
+    "idx": 2,
+    "available": true,
+    "demo_id": 26,
+    "t": 182,
+    "lambda_bar": 0.228188,
+    "lambda_se": 0.013719,
+    "label": 1,
+    "file": "robocasa_TurnOnSinkFaucet_unstable_2.mp4"
+   },
+   {
+    "button": 3,
+    "class": "deadband",
+    "idx": 1,
+    "available": true,
+    "demo_id": 166,
+    "t": 98,
+    "lambda_bar": 8e-06,
+    "lambda_se": 0.01145,
+    "label": 0,
+    "file": "robocasa_TurnOnSinkFaucet_deadband_1.mp4"
+   },
+   {
+    "button": 4,
+    "class": "deadband",
+    "idx": 2,
+    "available": true,
+    "demo_id": 194,
+    "t": 200,
+    "lambda_bar": 1.2e-05,
+    "lambda_se": 0.00917,
+    "label": 0,
+    "file": "robocasa_TurnOnSinkFaucet_deadband_2.mp4"
+   },
+   {
+    "button": 5,
+    "class": "stable",
+    "idx": 1,
+    "available": true,
+    "demo_id": 196,
+    "t": 144,
+    "lambda_bar": -0.124951,
+    "lambda_se": 0.014222,
+    "label": -1,
+    "file": "robocasa_TurnOnSinkFaucet_stable_1.mp4"
+   },
+   {
+    "button": 6,
+    "class": "stable",
+    "idx": 2,
+    "available": true,
+    "demo_id": 44,
+    "t": 154,
+    "lambda_bar": -0.101334,
+    "lambda_se": 0.006267,
+    "label": -1,
+    "file": "robocasa_TurnOnSinkFaucet_stable_2.mp4"
+   }
+  ]
+ }
+]

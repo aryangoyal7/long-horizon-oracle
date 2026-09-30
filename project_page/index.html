@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Measuring the Stability Assumption Behind Action Chunking: per-state measurements of how an injected action error propagates under open-loop execution.">
+  <meta name="keywords" content="action chunking, behavioral cloning, imitation learning, stability, robot manipulation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Measuring the Stability Assumption Behind Action Chunking</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/label_videos.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav id="toc-nav" aria-label="Section navigation">
+  <a class="toc-item" href="#finding-1"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">Finding 1</span></a>
+  <a class="toc-item" href="#finding-2"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">Finding 2</span></a>
+  <a class="toc-item" href="#finding-3"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">Finding 3</span></a>
+  <a class="toc-item" href="#label-videos"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">Label videos</span></a>
+  <a class="toc-item" href="#method"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">Method</span></a>
+  <a class="toc-item" href="#BibTeX"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">BibTeX</span></a>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+
+          <h1 class="title is-1 publication-title">Measuring the Stability Assumption Behind Action Chunking</h1>
+
+          <!-- AUTHORS: the draft's \author block is still the template placeholder
+               (Jane E. Doe, Department of Electrical Engineering and Computer Sciences,
+               University of California Berkeley, janedoe@berkeley.edu), so no name is
+               shown here. Replace with the real author list, e.g.
+               <span class="author-block"><a href="https://...">Name</a><sup>1</sup>,</span> -->
+          <div class="is-size-3 publication-authors">
+            <span class="author-block">Anonymous authors</span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <!-- <span class="author-block"><sup>1</sup>Affiliation</span> -->
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="./static/paper.pdf" target="_blank" rel="noopener"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <!-- arXiv: put the abs URL in href and drop is-disabled-coming-soon once posted -->
+                <a href="" class="external-link button is-normal is-rounded is-dark is-disabled-coming-soon"
+                   aria-disabled="true" title="Link will be added when the paper is posted">
+                  <span class="icon"><i class="ai ai-arxiv"></i></span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <!-- Code: put the repository URL in href and drop is-disabled-coming-soon -->
+                <a href="" class="external-link button is-normal is-rounded is-dark is-disabled-coming-soon"
+                   aria-disabled="true" title="Link will be added when the code is released">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section overview-figure-section" id="overview">
+  <figure class="paper-figure paper-figure-wide overview-figure">
+    <img src="./static/images/fig_method.svg" alt="The labeling procedure">
+  </figure>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified" id="abstract-content">
+          <p>
+            Action chunking improves behavioural cloning, and several mechanisms have been
+            proposed to explain why: temporal consistency, horizon reduction, representation
+            learning, non-Markovian expressivity, delayed conditioning, implicit ensembling,
+            and compensation for limited context. Every one concerns the error the policy
+            introduces, whether by reducing how much of it enters or how often it re-enters
+            the policy's own input. We instead study what happens to an action error once it
+            enters the system. We introduce a per-state perturbation framework that measures
+            error propagation under open-loop execution, where the remainder of a chunk is
+            replayed without replanning. The resulting stability labels quantify whether
+            errors are amplified or absorbed at each state. Across twelve manipulation tasks
+            from three benchmark suites, we find that confidently stable states are rare,
+            while error amplification is common among states whose propagation rate can be
+            resolved. We further find that the measured propagation rate depends strongly on
+            the fitting horizon: amplification is typically front-loaded, so short windows
+            can substantially overestimate the error incurred over longer executions.
+            Finally, open-loop stability is reasonably predictable from camera observations
+            and proprioception. These results show that passive dynamical contraction is not
+            sufficient to explain the success of action chunking.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section paper-section" id="finding-1">
+  <div class="container is-max-widescreen">
+    <div class="paper-section-heading">
+      <p class="section-kicker">Finding 1</p>
+      <h2 class="title is-4">Open-loop contraction is a minority phenomenon</h2>
+    </div>
+    <div class="content paper-section-text math-content">
+      Across all three stamp types, unstable states are more common than stable states
+      among measurements that clear the gates, while most stamps fall in the deadband. The
+      deadband does not imply stability: it arises when the measured rate is either too
+      small to exceed the amplification threshold or too uncertain to resolve its sign.
+      Thus, open-loop execution does not generally avoid error growth through passive
+      contraction. This also lets us test whether policies simply choose to commit at states
+      that are naturally stable: if that were the case, policy-chunk stamps should contain
+      more stable and fewer unstable states than the broader state distributions. We do not
+      observe this pattern, although comparisons must use matched fitting windows because
+      policy chunks are measured over shorter horizons.
+    </div>
+
+    <figure class="paper-figure paper-figure-wide dense math-content">
+      <img src="./static/images/fig_hist.svg"
+           alt="Histograms of the measured propagation rate for demonstration, rollout and policy-chunk stamps on robomimic, MimicGen and RoboCasa, coloured stable, deadband and unstable">
+      <figcaption>
+        Distributions of the measured propagation rate \(\lambda_{\mathrm{mean}}\), pooled
+        within each benchmark family. Columns correspond to robomimic, MimicGen, and
+        RoboCasa; rows correspond to demonstration, rollout, and policy-chunk stamps.
+        Stable, deadband, and unstable regions are shown by the bar segments. Vertical lines
+        show the reference Gate-1 thresholds \(\pm\ln(m)/16\) for \(m\in\{1.5,2.0,3.0\}\).
+        The demonstration and rollout rates are fitted over \(K{=}24\), whereas the
+        policy-chunk rate is capped by the emitted chunk length.
+      </figcaption>
+    </figure>
+
+    <figure class="paper-figure paper-figure-wide dense math-content">
+      <img src="./static/images/fig_stack.svg"
+           alt="Stacked bars of stable, deadband and unstable shares per task and stamp type at three Gate-1 thresholds">
+      <figcaption>
+        Task-level breakdown of stability labels across the stamp types. For each task, the
+        three adjacent bars correspond to Gate-1 thresholds \(m=1.5\), \(2.0\), and
+        \(3.0\); each bar is partitioned into stable, deadband, and unstable stamps.
+      </figcaption>
+    </figure>
+
+    <div class="callout-panel math-content">
+      <p class="callout-label">Definition</p>
+      <h3>What the deadband means</h3>
+      <p>
+        Two gates are applied to every measured rate. The first asks whether the measured
+        rate is large enough to matter, comparing \(|\bar{\lambda}|\) against
+        \(\delta_m = \ln(m)/K\), the rate corresponding to an \(m\)-fold amplification over
+        a \(K\)-step window. The second asks whether the sign of the rate is sufficiently
+        resolved, comparing \(|\bar{\lambda}|\) against \(t\,\mathrm{SE}\). A stamp that
+        clears both gates is labelled <span class="cls-unst">unstable</span> or
+        <span class="cls-stab">stable</span> according to the sign of \(\bar{\lambda}\);
+        otherwise it is assigned to the <span class="cls-dead">deadband</span>.
+      </p>
+      <p class="callout-emph">
+        Deadband is a statement about measurement resolution, not a claim that the true
+        rate is zero.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<section class="section paper-section is-light" id="finding-2">
+  <div class="container is-max-widescreen">
+    <div class="paper-section-heading">
+      <p class="section-kicker">Finding 2</p>
+      <h2 class="title is-4">The measured rate depends strongly on the window it is fit over</h2>
+    </div>
+    <div class="content paper-section-text math-content">
+      Across datasets and state sources, shortening the window from \(K{=}24\) to
+      \(K{=}8\) moves a large fraction of stamps from the deadband into the unstable class,
+      while the stable fraction changes little. For example, on robomimic lift
+      demonstrations, the unstable share increases from 21.1% at \(K{=}24\) to 69.7% at
+      \(K{=}8\), while the stable share remains 0.0%. The same qualitative shift occurs
+      across the other robomimic, MimicGen, and RoboCasa conditions. Thus, the conclusion
+      that open-loop contraction is uncommon is robust to the choice of window, but the
+      size of the unstable population is not.
+    </div>
+
+    <figure class="paper-figure paper-figure-medium math-content">
+      <img src="./static/images/fig_lamK8.svg"
+           alt="Distributions of the open-loop rate for the same OpenCabinet demonstration stamps fitted at K=8, 16 and 24">
+      <figcaption>
+        \(\lambda_{\mathrm{mean}}\) on the open-loop axis at \(K{=}8\), \(16\), and \(24\)
+        for the <code>OpenCabinet</code> demonstration stamps (\(n{=}33{,}238\)), refit from
+        the same stored per-branch log-distance matrices with no new simulation. The three
+        curves therefore describe identical stamps and differ only in the length of the
+        fitting interval. Verticals mark \(\pm0.0433\), the primary Gate-1 threshold at
+        \(m{=}2.0\).
+      </figcaption>
+    </figure>
+
+    <div class="content paper-section-text math-content">
+      This dependence arises because the divergence is typically front-loaded. The perturbed
+      branches separate rapidly during the first few steps and then tend to flatten rather
+      than continue growing at the same rate. A short window therefore fits primarily the
+      initial rise and produces a larger positive \(\lambda\), whereas a longer window
+      averages that rise with the subsequent flat region and pulls \(\lambda\) toward zero.
+      Because the later trajectory does not generally reverse the initial separation, the
+      additional steps move stamps predominantly into the deadband rather than into the
+      stable class. Accordingly, \(\lambda\) should be interpreted as a summary of error propagation over
+      the specified fitting interval, rather than as a time-invariant rate governing the
+      entire trajectory.
+    </div>
+
+    <div class="results-table-wrap math-content">
+      <table class="results-table shares-table">
+        <thead>
+          <tr>
+            <th rowspan="2" class="lab">Dataset</th>
+            <th rowspan="2" class="lab">Stamps</th>
+            <th colspan="3">\(K{=}24\)</th>
+            <th colspan="3">\(K{=}8\) (matched)</th>
+          </tr>
+          <tr>
+            <th class="h-stab">S</th><th class="h-dead">D</th><th class="h-unst">U</th>
+            <th class="h-stab">S</th><th class="h-dead">D</th><th class="h-unst">U</th>
+          </tr>
+        </thead>
+        <tbody>
+<!-- BEGIN:table-ol-shares-window -->
+<tr class="group-row"><th colspan="8">robomimic</th></tr>
+<tr><td class="lab">lift</td><td class="lab">demos</td><td>0.0</td><td>78.9</td><td>21.1</td><td>0.0</td><td>30.3</td><td>69.7</td></tr>
+<tr><td class="lab">lift</td><td class="lab">rollouts</td><td>1.4</td><td>74.1</td><td>24.5</td><td>1.7</td><td>34.8</td><td>63.5</td></tr>
+<tr><td class="lab">lift</td><td class="lab">policy</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>0.2</td><td>28.1</td><td>71.7</td></tr>
+<tr><td class="lab">can</td><td class="lab">demos</td><td>2.9</td><td>82.0</td><td>15.1</td><td>1.4</td><td>38.0</td><td>60.6</td></tr>
+<tr><td class="lab">can</td><td class="lab">rollouts</td><td>1.7</td><td>71.3</td><td>27.0</td><td>1.6</td><td>34.4</td><td>64.0</td></tr>
+<tr><td class="lab">can</td><td class="lab">policy</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>1.7</td><td>38.1</td><td>60.2</td></tr>
+<tr><td class="lab">square</td><td class="lab">demos</td><td>1.5</td><td>70.6</td><td>27.9</td><td>1.5</td><td>36.1</td><td>62.4</td></tr>
+<tr><td class="lab">square</td><td class="lab">rollouts</td><td>2.0</td><td>80.6</td><td>17.4</td><td>2.0</td><td>29.3</td><td>68.7</td></tr>
+<tr><td class="lab">square</td><td class="lab">policy</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>2.4</td><td>33.5</td><td>64.1</td></tr>
+<tr><td class="lab">tool_hang</td><td class="lab">demos</td><td>1.4</td><td>67.4</td><td>31.3</td><td>1.2</td><td>33.2</td><td>65.6</td></tr>
+<tr><td class="lab">tool_hang</td><td class="lab">rollouts</td><td>1.4</td><td>73.3</td><td>25.3</td><td>1.1</td><td>31.2</td><td>67.7</td></tr>
+<tr><td class="lab">tool_hang</td><td class="lab">policy</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>1.9</td><td>28.0</td><td>70.1</td></tr>
+<tr class="group-row"><th colspan="8">MimicGen</th></tr>
+<tr><td class="lab">coffee</td><td class="lab">demos</td><td>5.5</td><td>76.1</td><td>18.4</td><td>5.2</td><td>52.8</td><td>42.0</td></tr>
+<tr><td class="lab">coffee</td><td class="lab">rollouts</td><td>4.9</td><td>76.2</td><td>18.9</td><td>5.5</td><td>48.6</td><td>45.9</td></tr>
+<tr><td class="lab">coffee</td><td class="lab">policy</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>5.8</td><td>49.4</td><td>44.8</td></tr>
+<tr><td class="lab">nut_assembly</td><td class="lab">demos</td><td>4.7</td><td>75.2</td><td>20.2</td><td>6.2</td><td>53.7</td><td>40.1</td></tr>
+<tr><td class="lab">nut_assembly</td><td class="lab">rollouts</td><td>5.4</td><td>76.7</td><td>17.9</td><td>6.8</td><td>51.5</td><td>41.7</td></tr>
+<tr><td class="lab">nut_assembly</td><td class="lab">policy</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>6.5</td><td>51.3</td><td>42.2</td></tr>
+<tr><td class="lab">square_d0</td><td class="lab">demos</td><td>1.6</td><td>68.6</td><td>29.8</td><td>1.4</td><td>34.9</td><td>63.7</td></tr>
+<tr><td class="lab">stack_d0</td><td class="lab">demos</td><td>0.3</td><td>81.7</td><td>18.0</td><td>0.4</td><td>25.1</td><td>74.5</td></tr>
+<tr class="group-row"><th colspan="8">RoboCasa</th></tr>
+<tr><td class="lab">OpenCabinet</td><td class="lab">demos</td><td>1.2</td><td>95.6</td><td>3.2</td><td>2.3</td><td>23.3</td><td>74.4</td></tr>
+<tr><td class="lab">OpenCabinet</td><td class="lab">policy</td><td>4.1</td><td>89.3</td><td>6.6</td><td>1.3</td><td>17.1</td><td>81.6</td></tr>
+<tr><td class="lab">OpenDrawer</td><td class="lab">demos</td><td>2.5</td><td>93.2</td><td>4.3</td><td>3.4</td><td>19.3</td><td>77.3</td></tr>
+<tr><td class="lab">OpenDrawer</td><td class="lab">policy</td><td>4.6</td><td>81.9</td><td>13.5</td><td>2.2</td><td>21.8</td><td>76.0</td></tr>
+<tr><td class="lab">PickPlaceToCab.</td><td class="lab">demos</td><td>0.1</td><td>94.0</td><td>5.9</td><td>0.8</td><td>14.5</td><td>84.7</td></tr>
+<tr><td class="lab">PickPlaceToCab.</td><td class="lab">policy</td><td>3.5</td><td>85.9</td><td>10.6</td><td>0.4</td><td>16.2</td><td>83.4</td></tr>
+<tr><td class="lab">TurnOnSinkFaucet</td><td class="lab">demos</td><td>1.0</td><td>92.3</td><td>6.7</td><td>1.3</td><td>14.2</td><td>84.5</td></tr>
+<tr><td class="lab">TurnOnSinkFaucet</td><td class="lab">policy</td><td>0.8</td><td>85.3</td><td>13.8</td><td>4.0</td><td>13.8</td><td>82.2</td></tr>
+<!-- END:table-ol-shares-window -->
+        </tbody>
+      </table>
+      <p class="table-caption">
+        Open-loop label shares (%) at \(m{=}2.0\), \(t{=}2.365\), at the stored window and
+        refit at \(K{=}8\) on the same stamps. S, D, U = stable, deadband, unstable. Policy
+        stamps on robomimic and MimicGen are emitted as 8-action chunks and have no
+        \(K{=}24\) entry.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<section class="section paper-section" id="finding-3">
+  <div class="container is-max-widescreen">
+    <div class="paper-section-heading">
+      <p class="section-kicker">Finding 3</p>
+      <h2 class="title is-4">The open-loop regime is recoverable from what a robot can observe</h2>
+    </div>
+    <div class="content paper-section-text math-content">
+      <p>
+        Open-loop stability exhibits measurable state-dependent structure that can be
+        partially recovered from observation. Across the demonstration and rollout stamps,
+        the camera-and-proprioception predictor achieves AUROC values between 0.63 and 0.94
+        on cells with sufficient negative-class support, with the strongest results on
+        <code>tool_hang</code> and <code>mg-coffee</code>. Thus, the observed configuration
+        contains information about whether a small action error is likely to amplify or
+        decay, even without access to the simulator or the actions used in the probe.
+      </p>
+      <p>
+        The regression is weaker than the classification. Measured against a constant
+        predictor that outputs the training-set median for every stamp, the head recovers
+        between a tenth and a quarter of the error, and on <code>can</code> it does not
+        improve on that baseline at all. In other words, the model is better at identifying
+        which states are more prone to error amplification than at predicting how much the
+        error will amplify.
+      </p>
+    </div>
+
+    <div class="results-table-wrap math-content">
+      <table class="results-table pred-table">
+        <thead>
+          <tr>
+            <th class="lab">Dataset</th><th class="lab">var</th><th>base MAE</th><th>MAE</th>
+            <th>\(\rho\)</th><th>AUROC</th><th>neg (per seed)</th>
+          </tr>
+        </thead>
+        <tbody>
+<!-- BEGIN:table-pred-ol -->
+<tr class="group-row"><th colspan="7">demonstration stamps</th></tr>
+<tr><td class="lab">lift</td><td class="lab">P</td><td>.0351</td><td>.0272</td><td>.704</td><td>&ndash;</td><td>0; 0; 0</td></tr>
+<tr><td class="lab">lift</td><td class="lab">A1</td><td>.0351</td><td>.0216</td><td>.718</td><td>&ndash;</td><td>0; 0; 0</td></tr>
+<tr><td class="lab">can</td><td class="lab">P</td><td>.0281</td><td>.0284</td><td>.392</td><td>.722</td><td>50; 49; 46</td></tr>
+<tr><td class="lab">can</td><td class="lab">A1</td><td>.0281</td><td>.0280</td><td>.426</td><td>.797</td><td>50; 49; 46</td></tr>
+<tr><td class="lab">square</td><td class="lab">P</td><td>.0343</td><td>.0309</td><td>.526</td><td>.712</td><td>40; 45; 45</td></tr>
+<tr><td class="lab">square</td><td class="lab">A1</td><td>.0343</td><td>.0289</td><td>.593</td><td>.830</td><td>40; 45; 45</td></tr>
+<tr><td class="lab">tool_hang</td><td class="lab">P</td><td>.0325</td><td>.0260</td><td>.594</td><td>.909</td><td>112; 148; 140</td></tr>
+<tr><td class="lab">tool_hang</td><td class="lab">A1</td><td>.0325</td><td>.0247</td><td>.651</td><td>.942</td><td>112; 148; 140</td></tr>
+<tr><td class="lab">mg-coffee</td><td class="lab">P</td><td>.0311</td><td>.0247</td><td>.650</td><td>.941</td><td>713; 723; 700</td></tr>
+<tr><td class="lab">mg-coffee</td><td class="lab">A1</td><td>.0311</td><td>.0226</td><td>.690</td><td>.947</td><td>713; 723; 700</td></tr>
+<tr><td class="lab">OpenCabinet</td><td class="lab">P</td><td>.0139</td><td>.0130</td><td>.358</td><td>.810</td><td>104; 90; 56</td></tr>
+<tr><td class="lab">OpenCabinet</td><td class="lab">A1</td><td>.0139</td><td>.0124</td><td>.443</td><td>.909</td><td>104; 90; 56</td></tr>
+<tr><td class="lab">OpenDrawer</td><td class="lab">P</td><td>.0165</td><td>.0150</td><td>.367</td><td>.800</td><td>117; 116; 125</td></tr>
+<tr><td class="lab">OpenDrawer</td><td class="lab">A1</td><td>.0165</td><td>.0140</td><td>.483</td><td>.894</td><td>117; 116; 125</td></tr>
+<tr><td class="lab">PickPlaceToCab.</td><td class="lab">P</td><td>.0114</td><td>.0113</td><td>.186</td><td>.667</td><td>1; 5; 2</td></tr>
+<tr><td class="lab">PickPlaceToCab.</td><td class="lab">A1</td><td>.0114</td><td>.0106</td><td>.389</td><td>.846</td><td>1; 5; 2</td></tr>
+<tr><td class="lab">TurnOnSinkFaucet</td><td class="lab">P</td><td>.0132</td><td>.0134</td><td>.220</td><td>.857</td><td>23; 42; 40</td></tr>
+<tr><td class="lab">TurnOnSinkFaucet</td><td class="lab">A1</td><td>.0132</td><td>.0127</td><td>.336</td><td>.864</td><td>23; 42; 40</td></tr>
+<tr class="group-row"><th colspan="7">rollout stamps</th></tr>
+<tr><td class="lab">lift</td><td class="lab">P</td><td>.0329</td><td>.0309</td><td>.404</td><td>.631</td><td>21; 11; 4</td></tr>
+<tr><td class="lab">lift</td><td class="lab">A1</td><td>.0329</td><td>.0300</td><td>.492</td><td>.833</td><td>21; 11; 4</td></tr>
+<tr><td class="lab">can</td><td class="lab">P</td><td>.0305</td><td>.0284</td><td>.449</td><td>.830</td><td>35; 38; 28</td></tr>
+<tr><td class="lab">can</td><td class="lab">A1</td><td>.0305</td><td>.0279</td><td>.494</td><td>.842</td><td>35; 38; 28</td></tr>
+<tr class="group-row"><th colspan="7">policy stamps</th></tr>
+<tr><td class="lab">OpenCabinet</td><td class="lab">P</td><td>.0196</td><td>.0247</td><td>.097</td><td>.712</td><td>21; 17; 27</td></tr>
+<tr><td class="lab">OpenCabinet</td><td class="lab">A1</td><td>.0196</td><td>.0208</td><td>.213</td><td>.822</td><td>21; 17; 27</td></tr>
+<tr><td class="lab">OpenDrawer</td><td class="lab">P</td><td>.0242</td><td>.0287</td><td>.218</td><td>.697</td><td>25; 24; 19</td></tr>
+<tr><td class="lab">OpenDrawer</td><td class="lab">A1</td><td>.0242</td><td>.0248</td><td>.309</td><td>.767</td><td>25; 24; 19</td></tr>
+<tr><td class="lab">PickPlaceToCab.</td><td class="lab">P</td><td>.0213</td><td>.0258</td><td>.206</td><td>.706</td><td>29; 19; 13</td></tr>
+<tr><td class="lab">PickPlaceToCab.</td><td class="lab">A1</td><td>.0213</td><td>.0214</td><td>.345</td><td>.886</td><td>29; 19; 13</td></tr>
+<tr><td class="lab">TurnOnSinkFaucet</td><td class="lab">P</td><td>.0247</td><td>.0246</td><td>.190</td><td>.626</td><td>4; 10; 13</td></tr>
+<tr><td class="lab">TurnOnSinkFaucet</td><td class="lab">A1</td><td>.0247</td><td>.0240</td><td>.277</td><td>.774</td><td>4; 10; 13</td></tr>
+<!-- END:table-pred-ol -->
+        </tbody>
+      </table>
+      <p class="table-caption">
+        Open-loop prediction results, means over three seeds. <em>base MAE</em> is a
+        constant-median predictor on the same validation split. \(\rho\) is the Spearman
+        correlation between predicted and measured \(\lambda\), and AUROC is computed over
+        the confident subset. <em>neg</em> gives the number of negative examples behind each
+        seed's AUROC. <em>P</em> receives camera observations and proprioception over the
+        observation window; <em>A1</em> additionally receives the action sequence being
+        evaluated.
+      </p>
+    </div>
+
+    <div class="content paper-section-text note-text">
+      The closed-loop predictor head is not shown here; it will be added once the
+      closed-loop labels have been re-labeled.
+    </div>
+  </div>
+</section>
+
+
+<!--
+<section class="section paper-section is-light" id="closed-loop">
+  <div class="container is-max-widescreen">
+    <div class="paper-section-heading">
+      <p class="section-kicker">Closed loop</p>
+      <h2 class="title is-4">Closed-loop stability labels</h2>
+    </div>
+  </div>
+</section>
+-->
+
+
+<section class="section paper-section is-light" id="label-videos">
+  <div class="container is-max-widescreen">
+    <div class="paper-section-heading">
+      <p class="section-kicker">Label videos</p>
+      <h2 class="title is-4">What the labels look like</h2>
+    </div>
+    <div class="content paper-section-text math-content">
+      Each panel shows the nominal rollout and the \(N{=}8\) perturbed branches from one
+      labeled state; the label is printed in the corner.
+    </div>
+    <div class="video-legend math-content">
+      <span><i class="legend-line legend-nominal"></i>nominal end-effector path</span>
+      <span><i class="legend-line legend-unst"></i>perturbed, unstable</span>
+      <span><i class="legend-line legend-dead"></i>perturbed, deadband</span>
+      <span><i class="legend-line legend-stab"></i>perturbed, stable</span>
+    </div>
+    <p class="video-legend-note math-content">
+      Demonstration stamps, \(K{=}24\), \(m{=}2.0\). Buttons 1&ndash;2: unstable, highest
+      \(\bar{\lambda}\) clearing both gates. 3&ndash;4: deadband, \(\bar{\lambda}\) nearest
+      zero. 5&ndash;6: stable, most negative \(\bar{\lambda}\) clearing both gates. Hover a
+      button for the stamp.
+    </p>
+    <div id="label-video-grid" class="label-video-grid"></div>
+    <noscript><p class="has-text-centered">The video grid needs JavaScript; the clips are in <code>static/videos/</code>.</p></noscript>
+  </div>
+</section>
+
+
+<section class="section paper-section" id="method">
+  <div class="container is-max-desktop">
+    <div class="paper-section-heading">
+      <p class="section-kicker">Method</p>
+      <h2 class="title is-4">Measuring open-loop stability per state</h2>
+    </div>
+    <details class="method-details">
+      <summary>Show the labeling procedure</summary>
+      <div class="content method-body math-content">
+        <p>
+          We ask a simple question: starting from here, if the executed action is slightly
+          wrong, does the resulting deviation grow or shrink over the steps that follow?
+          Writing \(y_j\) for a task metric evaluated \(j\) steps after the state along a
+          nominal execution and \(y_j^{(n)}\) for the same quantity along the \(n\)-th
+          perturbed branch, we model the local propagation of the deviation as
+        </p>
+        <p class="equation">
+          \[\log \lVert y_j - y_j^{(n)} \rVert \;\approx\; \alpha_n + \lambda_n j,\]
+        </p>
+        <p>
+          where \(\lambda_n\) is the fitted error-propagation rate for branch \(n\) over the
+          measurement window. A positive \(\lambda_n\) indicates growth of the deviation, so
+          an initial error \(\epsilon\) would grow approximately as
+          \(\epsilon e^{\lambda_n k}\) over a \(k\)-step window; a negative \(\lambda_n\)
+          indicates decay, while a \(\lambda_n\) near zero indicates that the deviation is
+          approximately preserved. We repeat this fit across \(N\) perturbed branches and
+          aggregate their slopes to obtain the mean rate and its standard error. Estimating
+          \(\lambda_n\) requires a window over which to fit it, written \(K\), which is a
+          property of the measurement rather than of the executed chunk.
+        </p>
+        <p>
+          <strong>Open-loop stability.</strong> Since this is a property of the dynamics and
+          task geometry rather than of a policy, no trained policy is required to measure it.
+          At a state \(s_t\), we replay the recorded actions without replanning, perturbing
+          only the translation components of the first action with Gaussian noise of scale
+          \(\sigma_u\). We set \(\sigma_u\) to the action prediction error of the trained
+          policy on held-out demonstrations, providing a perturbation magnitude
+          representative of the policy's typical action error. The remaining actions are
+          replayed unchanged, isolating how an initial action error propagates through the
+          dynamics.
+        </p>
+        <p>
+          <strong>State and action sources.</strong> We evaluate the open-loop probe at three
+          stamp types, differing in the state distribution and the source of the replayed
+          actions. <em>Demonstration</em> stamps use states from recorded demonstrations and
+          the corresponding demonstrator actions; <em>rollout</em> stamps use states reached
+          by the policy and the actions it executed; and <em>policy</em> stamps use replan
+          boundaries and the action chunk emitted by the policy there. This gives two
+          controlled comparisons: demonstration versus rollout changes the state
+          distribution, while rollout versus policy changes the action source. The fitting
+          window is \(K{=}24\) for demonstration and rollout stamps. For policy stamps, \(K\)
+          is capped by the emitted chunk length: 8 actions for the diffusion policies and up
+          to 24 on RoboCasa.
+        </p>
+        <div class="results-table-wrap">
+          <table class="results-table stamp-table">
+            <thead>
+              <tr><th class="lab">Stamp type</th><th class="lab">State from</th><th class="lab">Actions used</th><th>\(K\)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="lab">demonstration</td><td class="lab">demonstration file</td><td class="lab">demonstrator actions, as recorded</td><td>24</td></tr>
+              <tr><td class="lab">rollout</td><td class="lab">policy rollout</td><td class="lab">policy actions, as recorded</td><td>24</td></tr>
+              <tr><td class="lab">policy chunk</td><td class="lab">policy rollout, at a replan boundary</td><td class="lab">chunk emitted by the policy</td><td>8 or 24</td></tr>
+            </tbody>
+          </table>
+          <p class="table-caption">
+            The stamp types used in the analysis. \(K\) denotes the fitting window. For
+            policy-chunk stamps, \(K\) is capped by the emitted chunk length, which is 8
+            actions for the diffusion policies and up to 24 on RoboCasa.
+          </p>
+        </div>
+        <p>
+          <strong>Deciding a label.</strong> Two gates are applied. The first asks whether the
+          measured rate is large enough to matter, comparing \(|\bar{\lambda}|\) against
+          \(\delta_m = \ln(m)/K\), the rate corresponding to an \(m\)-fold amplification over
+          a \(K\)-step window. The second asks whether the sign of the rate is sufficiently
+          resolved, comparing \(|\bar{\lambda}|\) against \(t\,\mathrm{SE}\):
+        </p>
+        <p class="equation">
+          \[\text{Gate 1: } |\bar{\lambda}| > \delta_m = \ln(m)/K,
+            \qquad \text{Gate 2: } |\bar{\lambda}| > t\,\mathrm{SE}.\]
+        </p>
+        <p>
+          A stamp that clears both gates is labelled <em>stable</em> or <em>unstable</em>
+          according to the sign of \(\bar{\lambda}\); otherwise it is assigned to the
+          <em>deadband</em>.
+        </p>
+      </div>
+    </details>
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{stability_action_chunking,
+  title   = {Measuring the Stability Assumption Behind Action Chunking},
+  author  = {Anonymous},
+  journal = {},
+  year    = {},
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            Website borrowed from <a href="https://nerfies.github.io">NeRFies</a> under a
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International</a> License.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

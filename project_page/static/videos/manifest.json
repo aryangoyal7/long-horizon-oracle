@@ -1,0 +1,2164 @@
+[
+ {
+  "task": "lift",
+  "platform": "robomimic",
+  "button": 1,
+  "class": "unstable",
+  "file": "robomimic_lift_unstable_1.mp4",
+  "demo_id": 161,
+  "t": 18,
+  "lambda_bar_label": 0.3234313097767601,
+  "lambda_se_label": 0.012305874086599337,
+  "lambda_bar_rendered": 0.3234313097767601,
+  "abs_diff": 0.0,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.1651,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 150520,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_lift.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_lift.npz"
+ },
+ {
+  "task": "lift",
+  "platform": "robomimic",
+  "button": 2,
+  "class": "unstable",
+  "file": "robomimic_lift_unstable_2.mp4",
+  "demo_id": 122,
+  "t": 32,
+  "lambda_bar_label": 0.3165079247717246,
+  "lambda_se_label": 0.011271903091972962,
+  "lambda_bar_rendered": 0.3165079247717247,
+  "abs_diff": 5.551115123125783e-17,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.1651,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 140126,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_lift.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_lift.npz"
+ },
+ {
+  "task": "lift",
+  "platform": "robomimic",
+  "button": 3,
+  "class": "deadband",
+  "file": "robomimic_lift_deadband_1.mp4",
+  "demo_id": 96,
+  "t": 6,
+  "lambda_bar_label": -1.1716800489578075e-05,
+  "lambda_se_label": 0.007234192702837647,
+  "lambda_bar_rendered": -1.171680048959664e-05,
+  "abs_diff": 1.8565268137919755e-17,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.1651,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 126838,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_lift.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_lift.npz"
+ },
+ {
+  "task": "lift",
+  "platform": "robomimic",
+  "button": 4,
+  "class": "deadband",
+  "file": "robomimic_lift_deadband_2.mp4",
+  "demo_id": 110,
+  "t": 0,
+  "lambda_bar_label": -4.845027704195544e-05,
+  "lambda_se_label": 0.001960762277516253,
+  "lambda_bar_rendered": -4.845027704194864e-05,
+  "abs_diff": 6.80336863234654e-18,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.1651,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 119923,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_lift.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_lift.npz"
+ },
+ {
+  "task": "lift",
+  "platform": "robomimic",
+  "button": 5,
+  "class": "stable",
+  "file": null,
+  "reason": "No stable stamp: none of the 2,485 lift demonstration stamps is labeled stable at m = 2.0"
+ },
+ {
+  "task": "lift",
+  "platform": "robomimic",
+  "button": 6,
+  "class": "stable",
+  "file": null,
+  "reason": "No stable stamp: none of the 2,485 lift demonstration stamps is labeled stable at m = 2.0"
+ },
+ {
+  "task": "can",
+  "platform": "robomimic",
+  "button": 1,
+  "class": "unstable",
+  "file": "robomimic_can_unstable_1.mp4",
+  "demo_id": 170,
+  "t": 56,
+  "lambda_bar_label": 0.3247911283393832,
+  "lambda_se_label": 0.026842390616400185,
+  "lambda_bar_rendered": 0.3247911283393832,
+  "abs_diff": 0.0,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.2251,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 128893,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_can.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_can.npz"
+ },
+ {
+  "task": "can",
+  "platform": "robomimic",
+  "button": 2,
+  "class": "unstable",
+  "file": "robomimic_can_unstable_2.mp4",
+  "demo_id": 189,
+  "t": 68,
+  "lambda_bar_label": 0.3144434007304835,
+  "lambda_se_label": 0.016130521469360323,
+  "lambda_bar_rendered": 0.3144434007304835,
+  "abs_diff": 0.0,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.2251,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 122307,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_can.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_can.npz"
+ },
+ {
+  "task": "can",
+  "platform": "robomimic",
+  "button": 3,
+  "class": "deadband",
+  "file": "robomimic_can_deadband_1.mp4",
+  "demo_id": 127,
+  "t": 64,
+  "lambda_bar_label": -1.288924906200096e-06,
+  "lambda_se_label": 0.0050450867829079215,
+  "lambda_bar_rendered": -1.2889249062049066e-06,
+  "abs_diff": 4.810511865693985e-18,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.2251,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 129193,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_can.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_can.npz"
+ },
+ {
+  "task": "can",
+  "platform": "robomimic",
+  "button": 4,
+  "class": "deadband",
+  "file": "robomimic_can_deadband_2.mp4",
+  "demo_id": 141,
+  "t": 94,
+  "lambda_bar_label": 3.7795089236502615e-06,
+  "lambda_se_label": 0.0041586297019785825,
+  "lambda_bar_rendered": 3.7795089236460425e-06,
+  "abs_diff": 4.21907111027367e-18,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.2251,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 139743,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_can.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_can.npz"
+ },
+ {
+  "task": "can",
+  "platform": "robomimic",
+  "button": 5,
+  "class": "stable",
+  "file": "robomimic_can_stable_1.mp4",
+  "demo_id": 47,
+  "t": 100,
+  "lambda_bar_label": -0.19201505334524574,
+  "lambda_se_label": 0.001232995631185493,
+  "lambda_bar_rendered": -0.1920150533452457,
+  "abs_diff": 2.7755575615628914e-17,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.2251,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 137168,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_can.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_can.npz"
+ },
+ {
+  "task": "can",
+  "platform": "robomimic",
+  "button": 6,
+  "class": "stable",
+  "file": "robomimic_can_stable_2.mp4",
+  "demo_id": 8,
+  "t": 46,
+  "lambda_bar_label": -0.17741572981134057,
+  "lambda_se_label": 0.02296311845578398,
+  "lambda_bar_rendered": -0.17741572981134057,
+  "abs_diff": 0.0,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.2251,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 124540,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_can.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_can.npz"
+ },
+ {
+  "task": "square",
+  "platform": "robomimic",
+  "button": 1,
+  "class": "unstable",
+  "file": "robomimic_square_unstable_1.mp4",
+  "demo_id": 8,
+  "t": 46,
+  "lambda_bar_label": 0.3567700839300278,
+  "lambda_se_label": 0.004018241348343364,
+  "lambda_bar_rendered": 0.35677008393002774,
+  "abs_diff": 5.551115123125783e-17,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.2201,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 108524,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_square.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_square.npz"
+ },
+ {
+  "task": "square",
+  "platform": "robomimic",
+  "button": 2,
+  "class": "unstable",
+  "file": "robomimic_square_unstable_2.mp4",
+  "demo_id": 34,
+  "t": 38,
+  "lambda_bar_label": 0.3260492673802162,
+  "lambda_se_label": 0.008372721189870376,
+  "lambda_bar_rendered": 0.3260492673802162,
+  "abs_diff": 0.0,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.2201,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 110345,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_square.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_square.npz"
+ },
+ {
+  "task": "square",
+  "platform": "robomimic",
+  "button": 3,
+  "class": "deadband",
+  "file": "robomimic_square_deadband_1.mp4",
+  "demo_id": 59,
+  "t": 16,
+  "lambda_bar_label": -3.5966709168494294e-06,
+  "lambda_se_label": 0.005692044469495821,
+  "lambda_bar_rendered": -3.5966709168526977e-06,
+  "abs_diff": 3.268276626980718e-18,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.2201,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 103151,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_square.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_square.npz"
+ },
+ {
+  "task": "square",
+  "platform": "robomimic",
+  "button": 4,
+  "class": "deadband",
+  "file": "robomimic_square_deadband_2.mp4",
+  "demo_id": 198,
+  "t": 86,
+  "lambda_bar_label": -4.967381728546812e-06,
+  "lambda_se_label": 0.003242410501371354,
+  "lambda_bar_rendered": -4.967381728562641e-06,
+  "abs_diff": 1.582850468534111e-17,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.2201,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 131881,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_square.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_square.npz"
+ },
+ {
+  "task": "square",
+  "platform": "robomimic",
+  "button": 5,
+  "class": "stable",
+  "file": "robomimic_square_stable_1.mp4",
+  "demo_id": 123,
+  "t": 54,
+  "lambda_bar_label": -0.18715208981421114,
+  "lambda_se_label": 0.02597153026278546,
+  "lambda_bar_rendered": -0.18715208981421116,
+  "abs_diff": 2.7755575615628914e-17,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.2201,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 130046,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_square.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_square.npz"
+ },
+ {
+  "task": "square",
+  "platform": "robomimic",
+  "button": 6,
+  "class": "stable",
+  "file": "robomimic_square_stable_2.mp4",
+  "demo_id": 116,
+  "t": 134,
+  "lambda_bar_label": -0.1721148930327551,
+  "lambda_se_label": 0.007175832005567624,
+  "lambda_bar_rendered": -0.17211489303275512,
+  "abs_diff": 2.7755575615628914e-17,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.2201,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 203134,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_square.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_square.npz"
+ },
+ {
+  "task": "tool_hang",
+  "platform": "robomimic",
+  "button": 1,
+  "class": "unstable",
+  "file": "robomimic_tool_hang_unstable_1.mp4",
+  "demo_id": 55,
+  "t": 322,
+  "lambda_bar_label": 0.33987746812618974,
+  "lambda_se_label": 0.009231891199426592,
+  "lambda_bar_rendered": 0.33987746812618974,
+  "abs_diff": 0.0,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.1638,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 203475,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_tool_hang.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_tool_hang.npz"
+ },
+ {
+  "task": "tool_hang",
+  "platform": "robomimic",
+  "button": 2,
+  "class": "unstable",
+  "file": "robomimic_tool_hang_unstable_2.mp4",
+  "demo_id": 108,
+  "t": 420,
+  "lambda_bar_label": 0.32999813320680266,
+  "lambda_se_label": 0.011282789714839207,
+  "lambda_bar_rendered": 0.3299981332068027,
+  "abs_diff": 5.551115123125783e-17,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.1638,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 177338,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_tool_hang.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_tool_hang.npz"
+ },
+ {
+  "task": "tool_hang",
+  "platform": "robomimic",
+  "button": 3,
+  "class": "deadband",
+  "file": "robomimic_tool_hang_deadband_1.mp4",
+  "demo_id": 139,
+  "t": 258,
+  "lambda_bar_label": -5.236952582737578e-07,
+  "lambda_se_label": 0.005511234965915371,
+  "lambda_bar_rendered": -5.236952582816055e-07,
+  "abs_diff": 7.847760256311093e-18,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.1638,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 216216,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_tool_hang.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_tool_hang.npz"
+ },
+ {
+  "task": "tool_hang",
+  "platform": "robomimic",
+  "button": 4,
+  "class": "deadband",
+  "file": "robomimic_tool_hang_deadband_2.mp4",
+  "demo_id": 181,
+  "t": 34,
+  "lambda_bar_label": -4.325405911205323e-06,
+  "lambda_se_label": 0.007328917824467901,
+  "lambda_bar_rendered": -4.325405911201688e-06,
+  "abs_diff": 3.635465409615457e-18,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.1638,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 173061,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_tool_hang.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_tool_hang.npz"
+ },
+ {
+  "task": "tool_hang",
+  "platform": "robomimic",
+  "button": 5,
+  "class": "stable",
+  "file": "robomimic_tool_hang_stable_1.mp4",
+  "demo_id": 142,
+  "t": 40,
+  "lambda_bar_label": -0.16973068635147348,
+  "lambda_se_label": 0.020158942963401896,
+  "lambda_bar_rendered": -0.16973068635147348,
+  "abs_diff": 0.0,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.1638,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 160062,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_tool_hang.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_tool_hang.npz"
+ },
+ {
+  "task": "tool_hang",
+  "platform": "robomimic",
+  "button": 6,
+  "class": "stable",
+  "file": "robomimic_tool_hang_stable_2.mp4",
+  "demo_id": 187,
+  "t": 56,
+  "lambda_bar_label": -0.15098062341158572,
+  "lambda_se_label": 0.036524882747245004,
+  "lambda_bar_rendered": -0.1509806234115857,
+  "abs_diff": 2.7755575615628914e-17,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.1638,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 211514,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_tool_hang.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_tool_hang.npz"
+ },
+ {
+  "task": "coffee",
+  "platform": "mimicgen",
+  "button": 1,
+  "class": "unstable",
+  "file": "mimicgen_coffee_unstable_1.mp4",
+  "demo_id": 464,
+  "t": 436,
+  "lambda_bar_label": 0.39199968024417836,
+  "lambda_se_label": 0.02629050469012529,
+  "lambda_bar_rendered": 0.3919996802441784,
+  "abs_diff": 5.551115123125783e-17,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.1139,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 161099,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_mg_coffee_preparation_d0.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_mg_coffee_preparation_d0.npz"
+ },
+ {
+  "task": "coffee",
+  "platform": "mimicgen",
+  "button": 2,
+  "class": "unstable",
+  "file": "mimicgen_coffee_unstable_2.mp4",
+  "demo_id": 591,
+  "t": 90,
+  "lambda_bar_label": 0.36600608183039773,
+  "lambda_se_label": 0.0031491995231088085,
+  "lambda_bar_rendered": 0.36600608183039773,
+  "abs_diff": 0.0,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.1139,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 127661,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_mg_coffee_preparation_d0.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_mg_coffee_preparation_d0.npz"
+ },
+ {
+  "task": "coffee",
+  "platform": "mimicgen",
+  "button": 3,
+  "class": "deadband",
+  "file": "mimicgen_coffee_deadband_1.mp4",
+  "demo_id": 222,
+  "t": 580,
+  "lambda_bar_label": 1.9889775693888337e-08,
+  "lambda_se_label": 0.004086240994201655,
+  "lambda_bar_rendered": 1.9889775690166978e-08,
+  "abs_diff": 3.7213598444229634e-18,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.1139,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 90125,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_mg_coffee_preparation_d0.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_mg_coffee_preparation_d0.npz"
+ },
+ {
+  "task": "coffee",
+  "platform": "mimicgen",
+  "button": 4,
+  "class": "deadband",
+  "file": "mimicgen_coffee_deadband_2.mp4",
+  "demo_id": 375,
+  "t": 106,
+  "lambda_bar_label": -1.109546617891634e-07,
+  "lambda_se_label": 0.0029782889829139676,
+  "lambda_bar_rendered": -1.1095466177985566e-07,
+  "abs_diff": 9.307740654912087e-18,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.1139,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 118560,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_mg_coffee_preparation_d0.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_mg_coffee_preparation_d0.npz"
+ },
+ {
+  "task": "coffee",
+  "platform": "mimicgen",
+  "button": 5,
+  "class": "stable",
+  "file": "mimicgen_coffee_stable_1.mp4",
+  "demo_id": 444,
+  "t": 640,
+  "lambda_bar_label": -0.2513973156103554,
+  "lambda_se_label": 0.018494742572195456,
+  "lambda_bar_rendered": -0.2513973156103554,
+  "abs_diff": 0.0,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.1139,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 92944,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_mg_coffee_preparation_d0.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_mg_coffee_preparation_d0.npz"
+ },
+ {
+  "task": "coffee",
+  "platform": "mimicgen",
+  "button": 6,
+  "class": "stable",
+  "file": "mimicgen_coffee_stable_2.mp4",
+  "demo_id": 440,
+  "t": 292,
+  "lambda_bar_label": -0.24876043964723685,
+  "lambda_se_label": 0.01698105679963408,
+  "lambda_bar_rendered": -0.24876043964723685,
+  "abs_diff": 0.0,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.1139,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 120815,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_mg_coffee_preparation_d0.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_mg_coffee_preparation_d0.npz"
+ },
+ {
+  "task": "nut_assembly",
+  "platform": "mimicgen",
+  "button": 1,
+  "class": "unstable",
+  "file": "mimicgen_nut_assembly_unstable_1.mp4",
+  "demo_id": 6,
+  "t": 60,
+  "lambda_bar_label": 0.3337461421957164,
+  "lambda_se_label": 0.028061788563975395,
+  "lambda_bar_rendered": 0.3337461421957164,
+  "abs_diff": 0.0,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.103,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 106091,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_mg_nut_assembly_d0.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_mg_nut_assembly_d0.npz"
+ },
+ {
+  "task": "nut_assembly",
+  "platform": "mimicgen",
+  "button": 2,
+  "class": "unstable",
+  "file": "mimicgen_nut_assembly_unstable_2.mp4",
+  "demo_id": 106,
+  "t": 228,
+  "lambda_bar_label": 0.32005423950035994,
+  "lambda_se_label": 0.017404033941324594,
+  "lambda_bar_rendered": 0.3200542395003599,
+  "abs_diff": 5.551115123125783e-17,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.103,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 104498,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_mg_nut_assembly_d0.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_mg_nut_assembly_d0.npz"
+ },
+ {
+  "task": "nut_assembly",
+  "platform": "mimicgen",
+  "button": 3,
+  "class": "deadband",
+  "file": "mimicgen_nut_assembly_deadband_1.mp4",
+  "demo_id": 133,
+  "t": 234,
+  "lambda_bar_label": -1.3986566987920513e-06,
+  "lambda_se_label": 0.003632093139210187,
+  "lambda_bar_rendered": -1.3986566987783666e-06,
+  "abs_diff": 1.3684664295840476e-17,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.103,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 79755,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_mg_nut_assembly_d0.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_mg_nut_assembly_d0.npz"
+ },
+ {
+  "task": "nut_assembly",
+  "platform": "mimicgen",
+  "button": 4,
+  "class": "deadband",
+  "file": "mimicgen_nut_assembly_deadband_2.mp4",
+  "demo_id": 195,
+  "t": 270,
+  "lambda_bar_label": -2.160133482404586e-06,
+  "lambda_se_label": 0.005800184607476363,
+  "lambda_bar_rendered": -2.1601334824379592e-06,
+  "abs_diff": 3.3373098121819433e-17,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.103,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 87668,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_mg_nut_assembly_d0.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_mg_nut_assembly_d0.npz"
+ },
+ {
+  "task": "nut_assembly",
+  "platform": "mimicgen",
+  "button": 5,
+  "class": "stable",
+  "file": "mimicgen_nut_assembly_stable_1.mp4",
+  "demo_id": 10,
+  "t": 50,
+  "lambda_bar_label": -0.22276752451238815,
+  "lambda_se_label": 0.00686524255685911,
+  "lambda_bar_rendered": -0.22276752451238818,
+  "abs_diff": 2.7755575615628914e-17,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.103,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 90224,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_mg_nut_assembly_d0.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_mg_nut_assembly_d0.npz"
+ },
+ {
+  "task": "nut_assembly",
+  "platform": "mimicgen",
+  "button": 6,
+  "class": "stable",
+  "file": "mimicgen_nut_assembly_stable_2.mp4",
+  "demo_id": 192,
+  "t": 0,
+  "lambda_bar_label": -0.2202108695271494,
+  "lambda_se_label": 0.01525304320049921,
+  "lambda_bar_rendered": -0.22021086952714947,
+  "abs_diff": 5.551115123125783e-17,
+  "reproduced": true,
+  "camera": "agentview",
+  "replay_history": {
+   "replay_gate": null,
+   "first_t": 0,
+   "note": "demo replayed from its reset"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.103,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 99503,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_mg_nut_assembly_d0.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/artifacts/labels/regen2/final2b_ol_mg_nut_assembly_d0.npz"
+ },
+ {
+  "task": "OpenCabinet",
+  "platform": "robocasa",
+  "button": 1,
+  "class": "unstable",
+  "file": "robocasa_OpenCabinet_unstable_1.mp4",
+  "demo_id": 18,
+  "t": 52,
+  "lambda_bar_label": 0.16024,
+  "lambda_se_label": 0.017436,
+  "lambda_bar_rendered": 0.16023963558623916,
+  "abs_diff": 3.6441376083384824e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "OpenCabinet_w2802849.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.5649161946422923,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 214272,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_OpenCabinet.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_OpenCabinet.npz"
+ },
+ {
+  "task": "OpenCabinet",
+  "platform": "robocasa",
+  "button": 2,
+  "class": "unstable",
+  "file": "robocasa_OpenCabinet_unstable_2.mp4",
+  "demo_id": 61,
+  "t": 74,
+  "lambda_bar_label": 0.159443,
+  "lambda_se_label": 0.024438,
+  "lambda_bar_rendered": 0.15944272924518027,
+  "abs_diff": 2.70754819731156e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "OpenCabinet_w2802897.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.5649161946422923,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 321756,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_OpenCabinet.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_OpenCabinet.npz"
+ },
+ {
+  "task": "OpenCabinet",
+  "platform": "robocasa",
+  "button": 3,
+  "class": "deadband",
+  "file": "robocasa_OpenCabinet_deadband_1.mp4",
+  "demo_id": 103,
+  "t": 90,
+  "lambda_bar_label": -0.0,
+  "lambda_se_label": 0.006105,
+  "lambda_bar_rendered": -4.940288208634194e-07,
+  "abs_diff": 4.940288208634194e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "OpenCabinet_w2839551.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.5649161946422923,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 309169,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_OpenCabinet.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_OpenCabinet.npz"
+ },
+ {
+  "task": "OpenCabinet",
+  "platform": "robocasa",
+  "button": 4,
+  "class": "deadband",
+  "file": "robocasa_OpenCabinet_deadband_2.mp4",
+  "demo_id": 47,
+  "t": 336,
+  "lambda_bar_label": -1e-06,
+  "lambda_se_label": 0.006723,
+  "lambda_bar_rendered": -7.809723380951608e-07,
+  "abs_diff": 2.1902766190483914e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": false,
+   "first_t": 270,
+   "worker_file": "OpenCabinet_w2839578.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.5649161946422923,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 305619,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_OpenCabinet.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_OpenCabinet.npz"
+ },
+ {
+  "task": "OpenCabinet",
+  "platform": "robocasa",
+  "button": 5,
+  "class": "stable",
+  "file": "robocasa_OpenCabinet_stable_1.mp4",
+  "demo_id": 72,
+  "t": 56,
+  "lambda_bar_label": -0.123879,
+  "lambda_se_label": 0.019819,
+  "lambda_bar_rendered": -0.1238785808426135,
+  "abs_diff": 4.1915738650810663e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": false,
+   "first_t": 56,
+   "worker_file": "OpenCabinet_w2839565.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.5649161946422923,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 242551,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_OpenCabinet.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_OpenCabinet.npz"
+ },
+ {
+  "task": "OpenCabinet",
+  "platform": "robocasa",
+  "button": 6,
+  "class": "stable",
+  "file": "robocasa_OpenCabinet_stable_2.mp4",
+  "demo_id": 2,
+  "t": 66,
+  "lambda_bar_label": -0.11481,
+  "lambda_se_label": 0.013637,
+  "lambda_bar_rendered": -0.1148098851441891,
+  "abs_diff": 1.1485581088988006e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "OpenCabinet_w2802837.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.5649161946422923,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 314522,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_OpenCabinet.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_OpenCabinet.npz"
+ },
+ {
+  "task": "OpenDrawer",
+  "platform": "robocasa",
+  "button": 1,
+  "class": "unstable",
+  "file": "robocasa_OpenDrawer_unstable_1.mp4",
+  "demo_id": 126,
+  "t": 256,
+  "lambda_bar_label": 0.197355,
+  "lambda_se_label": 0.01334,
+  "lambda_bar_rendered": 0.19735528562828475,
+  "abs_diff": 2.8562828474631985e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "OpenDrawer_w3039732.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.42621933973099346,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 315705,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_OpenDrawer.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_OpenDrawer.npz"
+ },
+ {
+  "task": "OpenDrawer",
+  "platform": "robocasa",
+  "button": 2,
+  "class": "unstable",
+  "file": "robocasa_OpenDrawer_unstable_2.mp4",
+  "demo_id": 103,
+  "t": 144,
+  "lambda_bar_label": 0.182225,
+  "lambda_se_label": 0.010172,
+  "lambda_bar_rendered": 0.18222538505397534,
+  "abs_diff": 3.8505397534360775e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "OpenDrawer_w3039706.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.42621933973099346,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 316477,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_OpenDrawer.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_OpenDrawer.npz"
+ },
+ {
+  "task": "OpenDrawer",
+  "platform": "robocasa",
+  "button": 3,
+  "class": "deadband",
+  "file": "robocasa_OpenDrawer_deadband_1.mp4",
+  "demo_id": 66,
+  "t": 290,
+  "lambda_bar_label": 6e-06,
+  "lambda_se_label": 0.00985,
+  "lambda_bar_rendered": 6.355137321347425e-06,
+  "abs_diff": 3.551373213474245e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "OpenDrawer_w3039713.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.42621933973099346,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 314871,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_OpenDrawer.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_OpenDrawer.npz"
+ },
+ {
+  "task": "OpenDrawer",
+  "platform": "robocasa",
+  "button": 4,
+  "class": "deadband",
+  "file": "robocasa_OpenDrawer_deadband_2.mp4",
+  "demo_id": 173,
+  "t": 34,
+  "lambda_bar_label": -8e-06,
+  "lambda_se_label": 0.011675,
+  "lambda_bar_rendered": -7.644316009946736e-06,
+  "abs_diff": 3.5568399005326354e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "OpenDrawer_w3039716.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.42621933973099346,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 357645,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_OpenDrawer.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_OpenDrawer.npz"
+ },
+ {
+  "task": "OpenDrawer",
+  "platform": "robocasa",
+  "button": 5,
+  "class": "stable",
+  "file": "robocasa_OpenDrawer_stable_1.mp4",
+  "demo_id": 167,
+  "t": 144,
+  "lambda_bar_label": -0.175749,
+  "lambda_se_label": 0.010496,
+  "lambda_bar_rendered": -0.17574949867691658,
+  "abs_diff": 4.986769165937766e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "OpenDrawer_w3039731.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.42621933973099346,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 305005,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_OpenDrawer.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_OpenDrawer.npz"
+ },
+ {
+  "task": "OpenDrawer",
+  "platform": "robocasa",
+  "button": 6,
+  "class": "stable",
+  "file": "robocasa_OpenDrawer_stable_2.mp4",
+  "demo_id": 162,
+  "t": 204,
+  "lambda_bar_label": -0.136145,
+  "lambda_se_label": 0.003918,
+  "lambda_bar_rendered": -0.13614481125383215,
+  "abs_diff": 1.8874616783404186e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "OpenDrawer_w3039714.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.42621933973099346,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 351249,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_OpenDrawer.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_OpenDrawer.npz"
+ },
+ {
+  "task": "PickPlaceCounterToCabinet",
+  "platform": "robocasa",
+  "button": 1,
+  "class": "unstable",
+  "file": "robocasa_PickPlaceCounterToCabinet_unstable_1.mp4",
+  "demo_id": 70,
+  "t": 72,
+  "lambda_bar_label": 0.204031,
+  "lambda_se_label": 0.01056,
+  "lambda_bar_rendered": 0.20403059617066194,
+  "abs_diff": 4.038293380526081e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "PickPlaceCounterToCabinet_w3120474.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.479445345739178,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 813023,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_PickPlaceCounterToCabinet.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_PickPlaceCounterToCabinet.npz"
+ },
+ {
+  "task": "PickPlaceCounterToCabinet",
+  "platform": "robocasa",
+  "button": 2,
+  "class": "unstable",
+  "file": "robocasa_PickPlaceCounterToCabinet_unstable_2.mp4",
+  "demo_id": 142,
+  "t": 256,
+  "lambda_bar_label": 0.188761,
+  "lambda_se_label": 0.008123,
+  "lambda_bar_rendered": 0.18876149935587927,
+  "abs_diff": 4.993558792576458e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "PickPlaceCounterToCabinet_w3120484.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.479445345739178,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 537040,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_PickPlaceCounterToCabinet.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_PickPlaceCounterToCabinet.npz"
+ },
+ {
+  "task": "PickPlaceCounterToCabinet",
+  "platform": "robocasa",
+  "button": 3,
+  "class": "deadband",
+  "file": "robocasa_PickPlaceCounterToCabinet_deadband_1.mp4",
+  "demo_id": 155,
+  "t": 134,
+  "lambda_bar_label": -1e-06,
+  "lambda_se_label": 0.011028,
+  "lambda_bar_rendered": -1.234011087337776e-06,
+  "abs_diff": 2.3401108733777608e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "PickPlaceCounterToCabinet_w3120479.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.479445345739178,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 354050,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_PickPlaceCounterToCabinet.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_PickPlaceCounterToCabinet.npz"
+ },
+ {
+  "task": "PickPlaceCounterToCabinet",
+  "platform": "robocasa",
+  "button": 4,
+  "class": "deadband",
+  "file": "robocasa_PickPlaceCounterToCabinet_deadband_2.mp4",
+  "demo_id": 75,
+  "t": 50,
+  "lambda_bar_label": 2e-06,
+  "lambda_se_label": 0.012694,
+  "lambda_bar_rendered": 2.265277337138924e-06,
+  "abs_diff": 2.652773371389241e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "PickPlaceCounterToCabinet_w3120499.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.479445345739178,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 329314,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_PickPlaceCounterToCabinet.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_PickPlaceCounterToCabinet.npz"
+ },
+ {
+  "task": "PickPlaceCounterToCabinet",
+  "platform": "robocasa",
+  "button": 5,
+  "class": "stable",
+  "file": "robocasa_PickPlaceCounterToCabinet_stable_1.mp4",
+  "demo_id": 152,
+  "t": 204,
+  "lambda_bar_label": -0.092563,
+  "lambda_se_label": 0.009174,
+  "lambda_bar_rendered": -0.09256349729951618,
+  "abs_diff": 4.972995161778293e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "PickPlaceCounterToCabinet_w3120482.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.479445345739178,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 422506,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_PickPlaceCounterToCabinet.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_PickPlaceCounterToCabinet.npz"
+ },
+ {
+  "task": "PickPlaceCounterToCabinet",
+  "platform": "robocasa",
+  "button": 6,
+  "class": "stable",
+  "file": "robocasa_PickPlaceCounterToCabinet_stable_2.mp4",
+  "demo_id": 61,
+  "t": 154,
+  "lambda_bar_label": -0.055566,
+  "lambda_se_label": 0.005031,
+  "lambda_bar_rendered": -0.05556643302490854,
+  "abs_diff": 4.330249085415794e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "PickPlaceCounterToCabinet_w3120488.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.479445345739178,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 422452,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_PickPlaceCounterToCabinet.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_PickPlaceCounterToCabinet.npz"
+ },
+ {
+  "task": "TurnOnSinkFaucet",
+  "platform": "robocasa",
+  "button": 1,
+  "class": "unstable",
+  "file": "robocasa_TurnOnSinkFaucet_unstable_1.mp4",
+  "demo_id": 60,
+  "t": 212,
+  "lambda_bar_label": 0.237756,
+  "lambda_se_label": 0.021827,
+  "lambda_bar_rendered": 0.23775604870629502,
+  "abs_diff": 4.870629502495838e-08,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "TurnOnSinkFaucet_w3179971.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.2992765144500152,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 426035,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_TurnOnSinkFaucet.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_TurnOnSinkFaucet.npz"
+ },
+ {
+  "task": "TurnOnSinkFaucet",
+  "platform": "robocasa",
+  "button": 2,
+  "class": "unstable",
+  "file": "robocasa_TurnOnSinkFaucet_unstable_2.mp4",
+  "demo_id": 26,
+  "t": 182,
+  "lambda_bar_label": 0.228188,
+  "lambda_se_label": 0.013719,
+  "lambda_bar_rendered": 0.2281883313919425,
+  "abs_diff": 3.3139194249853787e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "TurnOnSinkFaucet_w3179952.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.2992765144500152,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 405743,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_TurnOnSinkFaucet.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_TurnOnSinkFaucet.npz"
+ },
+ {
+  "task": "TurnOnSinkFaucet",
+  "platform": "robocasa",
+  "button": 3,
+  "class": "deadband",
+  "file": "robocasa_TurnOnSinkFaucet_deadband_1.mp4",
+  "demo_id": 166,
+  "t": 98,
+  "lambda_bar_label": 8e-06,
+  "lambda_se_label": 0.01145,
+  "lambda_bar_rendered": 8.389760944374491e-06,
+  "abs_diff": 3.8976094437449174e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "TurnOnSinkFaucet_w3179944.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.2992765144500152,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 337700,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_TurnOnSinkFaucet.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_TurnOnSinkFaucet.npz"
+ },
+ {
+  "task": "TurnOnSinkFaucet",
+  "platform": "robocasa",
+  "button": 4,
+  "class": "deadband",
+  "file": "robocasa_TurnOnSinkFaucet_deadband_2.mp4",
+  "demo_id": 194,
+  "t": 200,
+  "lambda_bar_label": 1.2e-05,
+  "lambda_se_label": 0.00917,
+  "lambda_bar_rendered": 1.158899227620097e-05,
+  "abs_diff": 4.1100772379903087e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "TurnOnSinkFaucet_w3179944.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.2992765144500152,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 389689,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_TurnOnSinkFaucet.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_TurnOnSinkFaucet.npz"
+ },
+ {
+  "task": "TurnOnSinkFaucet",
+  "platform": "robocasa",
+  "button": 5,
+  "class": "stable",
+  "file": "robocasa_TurnOnSinkFaucet_stable_1.mp4",
+  "demo_id": 196,
+  "t": 144,
+  "lambda_bar_label": -0.124951,
+  "lambda_se_label": 0.014222,
+  "lambda_bar_rendered": -0.12495085546220627,
+  "abs_diff": 1.4453779373369002e-07,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "TurnOnSinkFaucet_w3179959.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.2992765144500152,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 409371,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_TurnOnSinkFaucet.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_TurnOnSinkFaucet.npz"
+ },
+ {
+  "task": "TurnOnSinkFaucet",
+  "platform": "robocasa",
+  "button": 6,
+  "class": "stable",
+  "file": "robocasa_TurnOnSinkFaucet_stable_2.mp4",
+  "demo_id": 44,
+  "t": 154,
+  "lambda_bar_label": -0.101334,
+  "lambda_se_label": 0.006267,
+  "lambda_bar_rendered": -0.10133408456280453,
+  "abs_diff": 8.456280453650322e-08,
+  "reproduced": true,
+  "camera": "robot0_agentview_left",
+  "replay_history": {
+   "replay_gate": true,
+   "first_t": 0,
+   "worker_file": "TurnOnSinkFaucet_w3179947.jsonl"
+  },
+  "K": 24,
+  "N": 8,
+  "sigma_u": 0.2992765144500152,
+  "gate": {
+   "m": 2.0,
+   "t": 2.365,
+   "column": "k24_label_m2.0_t2.365"
+  },
+  "frames": 44,
+  "fps": 20,
+  "size": [
+   640,
+   480
+  ],
+  "bytes": 313809,
+  "labels_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/labels_bothK_20260902/bothK_ol_rc_TurnOnSinkFaucet.npz",
+  "labels_run_file": "../../../../../../../mnt/batch/tasks/shared/LS_root/mounts/clusters/garyan181/code/Users/garyan18/long-horizon/results/rc_relabel_20260831/labels/final4_rmse_rc_TurnOnSinkFaucet.npz"
+ }
+]
